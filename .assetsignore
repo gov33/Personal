@@ -1,0 +1,10 @@
+node_modules
+.git
+.claude
+.codex
+.impeccable
+package.json
+package-lock.json
+wrangler.jsonc
+PRODUCT.md
+README.md
