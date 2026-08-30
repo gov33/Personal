@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nandini's Physio Plan — Wrist Rehabilitation</title>
+  <meta name="description" content="Visual wrist rehabilitation program, interactive weekly routine calendar, and video exercise library.">
+
+  <!-- Google Fonts: Sora, Outfit & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700;800&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Trailing slash redirect for directory routes -->
+  <script>
+    if (!window.location.pathname.endsWith('/') && !window.location.pathname.endsWith('.html')) {
+      window.history.replaceState(null, '', window.location.pathname + '/' + window.location.search + window.location.hash);
+    }
+  </script>
+
+  <link rel="stylesheet" href="/projects/nandinis-physio-plan/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand-wrap">
+        <div class="brand-symbol">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+        </div>
+        <div class="brand-name">Nandini's Physio Plan</div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="nav-tabs" aria-label="Main Navigation">
+        <button class="nav-tab active" data-view="calendar" onclick="window.location.hash = 'calendar'">
+          Weekly Schedule
+        </button>
+        <button class="nav-tab" data-view="exercises" onclick="window.location.hash = 'exercises'">
+          Exercise Library
+        </button>
+        <button class="nav-tab" data-view="phases" onclick="window.location.hash = 'phases'">
+          Progression Guide
+        </button>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="../../index.html" class="back-portal-btn">
+          &larr; Personal Hub
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Visual Hero Section -->
+    <section class="visual-hero">
+      <div class="hero-grid-layout">
+        <div class="hero-heading-block">
+          <span class="hero-tag-pill">Wrist Rehab &amp; Loading</span>
+          <h1>Targeted Mobility &amp; Progressive Strength</h1>
+          <p class="hero-sub">
+            A daily visual routine to decompress the wrist joint, activate carpal stabilizers, and rebuild pain-free load capacity.
+          </p>
+        </div>
+
+        <!-- Hero Quick Status Card -->
+        <div class="hero-status-card">
+          <div class="status-card-top">
+            <span class="status-phase-indicator" id="hero-phase-badge">Phase 1: Weeks 1–2</span>
+            <span class="status-count-label" id="hero-completion-text">0/5 Complete</span>
+          </div>
+
+          <div class="week-progress-track">
+            <div class="progress-track-bar">
+              <div class="progress-track-fill" id="hero-progress-fill" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <div class="status-card-footer">
+            <span class="today-label-text" id="hero-today-label">Today's Workout: Monday</span>
+            <span class="today-action-btn" id="hero-launch-today-btn">
+              Start Session &rarr;
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase Selector Bar -->
+      <div class="phase-strip-bar">
+        <span class="phase-strip-title">Program Phase:</span>
+        <div class="phase-buttons-wrap">
+          <button class="phase-toggle-btn active" data-phase="phase-1">1. Weeks 1–2 (Decompression)</button>
+          <button class="phase-toggle-btn" data-phase="phase-2">2. Weeks 3–4 (Progressive)</button>
+          <button class="phase-toggle-btn" data-phase="phase-3">3. Weeks 5+ (Functional)</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         View 1: Visual Weekly Calendar Grid
+         ==================================================================== -->
+    <section class="view-panel active" id="view-calendar">
+      <div class="section-headline">
+        <div>
+          <h2>Weekly Routine</h2>
+        </div>
+        <div>
+          <button class="back-portal-btn" id="reset-progress-btn">
+            Reset Week
+          </button>
+        </div>
+      </div>
+
+      <div class="calendar-visual-grid" id="calendar-grid">
+        <!-- Populated dynamically with SVG artwork from data.js -->
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         View 2: Dynamic Day View (Dedicated Routine Flow)
+         ==================================================================== -->
+    <section class="view-panel" id="view-day-view">
+      <div class="day-routine-container">
+        <!-- Navigation Header -->
+        <div class="day-routine-nav">
+          <button class="routine-back-btn" onclick="window.location.hash = 'calendar'">
+            &larr; Back to Schedule
+          </button>
+          
+          <div class="routine-stepper">
+            <button class="stepper-btn" id="prev-day-btn">&larr; Previous</button>
+            <button class="stepper-btn" id="next-day-btn">Next &rarr;</button>
+          </div>
+        </div>
+
+        <!-- Routine Hero Row -->
+        <div class="routine-hero">
+          <div class="routine-hero-row">
+            <div>
+              <span class="hero-tag-pill" id="day-view-focus">Mobilization &amp; Isometrics</span>
+              <h2 id="day-view-title" class="routine-main-title">Monday Session</h2>
+            </div>
+
+            <button class="complete-all-day-btn" id="mark-day-btn">
+              Mark Routine Complete
+            </button>
+          </div>
+        </div>
+
+        <!-- Exercises List for the Day -->
+        <div class="routine-cards-list" id="day-exercises-container">
+          <!-- Populated dynamically by app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         View 3: Exercise Reference Library
+         ==================================================================== -->
+    <section class="view-panel" id="view-exercises">
+      <div class="section-headline">
+        <div>
+          <h2>Exercise Library</h2>
+          <p class="section-subtext">Visual index of movements, video demonstrations, and target biomechanics.</p>
+        </div>
+      </div>
+
+      <div class="library-filters-bar">
+        <button class="filter-chip active" data-category="all">All Movements (8)</button>
+        <button class="filter-chip" data-category="mobilization">Mobilization</button>
+        <button class="filter-chip" data-category="stabilization">Carpal Stabilization</button>
+        <button class="filter-chip" data-category="recovery">Active Recovery</button>
+        <button class="filter-chip" data-category="closed-chain">Closed-Chain Loading</button>
+        <button class="filter-chip" data-category="kinetic">Shoulder Integration</button>
+      </div>
+
+      <div class="library-grid" id="library-grid">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         View 4: Progression Guide
+         ==================================================================== -->
+    <section class="view-panel" id="view-phases">
+      <div class="section-headline">
+        <div>
+          <h2>Progression &amp; Loading Criteria</h2>
+          <p class="section-subtext">Structured thresholds for advancing joint load safely.</p>
+        </div>
+      </div>
+
+      <div class="progression-grid" id="progression-grid">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>Nandini's Physio Plan &middot; Static Web App</div>
+      <div class="footer-links">
+        <a href="#calendar">Schedule</a>
+        <a href="#exercises">Exercise Library</a>
+        <a href="#phases">Progression</a>
+        <a href="../../index.html">Main Hub</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/projects/nandinis-physio-plan/data.js"></script>
+  <script src="/projects/nandinis-physio-plan/app.js"></script>
+</body>
+</html>
