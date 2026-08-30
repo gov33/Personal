@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-30T16:36:30Z",
+  "title": "Design System: The Archives of Arda",
+  "extensions": {
+    "colorMeta": {
+      "gold-primary": { "role": "primary", "displayName": "Antique Elven Gold", "canonical": "#c5a059" },
+      "gold-bright": { "role": "primary", "displayName": "Sun of Valinor Gold", "canonical": "#dfba6d" },
+      "bg-deep": { "role": "neutral", "displayName": "Deep Mirkwood Night", "canonical": "#0e110f" },
+      "bg-surface": { "role": "neutral", "displayName": "Dark Woodland Slate", "canonical": "#171c18" },
+      "bg-card": { "role": "neutral", "displayName": "Deep Forest Leather", "canonical": "#242c26" },
+      "text-parchment": { "role": "neutral", "displayName": "Pale Vellum Inscription", "canonical": "#ede4d1" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero title and realm proclamations" },
+      "headline": { "displayName": "Headline", "purpose": "Chronicle project titles" },
+      "body": { "displayName": "Body", "purpose": "Descriptive lore and project summaries" }
+    },
+    "shadows": [
+      { "name": "codex-elevation", "value": "0 12px 36px rgba(0,0,0,0.65)", "purpose": "Deep physical depth for the codex ledger." },
+      { "name": "card-hover", "value": "0 8px 20px rgba(0,0,0,0.5)", "purpose": "Subtle physical lift when hovering over a chronicle card." }
+    ],
+    "motion": [
+      { "name": "transition-normal", "value": "0.3s cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "State transitions for cards and actions." }
+    ]
+  },
+  "components": [
+    {
+      "name": "Chronicle Card",
+      "kind": "card",
+      "refersTo": "card-chronicle",
+      "description": "Illuminated chronicle card representing a project or tool.",
+      "html": "<div class=\"ds-chronicle-card\"><div class=\"ds-card-title\">Nandini's Physio Sanctuary</div><p class=\"ds-card-desc\">An illuminated wrist restoration portal with multi-week progression criteria.</p></div>",
+      "css": ".ds-chronicle-card { background: #242c26; border: 1px solid #2e3831; border-radius: 4px; padding: 18px 20px; color: #ede4d1; font-family: 'Spectral', Georgia, serif; } .ds-card-title { font-family: 'Cinzel', serif; font-size: 1.15rem; font-weight: 700; color: #dfba6d; margin-bottom: 6px; } .ds-card-desc { font-size: 0.92rem; line-height: 1.45; color: #ede4d1; }"
+    },
+    {
+      "name": "Realm Filter Button",
+      "kind": "chip",
+      "refersTo": "button-primary",
+      "description": "Runic filter button for switching between chronicle categories.",
+      "html": "<button class=\"ds-filter-btn ds-active\">ALL RELICS</button>",
+      "css": ".ds-filter-btn { padding: 6px 12px; background: #1e241f; border: 1px solid #2e3831; border-radius: 4px; color: #a39b89; font-family: 'Cinzel', serif; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; cursor: pointer; } .ds-filter-btn.ds-active { background: #c5a059; border-color: #dfba6d; color: #0e110f; font-weight: 700; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Royal Cartographer's Illuminated Codex",
+    "overview": "A high-fantasy, Middle-earth-inspired visual system built on the physical aesthetics of illuminated manuscripts, ancient tomes, and elven craft.",
+    "keyCharacteristics": [
+      "Zero gradients: solid earth pigments, authentic gold leaf inlays",
+      "Single-viewport hero composition (no page scroll)",
+      "Celtic & Gondorian filigree corner knots and White Tree heraldry",
+      "High-contrast serif typography pairing Cinzel with Spectral"
+    ],
+    "rules": [
+      { "name": "The Zero-Gradient Doctrine", "body": "No linear, radial, or conic gradients may ever appear. Contrast and atmosphere are achieved through physical pigment hierarchy and solid gold leaf inlays.", "section": "colors" }
+    ],
+    "dos": [
+      "Do maintain strict zero-gradient solid pigments on all elements",
+      "Do frame interactive views with high-craft elven/dwarven heraldry and filigree",
+      "Do ensure all text maintains at least 4.5:1 contrast against dark slate grounds"
+    ],
+    "donts": [
+      "Don't use generic modern web gradients, glows, or pill badges",
+      "Don't allow the desktop hero layout to overflow or create page scrollbars"
+    ]
+  }
+}

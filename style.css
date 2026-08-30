@@ -1,506 +1,688 @@
+/* ==========================================================================
+   THE ARCHIVES OF MIDDLE-EARTH - GOVIND'S CHRONICLES
+   Visual System: High Fantasy Tolkien Codex & Illuminated Ledger
+   Strict Rules: Zero Gradients. Solid Pigments & Antique Gold Leaf Only.
+   Single-Hero Viewport (No Scroll).
+   ========================================================================== */
+
 :root {
-  --bg-primary: #090d16;
-  --bg-secondary: #0f172a;
-  --bg-card: rgba(15, 23, 42, 0.75);
-  --bg-card-hover: rgba(30, 41, 59, 0.85);
-  --border-color: rgba(255, 255, 255, 0.08);
-  --border-color-hover: rgba(99, 102, 241, 0.4);
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  --accent-primary: #6366f1;
-  --accent-secondary: #a855f7;
-  --accent-cyan: #06b6d4;
-  --accent-glow: rgba(99, 102, 241, 0.25);
-  --badge-bg: rgba(99, 102, 241, 0.12);
-  --badge-text: #818cf8;
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
-  --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
-  --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  /* Solid Pigment Palette - Deep Earthen & Realm Tones (NO GRADIENTS) */
+  --bg-deep: #0e110f;          /* Deep Mirkwood / Minas Morgul Night */
+  --bg-surface: #171c18;       /* Dark Woodland Slate */
+  --bg-panel: #1e241f;         /* Chiseled Dwarven Stone */
+  --bg-card: #242c26;          /* Deep Forest Leather */
+  --bg-card-hover: #2c362f;    /* Lighted Forest Glade */
+  --bg-parchment: #f2e8d5;     /* Ancient Vellum / Parchment */
+  --bg-parchment-deep: #e5d6bc;/* Weathered Scholar's Scroll */
+  
+  /* Metallic & Filigree Accents */
+  --gold-primary: #c5a059;     /* Antique Elven Gold */
+  --gold-bright: #dfba6d;      /* Sun of Valinor Gold */
+  --gold-dark: #8c6f38;        /* Tarnished Dwarven Gold */
+  --gold-muted: #5e4c27;       /* Deep Engraved Bronze */
+  --gold-faint: rgba(197, 160, 89, 0.12);
+  --gold-border: rgba(197, 160, 89, 0.35);
+  
+  --iron-dark: #121613;        /* Smithed Iron */
+  --iron-border: #2e3831;      /* Chiseled Border */
+  
+  /* Text & Inscription Tones */
+  --text-gold: #e2c275;        /* Illuminated Gold Heading */
+  --text-parchment: #ede4d1;   /* Pale Vellum Inscription */
+  --text-muted: #a39b89;       /* Faded Ink / Runic Grey */
+  --text-faint: #6e6758;       /* Deep Antiquated Note */
+  --text-ink: #1a1612;         /* Dark Iron-Gall Ink for Parchment */
+  --text-ink-muted: #4a3e2c;   /* Faded Brown Scholar Ink */
+
+  /* Realm Seal Accents */
+  --seal-red: #8f291e;         /* Gondorian Royal Wax Red */
+  --seal-red-hover: #a83225;
+  --seal-red-border: #591912;
+  --seal-green: #2d5a37;       /* Rivendell Herb Green */
+  --seal-green-text: #78c289;
+  --seal-blue: #234566;        /* Mithril / Númenórean Blue */
+  --seal-blue-text: #7cb8eb;
+  --seal-amber: #6e4e1a;       /* Erebor Forge Amber */
+  --seal-amber-text: #e0ad58;
+
+  /* Typography */
+  --font-title: 'Cinzel Decorative', 'Cinzel', 'Trajan Pro', Georgia, serif;
+  --font-serif: 'Cinzel', Georgia, serif;
+  --font-uncial: 'Uncial Antiqua', 'MedievalSharp', 'Cinzel', serif;
+  --font-body: 'Spectral', 'EB Garamond', Georgia, serif;
+  --font-runic: 'MedievalSharp', 'Cinzel', monospace;
+
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-* {
+/* Base Reset */
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body {
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  font-family: var(--font-sans);
-  min-height: 100vh;
-  line-height: 1.6;
-  position: relative;
-  overflow-x: hidden;
+html, body {
+  height: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  background-color: var(--bg-deep);
+  color: var(--text-parchment);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Thematic Selection & Scrollbars */
+::selection {
+  background-color: var(--gold-primary);
+  color: var(--bg-deep);
+}
+
+/* Outer Viewport Frame (Middle-Earth Illuminated Manuscript Border) */
+.realm-viewport {
+  height: 100vh;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  padding: 18px 24px;
+  position: relative;
+  box-sizing: border-box;
 }
 
-/* Background Ambient Glows */
-.ambient-bg {
+/* Decorative Outer Wrought Frame */
+.realm-frame-border {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  border: 1px solid var(--gold-border);
+  outline: 1px solid var(--iron-border);
+  outline-offset: -5px;
+  pointer-events: none;
+  z-index: 99;
+}
+
+/* Corner Filigree Elements (Pure SVG / CSS) */
+.corner-filigree {
+  position: fixed;
+  width: 32px;
+  height: 32px;
+  pointer-events: none;
+  z-index: 100;
+  color: var(--gold-primary);
+}
+.corner-tl { top: 6px; left: 6px; }
+.corner-tr { top: 6px; right: 6px; transform: rotate(90deg); }
+.corner-bl { bottom: 6px; left: 6px; transform: rotate(-90deg); }
+.corner-br { bottom: 6px; right: 6px; transform: rotate(180deg); }
+
+/* Ambient Background Motifs */
+.background-sigils {
+  position: fixed;
+  inset: 0;
   pointer-events: none;
   z-index: 0;
-  overflow: hidden;
-}
-
-.glow-orb-1 {
-  position: absolute;
-  top: -15%;
-  left: 10%;
-  width: 550px;
-  height: 550px;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(99, 102, 241, 0) 70%);
-  filter: blur(50px);
-}
-
-.glow-orb-2 {
-  position: absolute;
-  top: 40%;
-  right: -10%;
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(168, 85, 247, 0.12) 0%, rgba(168, 85, 247, 0) 70%);
-  filter: blur(60px);
-}
-
-/* Layout Container */
-.container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px;
-  position: relative;
-  z-index: 1;
-}
-
-/* Navigation / Header */
-header.header {
-  padding: 28px 0;
-  border-bottom: 1px solid var(--border-color);
-  background: rgba(9, 13, 22, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.nav-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  color: var(--text-primary);
-}
-
-.brand-icon {
-  width: 36px;
-  height: 36px;
-  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-  border-radius: var(--radius-sm);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: #fff;
-  box-shadow: 0 0 16px var(--accent-glow);
+  opacity: 0.04;
+  color: var(--gold-bright);
+}
+.background-sigils svg {
+  width: min(85vh, 85vw);
+  height: min(85vh, 85vw);
 }
 
-.brand-title {
-  font-size: 1.15rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-
-.brand-badge {
-  font-size: 0.75rem;
-  font-family: var(--font-mono);
-  background: rgba(255, 255, 255, 0.08);
-  padding: 2px 8px;
-  border-radius: 999px;
-  color: var(--text-secondary);
-}
-
-.nav-links {
+/* ==========================================================================
+   REALM HEADER
+   ========================================================================== */
+.realm-header {
+  position: relative;
+  z-index: 10;
   display: flex;
   align-items: center;
-  gap: 16px;
+  justify-content: space-between;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--iron-border);
+  flex-shrink: 0;
 }
 
-.nav-link-btn {
-  display: inline-flex;
+.header-heraldry {
+  display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--border-color);
-  color: var(--text-secondary);
+  gap: 14px;
   text-decoration: none;
-  font-size: 0.88rem;
-  font-weight: 500;
-  border-radius: var(--radius-sm);
-  transition: var(--transition);
+  color: inherit;
 }
 
-.nav-link-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--text-primary);
-  border-color: rgba(255, 255, 255, 0.16);
-}
-
-/* Hero Section */
-.hero {
-  padding: 64px 0 40px;
-  text-align: center;
-}
-
-.hero-subtitle {
-  display: inline-flex;
+.heraldic-seal {
+  width: 44px;
+  height: 44px;
+  background-color: var(--bg-panel);
+  border: 1px solid var(--gold-primary);
+  border-radius: var(--border-radius-sm);
+  display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 0.85rem;
-  font-family: var(--font-mono);
-  color: var(--accent-cyan);
-  background: rgba(6, 182, 212, 0.1);
-  border: 1px solid rgba(6, 182, 212, 0.2);
-  padding: 4px 14px;
-  border-radius: 999px;
-  margin-bottom: 20px;
+  justify-content: center;
+  color: var(--gold-bright);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  flex-shrink: 0;
 }
 
-.hero h1 {
-  font-size: clamp(2.2rem, 5vw, 3.5rem);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.15;
-  margin-bottom: 16px;
-}
-
-.gradient-text {
-  background: linear-gradient(135deg, #fff 30%, #94a3b8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.accent-gradient-text {
-  background: linear-gradient(135deg, #818cf8 0%, #c084fc 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.hero p {
-  color: var(--text-secondary);
-  font-size: 1.1rem;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-/* Controls Bar (Search & Filter) */
-.controls-bar {
-  margin: 24px 0 36px;
+.heraldic-titles {
   display: flex;
   flex-direction: column;
+}
+
+.realm-brand-title {
+  font-family: var(--font-title);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-gold);
+  text-transform: uppercase;
+}
+
+.realm-brand-sub {
+  font-family: var(--font-uncial);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.scroll-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  background-color: var(--bg-panel);
+  border: 1px solid var(--gold-border);
+  color: var(--gold-bright);
+  text-decoration: none;
+  font-family: var(--font-serif);
+  font-size: 0.82rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: var(--border-radius-sm);
+  transition: var(--transition-fast);
+}
+
+.scroll-btn:hover {
+  background-color: var(--bg-card-hover);
+  border-color: var(--gold-bright);
+  color: #fff;
+}
+
+.scroll-btn:focus-visible {
+  outline: 2px solid var(--gold-bright);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   HERO MAIN CONTENT (SINGLE VIEWPORT)
+   ========================================================================== */
+.hero-stage {
+  position: relative;
+  z-index: 10;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 1240px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 10px 0;
   gap: 16px;
+  min-height: 0; /* Enable flex-child proper shrinking */
 }
 
-@media (min-width: 768px) {
-  .controls-bar {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
+/* Hero Titles & Tolkien Inscription */
+.hero-proclamation {
+  text-align: center;
+  flex-shrink: 0;
 }
 
-.search-box {
+.proclamation-sigil {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 6px;
+  color: var(--gold-dark);
+}
+
+.sigil-line {
+  width: 60px;
+  height: 1px;
+  background-color: var(--gold-dark);
+}
+
+.sigil-rune {
+  font-family: var(--font-uncial);
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  color: var(--gold-primary);
+  text-transform: uppercase;
+}
+
+.hero-main-title {
+  font-family: var(--font-title);
+  font-size: clamp(1.8rem, 3.4vw, 2.75rem);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  line-height: 1.15;
+  color: var(--gold-bright);
+  text-transform: uppercase;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+  margin-bottom: 6px;
+}
+
+.hero-epigraph {
+  font-family: var(--font-body);
+  font-style: italic;
+  color: var(--text-parchment);
+  font-size: clamp(0.92rem, 1.3vw, 1.05rem);
+  max-width: 720px;
+  margin: 0 auto;
+  letter-spacing: 0.02em;
+}
+
+/* ==========================================================================
+   CODEX LEDGER / PROJECT REPERTORY (CENTERPIECE)
+   ========================================================================== */
+.codex-ledger {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--gold-border);
+  border-radius: var(--border-radius-md);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.65);
+  flex-shrink: 1;
+  min-height: 0;
+  position: relative;
+}
+
+/* Codex Controls: Search & Category Runes */
+.codex-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--iron-border);
+}
+
+.codex-search {
   position: relative;
   flex: 1;
+  min-width: 260px;
   max-width: 380px;
 }
 
-.search-box svg {
+.search-icon-rune {
   position: absolute;
-  left: 14px;
+  left: 12px;
   top: 50%;
   transform: translateY(-50%);
-  width: 18px;
-  height: 18px;
-  color: var(--text-muted);
+  color: var(--gold-primary);
   pointer-events: none;
-}
-
-.search-input {
-  width: 100%;
-  padding: 12px 16px 12px 42px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  color: var(--text-primary);
-  font-size: 0.92rem;
-  font-family: var(--font-sans);
-  outline: none;
-  transition: var(--transition);
-}
-
-.search-input:focus {
-  border-color: var(--accent-primary);
-  box-shadow: 0 0 0 3px var(--accent-glow);
-}
-
-.filter-tags {
   display: flex;
   align-items: center;
-  gap: 8px;
+}
+
+.codex-search-input {
+  width: 100%;
+  padding: 8px 12px 8px 36px;
+  background-color: var(--bg-panel);
+  border: 1px solid var(--iron-border);
+  border-radius: var(--border-radius-sm);
+  color: var(--text-parchment);
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  outline: none;
+  transition: var(--transition-fast);
+}
+
+.codex-search-input::placeholder {
+  color: var(--text-faint);
+  font-style: italic;
+}
+
+.codex-search-input:focus {
+  border-color: var(--gold-primary);
+  background-color: var(--bg-card);
+  box-shadow: 0 0 0 1px var(--gold-primary);
+}
+
+.realm-filters {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   flex-wrap: wrap;
 }
 
-.filter-btn {
-  padding: 8px 16px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  border-radius: 999px;
-  color: var(--text-secondary);
-  font-size: 0.85rem;
-  font-weight: 500;
+.realm-filter-btn {
+  padding: 6px 12px;
+  background-color: var(--bg-panel);
+  border: 1px solid var(--iron-border);
+  border-radius: var(--border-radius-sm);
+  color: var(--text-muted);
+  font-family: var(--font-serif);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   cursor: pointer;
-  transition: var(--transition);
+  transition: var(--transition-fast);
 }
 
-.filter-btn:hover {
-  color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.08);
+.realm-filter-btn:hover {
+  color: var(--gold-bright);
+  border-color: var(--gold-border);
+  background-color: var(--bg-card);
 }
 
-.filter-btn.active {
-  background: var(--accent-primary);
-  border-color: var(--accent-primary);
-  color: #fff;
-  box-shadow: 0 0 14px var(--accent-glow);
+.realm-filter-btn.active {
+  background-color: var(--gold-primary);
+  border-color: var(--gold-bright);
+  color: var(--bg-deep);
+  font-weight: 700;
 }
 
-/* Projects Grid */
-.projects-grid {
+.realm-filter-btn:focus-visible {
+  outline: 2px solid var(--gold-bright);
+}
+
+/* Chronicle Tomes Grid (Within Single Viewport) */
+.chronicles-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 24px;
-  margin-bottom: 60px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+  align-items: stretch;
+  overflow-y: auto;
+  max-height: 48vh;
+  padding: 4px 2px;
 }
 
-.project-card {
-  background: var(--bg-card);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: 24px;
+/* Custom Subdued Scrollbar for Grid if needed on short screens */
+.chronicles-grid::-webkit-scrollbar {
+  width: 6px;
+}
+.chronicles-grid::-webkit-scrollbar-track {
+  background: var(--bg-panel);
+}
+.chronicles-grid::-webkit-scrollbar-thumb {
+  background: var(--gold-dark);
+  border-radius: 3px;
+}
+
+/* Chronicle Parchment Card */
+.chronicle-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--iron-border);
+  border-radius: var(--border-radius-sm);
+  padding: 18px 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   text-decoration: none;
   color: inherit;
-  transition: var(--transition);
   position: relative;
-  overflow: hidden;
+  transition: var(--transition-normal);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 
-.project-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
-  opacity: 0;
-  transition: var(--transition);
+.chronicle-card:hover {
+  background-color: var(--bg-card-hover);
+  border-color: var(--gold-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
 }
 
-.project-card:hover {
-  background: var(--bg-card-hover);
-  border-color: var(--border-color-hover);
-  transform: translateY(-4px);
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.35);
+.chronicle-card:focus-visible {
+  outline: 2px solid var(--gold-bright);
+  outline-offset: 2px;
 }
 
-.project-card:hover::before {
-  opacity: 1;
-}
-
-.card-top {
+.chronicle-header {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
-.card-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: var(--radius-sm);
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--border-color);
+.chronicle-sigil {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--gold-border);
+  background-color: var(--bg-panel);
+  border-radius: var(--border-radius-sm);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.3rem;
+  color: var(--gold-bright);
 }
 
-.status-badge {
+.chronicle-badge {
+  font-family: var(--font-serif);
   font-size: 0.72rem;
-  font-family: var(--font-mono);
-  font-weight: 600;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
   padding: 3px 8px;
-  border-radius: 6px;
+  border-radius: 3px;
+  font-weight: 600;
 }
 
-.status-badge.active {
-  background: rgba(34, 197, 94, 0.12);
-  color: #4ade80;
-  border: 1px solid rgba(34, 197, 94, 0.25);
+.badge-rehab {
+  background-color: var(--seal-green);
+  color: var(--seal-green-text);
+  border: 1px solid rgba(120, 194, 137, 0.4);
 }
 
-.status-badge.wip {
-  background: rgba(245, 158, 11, 0.12);
-  color: #fbbf24;
-  border: 1px solid rgba(245, 158, 11, 0.25);
+.badge-forge {
+  background-color: var(--seal-amber);
+  color: var(--seal-amber-text);
+  border: 1px solid rgba(224, 173, 88, 0.4);
 }
 
-.status-badge.template {
-  background: rgba(99, 102, 241, 0.12);
-  color: #818cf8;
-  border: 1px solid rgba(99, 102, 241, 0.25);
+.chronicle-body {
+  margin-bottom: 14px;
 }
 
-.card-body h3 {
-  font-size: 1.25rem;
+.chronicle-title {
+  font-family: var(--font-serif);
+  font-size: 1.18rem;
   font-weight: 700;
-  letter-spacing: -0.02em;
-  margin-bottom: 8px;
+  color: var(--gold-bright);
+  letter-spacing: 0.03em;
+  margin-bottom: 6px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.card-arrow {
-  opacity: 0;
-  transform: translateX(-4px);
-  transition: var(--transition);
-  color: var(--accent-primary);
+.chronicle-title .rune-arrow {
+  color: var(--gold-primary);
+  font-size: 1.1rem;
+  transition: transform var(--transition-fast);
 }
 
-.project-card:hover .card-arrow {
-  opacity: 1;
-  transform: translateX(0);
+.chronicle-card:hover .rune-arrow {
+  transform: translateX(4px);
 }
 
-.card-body p {
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-  line-height: 1.5;
-  margin-bottom: 20px;
+.chronicle-desc {
+  font-family: var(--font-body);
+  color: var(--text-parchment);
+  font-size: 0.92rem;
+  line-height: 1.45;
 }
 
-.card-footer {
+.chronicle-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 14px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  font-size: 0.8rem;
+  padding-top: 10px;
+  border-top: 1px solid var(--iron-border);
+  gap: 12px;
 }
 
-.tech-tags {
+.chronicle-runes {
   display: flex;
+  align-items: center;
   gap: 6px;
   flex-wrap: wrap;
 }
 
-.tech-tag {
-  background: rgba(255, 255, 255, 0.05);
+.rune-tag {
+  font-family: var(--font-serif);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  background-color: var(--bg-panel);
+  border: 1px solid var(--iron-border);
   color: var(--text-muted);
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
+  padding: 2px 6px;
+  border-radius: 2px;
 }
 
-.project-card:hover .tech-tag {
-  color: var(--text-secondary);
+.chronicle-seal-action {
+  font-family: var(--font-serif);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--gold-bright);
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 /* Empty State */
-.empty-state {
-  grid-column: 1 / -1;
+.codex-empty {
   text-align: center;
-  padding: 60px 20px;
-  background: var(--bg-card);
-  border: 1px dashed var(--border-color);
-  border-radius: var(--radius-lg);
+  padding: 36px 16px;
+  border: 1px dashed var(--gold-muted);
+  border-radius: var(--border-radius-sm);
+  background-color: var(--bg-panel);
   display: none;
 }
 
-.empty-state h4 {
-  font-size: 1.1rem;
-  margin-bottom: 6px;
+.codex-empty-title {
+  font-family: var(--font-title);
+  font-size: 1.05rem;
+  color: var(--gold-bright);
+  margin-bottom: 4px;
 }
 
-.empty-state p {
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-}
-
-/* Footer */
-footer.footer {
-  margin-top: auto;
-  border-top: 1px solid var(--border-color);
-  padding: 30px 0;
-  text-align: center;
-  font-size: 0.88rem;
+.codex-empty-sub {
+  font-family: var(--font-body);
   color: var(--text-muted);
+  font-size: 0.88rem;
+  font-style: italic;
 }
 
-.footer-content {
+/* ==========================================================================
+   REALM FOOTER / COLOPHON
+   ========================================================================== */
+.realm-footer {
+  position: relative;
+  z-index: 10;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 12px;
+  justify-content: space-between;
+  padding-top: 12px;
+  border-top: 1px solid var(--iron-border);
+  flex-shrink: 0;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-family: var(--font-serif);
 }
 
-@media (min-width: 640px) {
-  .footer-content {
-    flex-direction: row;
-    justify-content: space-between;
+.colophon-lore {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.colophon-divider {
+  color: var(--gold-dark);
+}
+
+.realm-footer a {
+  color: var(--gold-primary);
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+.realm-footer a:hover {
+  color: var(--gold-bright);
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   RESPONSIVE CRAFT
+   ========================================================================== */
+@media (max-width: 860px) {
+  .realm-viewport {
+    padding: 14px 16px;
+  }
+  .codex-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .codex-search {
+    max-width: 100%;
+  }
+  .chronicles-grid {
+    grid-template-columns: 1fr;
+    max-height: 44vh;
   }
 }
 
-.footer-links {
-  display: flex;
-  gap: 20px;
-}
-
-.footer-links a {
-  color: var(--text-secondary);
-  text-decoration: none;
-  transition: var(--transition);
-}
-
-.footer-links a:hover {
-  color: var(--text-primary);
+@media (max-height: 720px) {
+  .realm-viewport {
+    padding: 10px 14px;
+  }
+  .realm-header {
+    padding-bottom: 8px;
+  }
+  .heraldic-seal {
+    width: 36px;
+    height: 36px;
+  }
+  .hero-main-title {
+    font-size: 1.65rem;
+    margin-bottom: 2px;
+  }
+  .hero-epigraph {
+    font-size: 0.85rem;
+  }
+  .codex-ledger {
+    padding: 12px 16px;
+    gap: 10px;
+  }
+  .chronicles-grid {
+    gap: 10px;
+  }
+  .chronicle-card {
+    padding: 12px 14px;
+  }
+  .realm-footer {
+    padding-top: 8px;
+  }
 }

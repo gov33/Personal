@@ -3,156 +3,277 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Personal Projects Hub</title>
-  <meta name="description" content="Personal portal and showcase for web projects, experiments, tools, and interactive applications.">
+  <title>The Archives of Arda | Govind's Chronicles</title>
+  <meta name="description" content="An illuminated Middle-earth treasury of interactive web applications, standalone tools, and forged digital artifacts.">
   
-  <!-- Google Fonts -->
+  <!-- High Fantasy Middle-Earth Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@500;600;700;800;900&family=Spectral:ital,wght@0,400;0,600;0,700;1,400&family=Uncial+Antiqua&family=MedievalSharp&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Ambient background glow effects -->
-  <div class="ambient-bg" aria-hidden="true">
-    <div class="glow-orb-1"></div>
-    <div class="glow-orb-2"></div>
+  <!--
+    THESIS: An illuminated Middle-earth Tolkien codex and sovereign treasury that completely replaces generic SaaS cards with an ancient single-viewport parchment-and-gold realm ledger.
+    OWN-WORLD: Deep Mirkwood slate (#0e110f), chiseled stone (#1e241f), and antique Elven gold leaf (#c5a059, #dfba6d) with wrought iron framing and zero gradients.
+    STORY: The visitor enters the royal archives of Arda to discover handcrafted web tools, healing sanctuaries, and forged expeditions.
+    FIRST VIEWPORT: A single-viewport illuminated manuscript frame with White Tree heraldry, royal proclamation, interactive codex ledger with runic filter/search, and dual forged chronicles.
+    FORM: Illuminated Fantasy Codex & Cartographer's Ledger.
+    FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+  -->
+
+  <!-- Outer Viewport Frame & Filigree Corners (Middle-Earth Border) -->
+  <div class="realm-frame-border" aria-hidden="true"></div>
+  
+  <svg class="corner-filigree corner-tl" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+    <path d="M4 36V12C4 7.58 7.58 4 12 4H36" />
+    <path d="M8 32V14C8 10.68 10.68 8 14 8H32" />
+    <circle cx="14" cy="14" r="3" fill="currentColor" />
+    <path d="M4 4L14 14" />
+  </svg>
+  <svg class="corner-filigree corner-tr" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+    <path d="M4 36V12C4 7.58 7.58 4 12 4H36" />
+    <path d="M8 32V14C8 10.68 10.68 8 14 8H32" />
+    <circle cx="14" cy="14" r="3" fill="currentColor" />
+    <path d="M4 4L14 14" />
+  </svg>
+  <svg class="corner-filigree corner-bl" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+    <path d="M4 36V12C4 7.58 7.58 4 12 4H36" />
+    <path d="M8 32V14C8 10.68 10.68 8 14 8H32" />
+    <circle cx="14" cy="14" r="3" fill="currentColor" />
+    <path d="M4 4L14 14" />
+  </svg>
+  <svg class="corner-filigree corner-br" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+    <path d="M4 36V12C4 7.58 7.58 4 12 4H36" />
+    <path d="M8 32V14C8 10.68 10.68 8 14 8H32" />
+    <circle cx="14" cy="14" r="3" fill="currentColor" />
+    <path d="M4 4L14 14" />
+  </svg>
+
+  <!-- Ambient Sovereign Sigil (Star of Eärendil & Tree of Gondor motif) -->
+  <div class="background-sigils" aria-hidden="true">
+    <svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1">
+      <circle cx="100" cy="100" r="88" stroke-dasharray="3 3"/>
+      <circle cx="100" cy="100" r="74" />
+      <polygon points="100,16 114,76 174,76 126,110 144,168 100,134 56,168 74,110 26,76 86,76" />
+      <circle cx="100" cy="100" r="28" stroke-dasharray="2 4"/>
+    </svg>
   </div>
 
-  <!-- Header -->
-  <header class="header">
-    <div class="container nav-wrap">
-      <a href="index.html" class="brand">
-        <div class="brand-icon">GP</div>
-        <div class="brand-title">Govind's Projects</div>
-        <span class="brand-badge">Portal</span>
-      </a>
-      <div class="nav-links">
-        <a href="https://github.com/gov33/Personal" target="_blank" rel="noopener noreferrer" class="nav-link-btn" id="github-link">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+  <div class="realm-viewport">
+    
+    <!-- Top Realm Header -->
+    <header class="realm-header">
+      <a href="index.html" class="header-heraldry" aria-label="The Archives of Arda">
+        <div class="heraldic-seal">
+          <!-- White Tree of Gondor Emblem SVG -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v20M12 6c-3 0-5 2-6 5 2 0 4-1 6-2M12 6c3 0 5 2 6 5-2 0-4-1-6-2M12 11c-4 0-7 3-8 7 3 0 6-1 8-3M12 11c4 0 7 3 8 7-3 0-6-1-8-3M9 22h6"/>
+            <circle cx="12" cy="3" r="1" fill="currentColor"/>
+            <circle cx="8" cy="7" r="0.75" fill="currentColor"/>
+            <circle cx="16" cy="7" r="0.75" fill="currentColor"/>
+            <circle cx="5" cy="12" r="0.75" fill="currentColor"/>
+            <circle cx="19" cy="12" r="0.75" fill="currentColor"/>
           </svg>
-          GitHub
+        </div>
+        <div class="heraldic-titles">
+          <span class="realm-brand-title">The Archives of Arda</span>
+          <span class="realm-brand-sub">Govind's Chronicles &amp; Forged Relics</span>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <a href="https://github.com/gov33/Personal" target="_blank" rel="noopener noreferrer" class="scroll-btn" id="github-link" aria-label="View Codex Repository on GitHub">
+          <!-- Feather Quill / Ancient Scroll SVG -->
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L3 11.5V21h9.5z"></path>
+            <line x1="16" y1="8" x2="2" y2="22"></line>
+            <line x1="17.5" y1="15" x2="9" y2="15"></line>
+          </svg>
+          <span>Codex Repository</span>
         </a>
       </div>
-    </div>
-  </header>
+    </header>
 
-  <!-- Hero Section -->
-  <main class="container">
-    <section class="hero">
-      <span class="hero-subtitle">🚀 Personal Workspace & Experiments</span>
-      <h1>
-        <span class="gradient-text">Explorations, Apps &</span><br>
-        <span class="accent-gradient-text">Interactive Projects</span>
-      </h1>
-      <p>A central launcher for standalone tools, visual prototypes, and web experiments.</p>
-    </section>
-
-    <!-- Controls Bar -->
-    <div class="controls-bar">
-      <div class="search-box">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-        <input type="text" id="search-input" class="search-input" placeholder="Search projects or tags..." autocomplete="off">
-      </div>
-
-      <div class="filter-tags" id="filter-container">
-        <button class="filter-btn active" data-filter="all">All Projects</button>
-        <button class="filter-btn" data-filter="tools">Health &amp; Tools</button>
-        <button class="filter-btn" data-filter="experiments">Experiments</button>
-      </div>
-    </div>
-
-    <!-- Projects Grid -->
-    <section class="projects-grid" id="projects-grid">
-      <!-- Project Card: Nandini's Physio Plan -->
-      <a href="projects/nandinis-physio-plan/index.html" class="project-card" data-category="tools" data-tags="physio wrist rehab exercises calendar physical therapy mobility health">
-        <div class="card-top">
-          <div class="card-icon">🌿</div>
-          <span class="status-badge" style="background: rgba(122, 154, 133, 0.15); color: #7A9A85; border: 1px solid rgba(122, 154, 133, 0.3);">Active App</span>
-        </div>
-        <div class="card-body">
-          <h3>
-            Nandini's Physio Plan
-            <span class="card-arrow">→</span>
-          </h3>
-          <p>Interactive wrist rehabilitation portal with multi-week progression criteria, daily routines, hold timers, and video exercise guides.</p>
-        </div>
-        <div class="card-footer">
-          <div class="tech-tags">
-            <span class="tech-tag">Rehab</span>
-            <span class="tech-tag">Calendar</span>
-            <span class="tech-tag">Video Guides</span>
-          </div>
-          <span style="color: var(--accent-primary); font-weight: 500;">Launch &rarr;</span>
-        </div>
-      </a>
+    <!-- Main Hero Stage (No Scroll Hero) -->
+    <main class="hero-stage">
       
-      <!-- Placeholder / Empty state when search gives 0 results -->
-      <div class="empty-state" id="empty-state">
-        <h4>No projects found</h4>
-        <p>Try searching for a different keyword or category filter.</p>
-      </div>
-    </section>
-  </main>
+      <!-- Proclamation & Tolkien Inscription -->
+      <section class="hero-proclamation">
+        <div class="proclamation-sigil">
+          <span class="sigil-line"></span>
+          <span class="sigil-rune">✦ Ered Luin &bull; Rivendell &bull; Minas Tirith ✦</span>
+          <span class="sigil-line"></span>
+        </div>
+        <h1 class="hero-main-title">The Treasury of Craft &amp; Lore</h1>
+        <p class="hero-epigraph">&ldquo;Not all those who wander are lost; the old that is strong does not wither, deep roots are not reached by the frost.&rdquo;</p>
+      </section>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container footer-content">
-      <div>&copy; 2026 Govind. Hosted on Cloudflare Pages.</div>
-      <div class="footer-links">
-        <a href="https://github.com/gov33/Personal" target="_blank" rel="noopener noreferrer">Source Code</a>
-      </div>
-    </div>
-  </footer>
+      <!-- Centerpiece: Codex Ledger & Chronicles Repertory -->
+      <section class="codex-ledger" aria-label="Project Ledger">
+        
+        <!-- Controls: Runic Search & Realm Filters -->
+        <div class="codex-controls">
+          <div class="codex-search">
+            <span class="search-icon-rune" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </span>
+            <input type="text" id="codex-search-input" class="codex-search-input" placeholder="Search the scrolls, runes &amp; treatises..." autocomplete="off" aria-label="Search projects">
+          </div>
 
-  <!-- Search & Filter Script -->
+          <div class="realm-filters" id="realm-filter-group" role="tablist" aria-label="Category Filters">
+            <button class="realm-filter-btn active" data-filter="all" role="tab" aria-selected="true">All Relics</button>
+            <button class="realm-filter-btn" data-filter="healing" role="tab" aria-selected="false">Apothecary &amp; Health</button>
+            <button class="realm-filter-btn" data-filter="forge" role="tab" aria-selected="false">Chamber of Forging</button>
+          </div>
+        </div>
+
+        <!-- Chronicles Grid (Fits inside the viewport hero) -->
+        <div class="chronicles-grid" id="chronicles-grid">
+          
+          <!-- Chronicle 1: Nandini's Physio Plan -->
+          <a href="projects/nandinis-physio-plan/index.html" class="chronicle-card" data-category="healing" data-tags="physio wrist rehab exercises calendar physical therapy mobility health apothecary vitality" id="project-physio-plan">
+            <div class="chronicle-header">
+              <div class="chronicle-sigil" title="Elven Healing Herb">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+                  <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+                </svg>
+              </div>
+              <span class="chronicle-badge badge-rehab">Active Sanctuary</span>
+            </div>
+            
+            <div class="chronicle-body">
+              <h2 class="chronicle-title">
+                <span>Nandini's Physio Sanctuary</span>
+                <span class="rune-arrow" aria-hidden="true">&rarr;</span>
+              </h2>
+              <p class="chronicle-desc">
+                An illuminated wrist restoration portal with multi-week progression criteria, daily routines, hold timers of vigor, and motion video guides.
+              </p>
+            </div>
+
+            <div class="chronicle-footer">
+              <div class="chronicle-runes">
+                <span class="rune-tag">Apothecary</span>
+                <span class="rune-tag">Calendar</span>
+                <span class="rune-tag">Video Lore</span>
+              </div>
+              <span class="chronicle-seal-action">Enter Sanctuary &rarr;</span>
+            </div>
+          </a>
+
+          <!-- Chronicle 2: The Vault Forge (Template) -->
+          <a href="projects/template/index.html" class="chronicle-card" data-category="forge" data-tags="template scaffold starter tools code modular forge experiment" id="project-forge-template">
+            <div class="chronicle-header">
+              <div class="chronicle-sigil" title="Dwarven Anvil & Hammer">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 3v4c0 2-2 4-4 4H6l-3 4h18l-3-4h-2c0-2-2-4-2-4V3z"/>
+                  <path d="M4 19h16v2H4z"/>
+                </svg>
+              </div>
+              <span class="chronicle-badge badge-forge">Forge Scaffold</span>
+            </div>
+            
+            <div class="chronicle-body">
+              <h2 class="chronicle-title">
+                <span>The Vault Forge &amp; Spells</span>
+                <span class="rune-arrow" aria-hidden="true">&rarr;</span>
+              </h2>
+              <p class="chronicle-desc">
+                Foundational anvil and isolated workshop chamber prepared for crafting future standalone applications, interactive tools, and web spells.
+              </p>
+            </div>
+
+            <div class="chronicle-footer">
+              <div class="chronicle-runes">
+                <span class="rune-tag">Scaffold</span>
+                <span class="rune-tag">Clean State</span>
+                <span class="rune-tag">Vanilla JS</span>
+              </div>
+              <span class="chronicle-seal-action">Inspect Forge &rarr;</span>
+            </div>
+          </a>
+
+          <!-- Empty State when filter/search has no match -->
+          <div class="codex-empty" id="codex-empty-state">
+            <h3 class="codex-empty-title">No Chronicles Found</h3>
+            <p class="codex-empty-sub">No treatises matching your query reside within these archives. Seek another rune.</p>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Bottom Realm Colophon -->
+    <footer class="realm-footer">
+      <div class="colophon-lore">
+        <span>Inscribed in the Fourth Age (2026)</span>
+        <span class="colophon-divider">&bull;</span>
+        <span>Sundering Seas of Cloudflare</span>
+      </div>
+      <div>
+        <span>Penned by <a href="https://github.com/gov33" target="_blank" rel="noopener noreferrer">Govind</a></span>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Search & Filter Logic -->
   <script>
-    const searchInput = document.getElementById('search-input');
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const projectCards = document.querySelectorAll('.project-card');
-    const emptyState = document.getElementById('empty-state');
+    const searchInput = document.getElementById('codex-search-input');
+    const filterButtons = document.querySelectorAll('.realm-filter-btn');
+    const cards = document.querySelectorAll('.chronicle-card');
+    const emptyState = document.getElementById('codex-empty-state');
 
-    let currentFilter = 'all';
-    let searchQuery = '';
+    let activeFilter = 'all';
+    let currentQuery = '';
 
-    function applyFilterAndSearch() {
-      let visibleCount = 0;
-      projectCards.forEach(card => {
+    function filterChronicles() {
+      let count = 0;
+      cards.forEach(card => {
         const category = card.getAttribute('data-category') || '';
         const tags = (card.getAttribute('data-tags') || '').toLowerCase();
-        const title = (card.querySelector('h3')?.innerText || '').toLowerCase();
-        const desc = (card.querySelector('p')?.innerText || '').toLowerCase();
-        
-        const matchesFilter = (currentFilter === 'all' || category === currentFilter);
-        const matchesSearch = !searchQuery || title.includes(searchQuery) || desc.includes(searchQuery) || tags.includes(searchQuery);
+        const title = (card.querySelector('.chronicle-title')?.innerText || '').toLowerCase();
+        const desc = (card.querySelector('.chronicle-desc')?.innerText || '').toLowerCase();
 
-        if (matchesFilter && matchesSearch) {
+        const matchesCategory = (activeFilter === 'all' || category === activeFilter);
+        const matchesSearch = !currentQuery || 
+          title.includes(currentQuery) || 
+          desc.includes(currentQuery) || 
+          tags.includes(currentQuery);
+
+        if (matchesCategory && matchesSearch) {
           card.style.display = 'flex';
-          visibleCount++;
+          count++;
         } else {
           card.style.display = 'none';
         }
       });
 
-      emptyState.style.display = (visibleCount === 0) ? 'block' : 'none';
+      emptyState.style.display = (count === 0) ? 'block' : 'none';
     }
 
     searchInput.addEventListener('input', (e) => {
-      searchQuery = e.target.value.trim().toLowerCase();
-      applyFilterAndSearch();
+      currentQuery = e.target.value.trim().toLowerCase();
+      filterChronicles();
     });
 
     filterButtons.forEach(btn => {
       btn.addEventListener('click', () => {
-        filterButtons.forEach(b => b.classList.remove('active'));
+        filterButtons.forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-selected', 'false');
+        });
         btn.classList.add('active');
-        currentFilter = btn.getAttribute('data-filter');
-        applyFilterAndSearch();
+        btn.setAttribute('aria-selected', 'true');
+        activeFilter = btn.getAttribute('data-filter');
+        filterChronicles();
       });
     });
   </script>
