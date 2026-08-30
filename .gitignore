@@ -1,0 +1,17 @@
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node / Build artifacts (for future webapps)
+node_modules/
+dist/
+.cache/
+.env
+.env.local
+*.log

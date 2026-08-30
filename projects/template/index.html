@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Starter Project Template</title>
+  <meta name="description" content="Starter template for individual standalone projects.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top-bar">
+    <a href="../../index.html" class="back-link">&larr; Back to Projects Hub</a>
+    <span class="badge">Standalone Template</span>
+  </header>
+
+  <main class="main-container">
+    <div class="project-header">
+      <h1>Starter Project Template</h1>
+      <p>This is a standalone project workspace. Replace this with your custom tools, webapps, or experiments.</p>
+    </div>
+
+    <section class="content-card">
+      <h2>Interactive Demo Feature</h2>
+      <p style="color: var(--text-sub); margin-top: 8px;">A simple counter component showing scoped project JS and styling.</p>
+      
+      <div class="interactive-demo">
+        <div class="counter-display" id="count-display">0</div>
+        <div style="display: flex; gap: 12px;">
+          <button class="btn-primary" id="btn-increment">Click to Count</button>
+          <button class="btn-primary" id="btn-reset" style="background: rgba(255,255,255,0.08); color: var(--text-sub);">Reset</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
