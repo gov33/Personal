@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flying Carpets Production — Instagram Content Calendar</title>
+<style>
+  :root{
+    --burgundy:#6e1423;
+    --burgundy-dark:#4a0d18;
+    --gold:#c9a227;
+    --gold-light:#e3c25a;
+    --ivory:#faf6ef;
+    --ivory-dark:#f1e9db;
+    --charcoal:#1c1a17;
+    --text-dark:#2b2620;
+    --text-light:#f5efe4;
+    --muted:#8a7d6b;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ivory);
+    color:var(--text-dark);
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",
+      "Helvetica Neue","Segoe UI",Roboto,Arial,sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    font-feature-settings:"kern";
+  }
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky;top:0;z-index:100;
+    background:rgba(28,26,23,.85);
+    backdrop-filter:saturate(180%) blur(20px);
+    -webkit-backdrop-filter:saturate(180%) blur(20px);
+    display:flex;justify-content:center;gap:2.5rem;
+    padding:.9rem;
+    border-bottom:2px solid var(--gold);
+  }
+  nav a{
+    color:var(--text-light);text-decoration:none;
+    font-size:.78rem;font-weight:400;
+    letter-spacing:.14em;text-transform:uppercase;
+    padding:.3rem 0;position:relative;transition:color .3s;
+  }
+  nav a::after{
+    content:"";position:absolute;left:0;bottom:0;
+    width:0;height:1.5px;background:var(--gold);
+    transition:width .35s ease;
+  }
+  nav a:hover{color:var(--gold-light)}
+  nav a:hover::after{width:100%}
+  /* ---------- HERO ---------- */
+  header{
+    text-align:center;
+    padding:6rem 1.5rem 4rem;
+    background:var(--charcoal);
+    color:var(--text-light);
+    border-bottom:4px solid var(--gold);
+  }
+  .logo{
+    width:260px;max-width:68vw;
+    margin-bottom:2rem;
+    transition:transform .5s cubic-bezier(.2,.8,.2,1);
+  }
+  .logo:hover{transform:scale(1.06)}
+  h1{
+    font-size:clamp(2rem,4.5vw,3.2rem);
+    font-weight:600;letter-spacing:-.02em;
+  }
+  h1 strong{color:var(--gold);font-weight:700}
+  .hero-sub{
+    color:#b8ab98;max-width:560px;margin:1.1rem auto 2.2rem;
+    font-size:1.1rem;font-weight:400;letter-spacing:-.01em;
+  }
+  .pill-row{display:flex;justify-content:center;flex-wrap:wrap;gap:.7rem}
+  .pill{
+    font-size:.72rem;font-weight:500;
+    letter-spacing:.12em;text-transform:uppercase;
+    padding:.5rem 1.3rem;border-radius:980px;
+    border:1px solid var(--gold);color:var(--gold);
+    transition:.3s;
+  }
+  .pill:hover{background:var(--gold);color:var(--charcoal)}
+  /* ---------- SECTIONS ---------- */
+  section{max-width:1250px;margin:0 auto;padding:5rem 1.5rem}
+  h2{
+    font-size:clamp(1.7rem,3vw,2.4rem);
+    font-weight:600;letter-spacing:-.02em;
+    margin-bottom:.5rem;color:var(--text-dark);
+  }
+  h2::after{
+    content:"";display:block;width:56px;height:3px;
+    background:var(--gold);margin-top:.7rem;border-radius:2px;
+    transition:width .4s ease;
+  }
+  h2:hover::after{width:110px}
+  .section-sub{
+    color:var(--muted);margin-bottom:2.5rem;
+    font-size:1.05rem;font-weight:400;max-width:640px;
+  }
+  /* ---------- TABS ---------- */
+  .tab-btns{display:flex;gap:.7rem;margin-bottom:2.2rem}
+  .tab-btn{
+    cursor:pointer;border:1px solid #ddd2bd;
+    background:transparent;color:var(--text-dark);
+    padding:.65rem 1.8rem;border-radius:980px;
+    font-family:inherit;font-size:.85rem;font-weight:500;
+    letter-spacing:.03em;transition:.3s;
+  }
+  .tab-btn:hover{border-color:var(--burgundy);color:var(--burgundy)}
+  .tab-btn.active{
+    background:var(--burgundy);color:var(--text-light);
+    border-color:var(--burgundy);
+  }
+  .tab-panel{display:none;animation:fade .5s ease}
+  .tab-panel.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  /* ---------- TABLE ---------- */
+  .table-wrap{
+    overflow-x:auto;border-radius:14px;
+    border:1px solid #e5dbc9;
+    background:#fff;
+    box-shadow:0 4px 24px rgba(43,38,32,.08);
+  }
+  table{width:100%;border-collapse:collapse;min-width:950px;font-size:.88rem}
+  thead th{
+    background:var(--charcoal);
+    color:var(--gold-light);text-align:left;
+    padding:1rem 1.1rem;
+    font-size:.68rem;font-weight:600;
+    letter-spacing:.14em;text-transform:uppercase;
+  }
+  tbody td{padding:1.1rem;vertical-align:top;border-bottom:1px solid #efe7d7;line-height:1.55}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr{transition:background .3s ease, box-shadow .3s ease}
+  tbody tr:hover{background:#fbf7ee;box-shadow:inset 3px 0 0 var(--gold)}
+  .type{white-space:nowrap;font-weight:600;color:var(--burgundy);font-size:.85rem}
+  .hook{font-weight:500;color:var(--text-dark)}
+  .cta{color:var(--burgundy);font-weight:500}
+  .tag{color:var(--muted);font-size:.76rem}
+  /* ---------- EVERGREEN CARDS ---------- */
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.3rem}
+  .card{
+    background:#fff;
+    border:1px solid #e5dbc9;
+    border-radius:18px;padding:1.8rem;
+    transition:transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s ease, border-color .3s ease;
+  }
+  .card:hover{
+    transform:translateY(-6px) scale(1.015);
+    box-shadow:0 20px 44px rgba(43,38,32,.14);
+    border-color:var(--gold);
+  }
+  .card h3{
+    font-size:1.05rem;font-weight:600;letter-spacing:-.01em;
+    margin-bottom:.5rem;color:var(--text-dark);
+  }
+  .card p{font-size:.88rem;color:var(--muted)}
+  .card .cta-line{
+    margin-top:.9rem;font-size:.83rem;color:var(--text-dark);
+    border-top:1px solid #efe7d7;padding-top:.8rem;
+  }
+  .card .cta-line strong{color:var(--burgundy);font-weight:600}
+  /* ---------- PRO TIPS ---------- */
+  #tips{background:var(--charcoal);color:var(--text-light);max-width:none}
+  #tips .inner{max-width:1250px;margin:0 auto}
+  #tips h2{color:var(--text-light)}
+  #tips .section-sub{color:#a2957f}
+  .tips li{
+    list-style:none;margin-bottom:.9rem;padding:1.2rem 1.5rem 1.2rem 2.7rem;
+    position:relative;color:#cfc4b0;font-size:.95rem;
+    border-radius:14px;background:#26221b;
+    transition:.35s cubic-bezier(.2,.8,.2,1);
+  }
+  .tips li:hover{
+    background:#2f2a20;
+    transform:translateX(8px);
+    box-shadow:0 8px 24px rgba(0,0,0,.3);
+  }
+  .tips li::before{
+    content:"✦";position:absolute;left:1.1rem;top:1.25rem;
+    color:var(--gold);font-size:.95rem;
+  }
+  .tips strong{color:var(--text-light);font-weight:600}
+  footer{
+    text-align:center;padding:2.4rem 1rem;
+    background:var(--charcoal);color:#8a7d6b;
+    font-size:.75rem;font-weight:500;
+    letter-spacing:.2em;text-transform:uppercase;
+    border-top:1px solid #33302a;
+  }
+  footer strong{color:var(--gold);font-weight:600}
+  /* ---------- REVEAL ---------- */
+  .reveal{opacity:0;transform:translateY(28px);transition:.8s cubic-bezier(.2,.8,.2,1)}
+  .reveal.show{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#calendar">Calendar</a>
+  <a href="#evergreen">Evergreen</a>
+  <a href="#tips">Pro Tips</a>
+</nav>
+
+<header>
+  <img class="logo" src="flying-carpets-logo.png" alt="Flying Carpets Production logo"
+       onerror="this.style.display='none'">
+  <h1><strong>Flying Carpets</strong> Production</h1>
+  <p class="hero-sub">60-Day Instagram Content Strategy — Premium Wedding Photo &amp; Films</p>
+  <div class="pill-row">
+    <span class="pill">Brand Awareness</span>
+    <span class="pill">Leads</span>
+    <span class="pill">Engagement</span>
+    <span class="pill">2 Posts / Week</span>
+  </div>
+</header>
+
+<!-- ================= CALENDAR ================= -->
+<section id="calendar" class="reveal">
+  <h2>Content Calendar</h2>
+  <p class="section-sub">Two months of scroll-stopping content across 5 pillars: Educational, Personal Story, Industry Insight, Social Proof &amp; Promotional.</p>
+
+  <div class="tab-btns">
+    <button class="tab-btn active" onclick="switchTab(0,this)">Month 1</button>
+    <button class="tab-btn" onclick="switchTab(1,this)">Month 2</button>
+  </div>
+
+  <div class="tab-panel active">
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Day</th><th>Type</th><th>Topic</th><th>Hook</th><th>Key Points</th><th>CTA</th><th>Best Time</th><th>Hashtags</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td class="type">🎓 Educational</td><td>5 questions to ask before booking a wedding videographer</td><td class="hook">"Most couples regret not asking THIS one question before booking their videographer…"</td><td>Raw footage? · Delivery timeline · Audio capture · Backup equipment · Editing style samples</td><td class="cta">Save this checklist 📌 + comment which question surprised you</td><td>Tue 11 AM</td><td class="tag">#weddingplanningtips #weddingvideographer #bridetobe</td></tr>
+        <tr><td>4</td><td class="type">💛 Personal Story</td><td>The wedding we almost missed — and what it taught us</td><td class="hook">"We got the call 48 hours before the wedding. The venue had double-booked…"</td><td>BTS scramble · Team adaptation · Why backups matter · Couple's reaction</td><td class="cta">Tag a friend who's planning a wedding 👇</td><td>Sat 10 AM</td><td class="tag">#behindthescenes #weddingphotographer #storytime</td></tr>
+        <tr><td>8</td><td class="type">🏆 Social Proof</td><td>Testimonial spotlight: couple's 60-second reaction video</td><td class="hook">"Watch their faces the first time they see their wedding film 🥹"</td><td>Client quote overlay · 3 key film moments · Expectations vs. reality</td><td class="cta">DM us "FILM" to see if your date is available</td><td>Tue 6 PM</td><td class="tag">#weddingfilm #realwedding #justmarried</td></tr>
+        <tr><td>11</td><td class="type">🧠 Industry Insight</td><td>Why 2025 wedding films look nothing like 2015's</td><td class="hook">"If your videographer is still shooting like it's 2015 — run."</td><td>Documentary style · Drone integration · Vertical content · Shorter cinematic edits</td><td class="cta">Save this + follow for weekly wedding content trends</td><td>Sat 11 AM</td><td class="tag">#weddingtrends2025 #cinematicwedding #weddingindustry</td></tr>
+        <tr><td>15</td><td class="type">🎓 Educational</td><td>How to pose for wedding photos without feeling awkward</td><td class="hook">"You don't need to be 'photogenic' — you need these 3 tricks."</td><td>Movement over poses · Focus on each other · Walk-and-talk trick · Candid burst mode</td><td class="cta">Save this for your wedding day 📌</td><td>Tue 12 PM</td><td class="tag">#weddingposingtips #weddingphotography #bridetips</td></tr>
+        <tr><td>18</td><td class="type">🛍️ Promotional</td><td>Inside a Flying Carpets wedding day — timeline reveal</td><td class="hook">"Ever wonder what a premium wedding shoot actually looks like? Here's our full day."</td><td>Getting ready → ceremony → golden hour → reception · Team in action · Gear glimpse</td><td class="cta">Booking 2025/2026 dates — link in bio for a free consult 🎬</td><td>Sat 10 AM</td><td class="tag">#weddingdaytimeline #weddingshoot #premiumwedding</td></tr>
+        <tr><td>22</td><td class="type">🏆 Social Proof</td><td>Venue collab — "Best 3 venues we've shot this year"</td><td class="hook">"We've shot 40+ weddings. These 3 venues photograph like a DREAM."</td><td>Venue highlights · Why light/space matters · Sample shots · Venue tags</td><td class="cta">Tag the venue you're eyeing 👇 — we'll share the best photo spots</td><td>Tue 5 PM</td><td class="tag">#weddingvenue #venueinspiration #destinationwedding</td></tr>
+        <tr><td>25</td><td class="type">💛 Personal Story</td><td>Founder story: "Why I treat every wedding like my own"</td><td class="hook">"I cried at my first-ever wedding shoot. Here's why that matters to you."</td><td>Origin story · Emotional investment philosophy · What "premium" means personally</td><td class="cta">Follow along for more behind-the-lens stories 🎥</td><td>Sat 11 AM</td><td class="tag">#founderstory #weddingfilmmaker #passionproject</td></tr>
+        <tr><td>28</td><td class="type">🧠 Industry Insight</td><td>What wedding budgets ACTUALLY get spent on (real data)</td><td class="hook">"Couples spend 12% of their budget on photos & film — here's why that's too low."</td><td>Avg. budget breakdown · Why media outlasts everything · Value-per-year framing</td><td class="cta">Comment "GUIDE" and we'll DM our free budget planning PDF</td><td>Tue 6 PM</td><td class="tag">#weddingbudget #weddingplanning #smartbride</td></tr>
+        <tr><td>30 ⭐</td><td class="type">🛍️ Promotional</td><td>What to wear for your engagement shoot</td><td class="hook">"Your engagement photos deserve better than a last-minute outfit."</td><td>Outfit tips · Rent vs. buy · Local designer partner tag · Camera-friendly colors</td><td class="cta">DM "STYLE" for our partner designer list 👗</td><td>Sat 12 PM</td><td class="tag">#engagementoutfit #designerdressrental #weddingfashion</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="tab-panel">
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Day</th><th>Type</th><th>Topic</th><th>Hook</th><th>Key Points</th><th>CTA</th><th>Best Time</th><th>Hashtags</th></tr></thead>
+      <tbody>
+        <tr><td>2</td><td class="type">🎓 Educational</td><td>How to choose your wedding color palette for great photos</td><td class="hook">"Your favorite color might be ruining your wedding photos."</td><td>Photo-friendly colors · Skin-tone clashes · Seasonal palettes</td><td class="cta">Save this + send it to your planner 📌</td><td>Tue 11 AM</td><td class="tag">#weddingcolors #weddingpalette #weddingplanning</td></tr>
+        <tr><td>5</td><td class="type">💛 Personal Story</td><td>The vow that made our whole camera crew tear up</td><td class="hook">"I've filmed 100+ weddings. I've never heard vows like these."</td><td>The emotional moment · Capturing tears tastefully · Emotion &gt; perfection</td><td class="cta">Tag your partner and start writing those vows ✍️</td><td>Sat 10 AM</td><td class="tag">#weddingvows #emotionalwedding #realwedding</td></tr>
+        <tr><td>9</td><td class="type">🏆 Social Proof</td><td>From DM to "I Do" — one couple's full journey</td><td class="hook">"This couple slid into our DMs 14 months before their wedding. Smart move."</td><td>Booking timeline · Planning process · Final film preview · Testimonial</td><td class="cta">Slide into our DMs — link in bio 🎬</td><td>Tue 6 PM</td><td class="tag">#clientstory #weddingfilm #testimonials</td></tr>
+        <tr><td>12</td><td class="type">🧠 Industry Insight</td><td>The rise of the 30-second wedding film</td><td class="hook">"Nobody watches your 45-minute wedding video. Sorry."</td><td>Attention economy · Social-first edits · Highlight + full film combo</td><td class="cta">Follow for more industry truth bombs 💣</td><td>Sat 11 AM</td><td class="tag">#weddingtrends #shortformvideo #cinematography</td></tr>
+        <tr><td>16</td><td class="type">🎓 Educational</td><td>Golden hour: the only wedding photo hack you need</td><td class="hook">"If your photographer doesn't care about sunset time — fire them."</td><td>What golden hour is · Timeline planning · Sample golden hour shots</td><td class="cta">Save this + check sunset time for your date 🌅</td><td>Tue 12 PM</td><td class="tag">#goldenhour #weddingphotography #sunsetwedding</td></tr>
+        <tr><td>19</td><td class="type">🛍️ Promotional</td><td>Our 2025/2026 booking process, explained in 60 seconds</td><td class="hook">"Booking your wedding media shouldn't feel like a job interview."</td><td>3 steps: consult → quote → date lock · Transparent pricing philosophy</td><td class="cta">Limited 2025 dates left — book a free call 📞</td><td>Sat 10 AM</td><td class="tag">#weddingbooking #weddingvendor #bridetobe</td></tr>
+        <tr><td>23</td><td class="type">🏆 Social Proof</td><td>Venue spotlight #2 — "This venue has the BEST natural light"</td><td class="hook">"We'd shoot every single wedding at this venue if we could."</td><td>Light analysis · Best on-site photo locations · Tag venue + planner</td><td class="cta">Planning here? DM us — we know the secret spots ✨</td><td>Tue 5 PM</td><td class="tag">#weddingvenue #venuegoals #weddinginspiration</td></tr>
+        <tr><td>26</td><td class="type">💛 Personal Story</td><td>The photo we almost deleted (and why we're glad we didn't)</td><td class="hook">"One click. Two seconds. Our favorite photo of the year."</td><td>Happy accident · Candid vs. posed philosophy · Couple's reaction</td><td class="cta">What's your favorite candid? Share below 👇</td><td>Sat 11 AM</td><td class="tag">#candidphotography #weddingmoments #storytime</td></tr>
+        <tr><td>28</td><td class="type">🧠 Industry Insight</td><td>AI is coming for wedding photography. Our honest take.</td><td class="hook">"AI can edit your photos. It can't hold your grandmother's hand."</td><td>What AI does well · What it can't replace · Human-first approach</td><td class="cta">Agree or disagree? Let's chat in the comments 💬</td><td>Tue 6 PM</td><td class="tag">#aiphotography #weddingindustry #thoughtleadership</td></tr>
+        <tr><td>30 ⭐</td><td class="type">🛍️ Promotional</td><td>Bridal outfit guide: Rent vs. Buy — the real math</td><td class="hook">"Spending $4,000 on a dress you wear once? Let's talk."</td><td>Cost breakdown · Rental benefits · When buying makes sense · Designer partners</td><td class="cta">DM "RENTAL" for our designer partner list 👗</td><td>Sat 12 PM</td><td class="tag">#weddingdressrental #bridalfashion #budgetbride</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= EVERGREEN ================= -->
+<section id="evergreen" class="reveal">
+  <h2>Evergreen Posts</h2>
+  <p class="section-sub">Five recyclable posts — rotate one in every week, every month, forever.</p>
+  <div class="grid">
+    <div class="card"><h3>1. Before & After Edit Reveal</h3><p>Same frame, raw vs. graded footage.</p><p class="cta-line"><strong>Hook:</strong> "This is what color grading actually does." <strong>→ CTA:</strong> Save for your planning board.</p></div>
+    <div class="card"><h3>2. Timeline Mistakes</h3><p>3 photography timeline errors couples make.</p><p class="cta-line"><strong>Hook:</strong> "Sunset was at 6:42. Their ceremony started at 5." <strong>→ CTA:</strong> Comment "TIMELINE" for a free template.</p></div>
+    <div class="card"><h3>3. Reaction Compilation Reel</h3><p>Couples watching their films for the first time.</p><p class="cta-line"><strong>Hook:</strong> "POV: you watch your wedding film for the first time 🥹" <strong>→ CTA:</strong> DM "FILM" to book.</p></div>
+    <div class="card"><h3>4. 5 Must-Have Shots</h3><p>The essential frames for every album.</p><p class="cta-line"><strong>Hook:</strong> "Skip these 5 shots and you'll regret it forever." <strong>→ CTA:</strong> Share with your partner 💑</p></div>
+    <div class="card"><h3>5. Team BTS Carousel</h3><p>Meet the crew behind the magic.</p><p class="cta-line"><strong>Hook:</strong> "Meet the people who make your wedding look like a movie." <strong>→ CTA:</strong> Follow for more BTS 🎬</p></div>
+  </div>
+</section>
+
+<!-- ================= PRO TIPS ================= -->
+<section id="tips" class="reveal">
+  <div class="inner">
+    <h2>Pro Tips</h2>
+    <p class="section-sub">Execution details that turn a calendar into actual leads.</p>
+    <ul class="tips">
+      <li><strong>Best posting windows:</strong> Tue/Thu/Sat mornings (couples browse together on weekends) and Tue/Thu evenings (post-work scrolling).</li>
+      <li><strong>Story strategy:</strong> Reshare every feed post to Stories with a poll or question sticker ("Are you having a videographer? 👍👎") to boost engagement signals.</li>
+      <li><strong>Lead capture:</strong> Rotate DM keyword CTAs — "FILM," "GUIDE," "STYLE," "RENTAL" — each keyword tells you exactly which content drives leads.</li>
+      <li><strong>Reels priority:</strong> Turn social proof and BTS posts into Reels — wedding content performs 2–3× better in video format.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>Flying <strong>Carpets</strong> Production · Content Strategy 2025</footer>
+
+<script>
+  function switchTab(i, btn){
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.tab-panel').forEach((p,idx)=>p.classList.toggle('active', idx===i));
+  }
+  const obs = new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('show');obs.unobserve(e.target);}
+  }),{threshold:.08});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+
+</body>
+</html>
