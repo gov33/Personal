@@ -1,6 +1,6 @@
 /**
- * THE HIGH PASS : STUDIO DISCOVERY CONSOLE
- * Design System: Architectural Minimalist Studio
+ * THE HIGH PASS : CLIENT INFORMATION COLLECTION
+ * Bespoke Scoping Console & Design System: Architectural Minimalist Studio
  * Typography: Plus Jakarta Sans + JetBrains Mono
  * Strict adherence to design-taste-frontend directives
  */
@@ -254,8 +254,8 @@ a {
   width: 100%;
   margin: 0 auto;
   flex: 1;
-  padding: 40px 24px 100px;
-  gap: 48px;
+  padding: 24px 24px 90px;
+  gap: 36px;
 }
 
 /* Context Rail (Left Column) */
@@ -427,26 +427,26 @@ a {
 }
 
 .panel-header {
-  margin-bottom: 28px;
+  margin-bottom: 16px;
 }
 
 .panel-title {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--text-primary);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .panel-subtitle {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--text-secondary);
 }
 
 .panel-body {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
 }
 
 /* Grids & Field Layout */
@@ -528,6 +528,14 @@ a {
   line-height: 1.5;
 }
 
+.mt-4 {
+  margin-top: 16px;
+}
+
+.mt-6 {
+  margin-top: 24px;
+}
+
 /* Subtle Toggle Button (Starting Fresh) */
 .btn-toggle-subtle {
   background: none;
@@ -580,7 +588,7 @@ a {
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  gap: 12px;
 }
 
 .option-card {
@@ -588,7 +596,7 @@ a {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-md);
-  padding: 20px;
+  padding: 13px 16px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -621,7 +629,7 @@ a {
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--text-muted);
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 .option-card.selected .card-badge {
@@ -629,16 +637,16 @@ a {
 }
 
 .card-heading {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: -0.01em;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .card-copy {
-  font-size: 13px;
-  line-height: 1.5;
+  font-size: 12px;
+  line-height: 1.45;
   color: var(--text-secondary);
 }
 
@@ -812,7 +820,7 @@ a {
 .tier-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  gap: 12px;
 }
 
 .tier-card {
@@ -820,7 +828,7 @@ a {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-md);
-  padding: 22px;
+  padding: 15px 16px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -849,7 +857,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .tier-rank {
@@ -873,27 +881,27 @@ a {
 }
 
 .tier-name {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--text-primary);
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 
 .tier-desc {
-  font-size: 12px;
-  line-height: 1.5;
+  font-size: 11px;
+  line-height: 1.45;
   color: var(--text-secondary);
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 
 .tier-list {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   margin-top: auto;
-  padding-top: 14px;
+  padding-top: 10px;
   border-top: 1px solid var(--border-subtle);
 }
 
@@ -1200,12 +1208,103 @@ a {
   background-color: #10b981;
 }
 
+.dock-center {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
 .dock-step-index {
   font-family: var(--font-mono);
   font-size: 12px;
   font-weight: 500;
   color: var(--text-muted);
   letter-spacing: 0.05em;
+}
+
+/* Section Dividers & In-Form Scroll Cues */
+.form-section-cue {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+  margin-bottom: 4px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--border-default);
+}
+
+.cue-tag {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-primary);
+  background-color: var(--accent-surface);
+  border: 1px solid var(--accent-border);
+  padding: 3px 10px;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.cue-tag-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* Floating Scroll Indicator */
+.scroll-cue-floating {
+  position: fixed;
+  bottom: 80px;
+  right: 32px;
+  background: rgba(11, 12, 15, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--accent-border);
+  border-radius: 9999px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+  z-index: 45;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  animation: floatCuePulse 2.4s infinite ease-in-out;
+}
+
+.scroll-cue-floating:hover {
+  background: var(--bg-surface-raised);
+  border-color: var(--accent-primary);
+  transform: translateY(-2px);
+}
+
+.scroll-cue-floating.cue-hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px);
+}
+
+.scroll-cue-floating .cue-arrow {
+  color: var(--accent-primary);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.scroll-cue-floating .cue-text {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--text-primary);
+}
+
+@keyframes floatCuePulse {
+  0%, 100% { box-shadow: 0 4px 16px rgba(56, 189, 248, 0.15); }
+  50% { box-shadow: 0 4px 24px rgba(56, 189, 248, 0.35); transform: translateY(-2px); }
 }
 
 /* ==========================================================================
