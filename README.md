@@ -11,6 +11,10 @@ Personal projects and usage. A central hub and collection of standalone personal
   - `projects/<project-name>/script.js` (or project-specific scripts)
 - **Deployment**: Hosted statically on Cloudflare Pages from repository root (`/`).
 
+## Project Guidelines
+
+- **Distinct Design & Language**: Each new personal project created must have its own new visual design, aesthetic, and design language. **Do not adapt or inherit the design from the main project hub page.** Every project should feel like a standalone, bespoke creation tailored to its specific purpose.
+
 ## Adding a New Project
 
 1. Duplicate the template folder:
