@@ -1,5 +1,5 @@
 /**
- * THE HIGH PASS — GOOGLE SHEETS & EMAIL DISPATCH APPS SCRIPT
+ * THE HIGH PASS : GOOGLE SHEETS & EMAIL DISPATCH APPS SCRIPT
  * 
  * FAQ: What should the name of the sheet tab be?
  * - It can be named ANYTHING (e.g. "Sheet1", "Commissions", etc.).
@@ -21,8 +21,7 @@ var HEADERS = [
 
 const CONFIG = {
   destinationEmail: 'govindcs33@gmail.com',
-  googleSheetsWebhookUrl: 'https://script.google.com/macros/s/AKfycbxFhYMuCzQz8jFCQ8EvB88hfvJ45DHbQ_UhX3mav4CeA-5BJGoe9SehIpLk1pbrNrNCFA/exec',
-  ...
+  googleSheetsWebhookUrl: 'https://script.google.com/macros/s/AKfycbxFhYMuCzQz8jFCQ8EvB88hfvJ45DHbQ_UhX3mav4CeA-5BJGoe9SehIpLk1pbrNrNCFA/exec'
 };
 
 function getTargetSheet() {
@@ -108,7 +107,7 @@ function doPost(e) {
 
     // Send email notification to Govind
     var recipient = "govindcs33@gmail.com";
-    var subject = "✦ [New Commission] " + (data.companyName || "New Client") + " — " + (data.projectScope || "Discovery Brief");
+    var subject = "[New Commission] " + (data.companyName || "New Client") + ": " + (data.projectScope || "Discovery Brief");
     var body = "A new client inquiry was submitted via The High Pass:\n\n" +
       "Client: " + (data.clientName || "Unknown") + " (" + (data.clientRole || "") + ")\n" +
       "Company: " + (data.companyName || "Unspecified") + "\n" +

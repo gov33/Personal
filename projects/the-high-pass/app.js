@@ -1,51 +1,64 @@
 /**
- * THE HIGH PASS — CLIENT DISCOVERY QUESTIONNAIRE
- * Minimalist Cyberpunk Intake Deck
- * State Machine with Directional Slide Transitions & LocalStorage Persistence
+ * THE HIGH PASS : STUDIO DISCOVERY CONSOLE
+ * Clean Minimalist Architecture & State Management
+ * Strict adherence to design-taste-frontend directives
  */
 
 (function () {
   'use strict';
 
-  const STORAGE_KEY = 'the_high_pass_cyber_v2';
+  const STORAGE_KEY = 'high_pass_studio_v3';
   const TOTAL_STEPS = 6;
   let currentStep = 1;
-  let previousStep = 1;
 
   // Cloud & Delivery Configuration
   const CONFIG = {
     destinationEmail: 'govindcs33@gmail.com',
-    // Paste your deployed Google Apps Script Web App URL here to append rows to your Google Sheet:
-    googleSheetsWebhookUrl: '',
-    // FormSubmit endpoint sends direct email to govindcs33@gmail.com without opening client app:
+    apiSubmitEndpoint: '/api/submit',
     formSubmitUrl: 'https://formsubmit.co/ajax/govindcs33@gmail.com'
   };
 
-  // DOM Elements
-  const form = document.getElementById('high-pass-form');
-  const panels = document.querySelectorAll('.slide-panel');
-  const stepDots = document.querySelectorAll('.step-dot');
-  const btnPrev = document.getElementById('btn-prev');
-  const btnNext = document.getElementById('btn-next');
-  const nextBtnText = document.getElementById('next-btn-text');
-  const slideCount = document.getElementById('slide-count');
-  const progressBar = document.getElementById('progress-bar');
-  const saveStatus = document.getElementById('save-status');
-  const btnResetDraft = document.getElementById('btn-reset-draft');
-  const btnFreshCanvas = document.getElementById('btn-fresh-canvas');
-  const clientWebsiteInput = document.getElementById('client-website');
-  const toast = document.getElementById('pass-toast');
-  const toastMessage = document.getElementById('toast-message');
+  // Step Meta Data for Context Rail
+  const STEP_METAS = {
+    1: {
+      tag: 'Step 01 / 06',
+      name: 'Context',
+      heading: 'Client & Stakeholder',
+      desc: 'Introduce yourself and your company so we can calibrate the architectural review.'
+    },
+    2: {
+      tag: 'Step 02 / 06',
+      name: 'Scope',
+      heading: 'Commission Scope',
+      desc: 'Define the format and business priorities for this development engagement.'
+    },
+    3: {
+      tag: 'Step 03 / 06',
+      name: 'Aesthetic',
+      heading: 'Visual Standard',
+      desc: 'Specify design direction and the current state of brand assets and guidelines.'
+    },
+    4: {
+      tag: 'Step 04 / 06',
+      name: 'Architecture',
+      heading: 'Technical Capabilities',
+      desc: 'Select required engineering features, database needs, and launch milestone.'
+    },
+    5: {
+      tag: 'Step 05 / 06',
+      name: 'Investment',
+      heading: 'Investment Tier',
+      desc: 'Choose the scope tier and governance team responsible for project approval.'
+    },
+    6: {
+      tag: 'Step 06 / 06',
+      name: 'Specification',
+      heading: 'Executive Brief',
+      desc: 'Review your compiled specification sheet and transmit directly to Govind.'
+    }
+  };
 
-  // Dossier elements
-  const dossierBody = document.getElementById('dossier-body');
-  const dossierTimestamp = document.getElementById('dossier-timestamp');
-  const btnTransmitEmail = document.getElementById('btn-transmit-email');
-  const btnCopyBrief = document.getElementById('btn-copy-brief');
-  const btnDownloadBrief = document.getElementById('btn-download-brief');
-  const btnAmendAnswers = document.getElementById('btn-amend-answers');
-
-  // State object
+  // State
   const state = {
     clientName: '',
     companyName: '',
@@ -55,27 +68,66 @@
     clientRole: 'Founder / CEO',
     projectScope: 'Flagship Web Experience',
     objectives: ['High Inquiries & Conversion', 'Category Authority & Prestige'],
-    aestheticWorld: 'Cyberpunk Neo-Dark',
+    aestheticWorld: 'Minimalist Studio Clean',
     inspirationLinks: '',
     brandHeritage: 'Complete Design System Ready',
-    capabilities: [
-      'Headless CMS (Sanity / Strapi)',
-      'Custom 60FPS Micro-interactions',
-      'Edge Hosting & Core Web Vitals 95+'
-    ],
-    targetTimeline: 'Standard (1–2 Months)',
-    budgetTier: 'Custom Flagship Platform ($5,000 – $10,000)',
+    capabilities: ['Custom CMS / Headless', 'High-Performance SEO', 'Advanced Micro-Interactions'],
+    targetTimeline: 'Standard Build (4-6 Weeks)',
+    budgetTier: 'Flagship Experience ($5,000 - $10,000)',
     decisionMakers: 'Solo Decision Maker',
     additionalNotes: ''
   };
 
+  // DOM Cache
+  const form = document.getElementById('high-pass-form');
+  const panels = document.querySelectorAll('.slide-panel');
+  const stepSegments = document.querySelectorAll('.step-segment');
+  const progressBar = document.getElementById('progress-bar');
+  const btnPrev = document.getElementById('btn-prev');
+  const btnNext = document.getElementById('btn-next');
+  const nextBtnText = document.getElementById('next-btn-text');
+  const slideCount = document.getElementById('slide-count');
+  const saveStatus = document.getElementById('save-status');
+  const btnResetDraft = document.getElementById('btn-reset-draft');
+  const btnFreshCanvas = document.getElementById('btn-fresh-canvas');
+  const clientWebsiteInput = document.getElementById('client-website');
+  const toast = document.getElementById('pass-toast');
+  const toastMessage = document.getElementById('toast-message');
+
+  // Rail Elements
+  const railStepTag = document.getElementById('rail-step-tag');
+  const railStepName = document.getElementById('rail-step-name');
+  const railHeading = document.getElementById('rail-heading');
+  const railDescription = document.getElementById('rail-description');
+  
+  // Snapshot Elements
+  const snapClient = document.getElementById('snap-client');
+  const snapScope = document.getElementById('snap-scope');
+  const snapAesthetic = document.getElementById('snap-aesthetic');
+  const snapTimeline = document.getElementById('snap-timeline');
+  const snapBudget = document.getElementById('snap-budget');
+
+  // Spec Elements
+  const dossierBody = document.getElementById('dossier-body');
+  const dossierTimestamp = document.getElementById('dossier-timestamp');
+  const btnTransmitEmail = document.getElementById('btn-transmit-email');
+  const btnCopyBrief = document.getElementById('btn-copy-brief');
+  const btnDownloadBrief = document.getElementById('btn-download-brief');
+  const btnAmendAnswers = document.getElementById('btn-amend-answers');
+
   /* ==========================================================================
-     INIT & STORAGE
+     INITIALIZATION & STORAGE
      ========================================================================== */
   function init() {
     loadFromStorage();
+    syncStateToDOM();
+    updateSnapshot();
+    renderStep(currentStep);
     bindEvents();
-    renderStep(currentStep, 'none');
+
+    if (dossierTimestamp) {
+      dossierTimestamp.textContent = new Date().toISOString().slice(0, 10);
+    }
   }
 
   function loadFromStorage() {
@@ -84,75 +136,72 @@
       if (saved) {
         const parsed = JSON.parse(saved);
         Object.assign(state, parsed.state || {});
-        if (parsed.step && parsed.step >= 1 && parsed.step <= TOTAL_STEPS) {
-          currentStep = parsed.step;
+        if (parsed.currentStep && parsed.currentStep >= 1 && parsed.currentStep <= TOTAL_STEPS) {
+          currentStep = parsed.currentStep;
         }
-        syncStateToDOM();
-        showSaveIndicator('Draft restored');
       }
     } catch (e) {
-      console.warn('Could not read draft from localStorage', e);
+      console.warn('Storage restore error', e);
     }
   }
 
   function saveToStorage() {
+    syncDOMToState();
+    updateSnapshot();
     try {
-      syncDOMToState();
       localStorage.setItem(STORAGE_KEY, JSON.stringify({
         state,
-        step: currentStep,
-        updatedAt: new Date().toISOString()
+        currentStep,
+        timestamp: Date.now()
       }));
-      showSaveIndicator('Draft saved');
+      indicateSaveStatus();
     } catch (e) {
-      console.warn('Could not save draft to localStorage', e);
+      console.warn('Storage save error', e);
     }
   }
 
-  function showSaveIndicator(text) {
+  function indicateSaveStatus() {
     if (!saveStatus) return;
-    const textEl = saveStatus.querySelector('.save-text');
-    if (textEl) textEl.textContent = text;
-  }
-
-  function showToast(msg) {
-    if (!toast || !toastMessage) return;
-    toastMessage.textContent = msg;
-    toast.classList.add('visible');
-    setTimeout(() => {
-      toast.classList.remove('visible');
-    }, 2400);
+    const text = saveStatus.querySelector('.save-status-text');
+    if (text) text.textContent = 'Draft saved';
+    saveStatus.style.opacity = '1';
+    clearTimeout(saveStatus._timer);
+    saveStatus._timer = setTimeout(() => {
+      if (text) text.textContent = 'Draft saved locally';
+    }, 2000);
   }
 
   /* ==========================================================================
-     DOM & STATE SYNC
+     STATE SYNCHRONIZATION
      ========================================================================== */
   function syncDOMToState() {
-    state.clientName = document.getElementById('client-name')?.value.trim() || '';
-    state.companyName = document.getElementById('company-name')?.value.trim() || '';
-    state.clientEmail = document.getElementById('client-email')?.value.trim() || '';
-    state.clientWebsite = document.getElementById('client-website')?.value.trim() || '';
-    state.isStartingFresh = btnFreshCanvas?.getAttribute('data-active') === 'true';
+    const clientNameInput = document.getElementById('client-name');
+    const companyNameInput = document.getElementById('company-name');
+    const clientEmailInput = document.getElementById('client-email');
+    const inspirationInput = document.getElementById('inspiration-links');
+    const additionalNotesInput = document.getElementById('additional-notes');
 
+    if (clientNameInput) state.clientName = clientNameInput.value.trim();
+    if (companyNameInput) state.companyName = companyNameInput.value.trim();
+    if (clientEmailInput) state.clientEmail = clientEmailInput.value.trim();
+    if (clientWebsiteInput && !state.isStartingFresh) {
+      state.clientWebsite = clientWebsiteInput.value.trim();
+    }
+    if (inspirationInput) state.inspirationLinks = inspirationInput.value.trim();
+    if (additionalNotesInput) state.additionalNotes = additionalNotesInput.value.trim();
+
+    // Radio fields
     const roleChecked = document.querySelector('input[name="clientRole"]:checked');
     if (roleChecked) state.clientRole = roleChecked.value;
 
     const scopeChecked = document.querySelector('input[name="projectScope"]:checked');
     if (scopeChecked) state.projectScope = scopeChecked.value;
 
-    const activeChips = document.querySelectorAll('.toggle-chip.active');
-    state.objectives = Array.from(activeChips).map(c => c.getAttribute('data-value'));
-
     const aestheticChecked = document.querySelector('input[name="aestheticWorld"]:checked');
     if (aestheticChecked) state.aestheticWorld = aestheticChecked.value;
 
-    state.inspirationLinks = document.getElementById('inspiration-links')?.value.trim() || '';
-
-    const heritageChecked = document.querySelector('input[name="brandHeritage"]:checked');
-    if (heritageChecked) state.brandHeritage = heritageChecked.value;
-
-    const capChecked = document.querySelectorAll('input[name="capabilities"]:checked');
-    state.capabilities = Array.from(capChecked).map(c => c.value);
+    const brandChecked = document.querySelector('input[name="brandHeritage"]:checked');
+    if (brandChecked) state.brandHeritage = brandChecked.value;
 
     const timelineChecked = document.querySelector('input[name="targetTimeline"]:checked');
     if (timelineChecked) state.targetTimeline = timelineChecked.value;
@@ -163,84 +212,188 @@
     const decisionChecked = document.querySelector('input[name="decisionMakers"]:checked');
     if (decisionChecked) state.decisionMakers = decisionChecked.value;
 
-    state.additionalNotes = document.getElementById('additional-notes')?.value.trim() || '';
+    // Checkboxes (Capabilities)
+    const capChecked = document.querySelectorAll('input[name="capabilities"]:checked');
+    state.capabilities = Array.from(capChecked).map(cb => cb.value);
+
+    // Toggle chips (Objectives)
+    const activeChips = document.querySelectorAll('.toggle-chip.active');
+    state.objectives = Array.from(activeChips).map(chip => chip.getAttribute('data-val'));
   }
 
   function syncStateToDOM() {
-    if (document.getElementById('client-name')) document.getElementById('client-name').value = state.clientName;
-    if (document.getElementById('company-name')) document.getElementById('company-name').value = state.companyName;
-    if (document.getElementById('client-email')) document.getElementById('client-email').value = state.clientEmail;
-    if (document.getElementById('client-website')) document.getElementById('client-website').value = state.clientWebsite;
+    const clientNameInput = document.getElementById('client-name');
+    const companyNameInput = document.getElementById('company-name');
+    const clientEmailInput = document.getElementById('client-email');
+    const inspirationInput = document.getElementById('inspiration-links');
+    const additionalNotesInput = document.getElementById('additional-notes');
 
-    if (btnFreshCanvas) {
-      btnFreshCanvas.setAttribute('data-active', state.isStartingFresh ? 'true' : 'false');
-      if (state.isStartingFresh && clientWebsiteInput) {
+    if (clientNameInput && state.clientName) clientNameInput.value = state.clientName;
+    if (companyNameInput && state.companyName) companyNameInput.value = state.companyName;
+    if (clientEmailInput && state.clientEmail) clientEmailInput.value = state.clientEmail;
+    if (clientWebsiteInput) {
+      if (state.isStartingFresh) {
+        clientWebsiteInput.value = '';
         clientWebsiteInput.disabled = true;
         clientWebsiteInput.placeholder = 'Starting from clean slate (New Build)';
+        if (btnFreshCanvas) btnFreshCanvas.setAttribute('data-active', 'true');
+      } else {
+        clientWebsiteInput.value = state.clientWebsite;
+        clientWebsiteInput.disabled = false;
+        if (btnFreshCanvas) btnFreshCanvas.setAttribute('data-active', 'false');
       }
     }
+    if (inspirationInput && state.inspirationLinks) inspirationInput.value = state.inspirationLinks;
+    if (additionalNotesInput && state.additionalNotes) additionalNotesInput.value = state.additionalNotes;
 
-    const roleRadio = document.querySelector(`input[name="clientRole"][value="${state.clientRole}"]`);
-    if (roleRadio) roleRadio.checked = true;
+    // Radios
+    setRadioValue('clientRole', state.clientRole);
+    setRadioValue('projectScope', state.projectScope);
+    setRadioValue('aestheticWorld', state.aestheticWorld);
+    setRadioValue('brandHeritage', state.brandHeritage);
+    setRadioValue('targetTimeline', state.targetTimeline);
+    setRadioValue('budgetTier', state.budgetTier);
+    setRadioValue('decisionMakers', state.decisionMakers);
 
-    const scopeRadio = document.querySelector(`input[name="projectScope"][value="${state.projectScope}"]`);
-    if (scopeRadio) {
-      scopeRadio.checked = true;
-      document.querySelectorAll('#step-2 .cyber-card').forEach(c => {
-        if (c.contains(scopeRadio)) c.classList.add('selected');
-        else c.classList.remove('selected');
-      });
-    }
-
-    document.querySelectorAll('.toggle-chip').forEach(chip => {
-      const val = chip.getAttribute('data-value');
-      if (state.objectives.includes(val)) chip.classList.add('active');
-      else chip.classList.remove('active');
+    // Cards highlight classes
+    document.querySelectorAll('.option-card').forEach(card => {
+      const r = card.querySelector('input[type="radio"]');
+      if (r && r.checked) card.classList.add('selected');
+      else card.classList.remove('selected');
     });
 
-    const aestheticRadio = document.querySelector(`input[name="aestheticWorld"][value="${state.aestheticWorld}"]`);
-    if (aestheticRadio) {
-      aestheticRadio.checked = true;
-      document.querySelectorAll('#step-3 .cyber-card').forEach(c => {
-        if (c.contains(aestheticRadio)) c.classList.add('selected');
-        else c.classList.remove('selected');
-      });
-    }
+    document.querySelectorAll('.tier-card').forEach(card => {
+      const r = card.querySelector('input[type="radio"]');
+      if (r && r.checked) card.classList.add('selected');
+      else card.classList.remove('selected');
+    });
 
-    if (document.getElementById('inspiration-links')) {
-      document.getElementById('inspiration-links').value = state.inspirationLinks;
-    }
-
-    const heritageRadio = document.querySelector(`input[name="brandHeritage"][value="${state.brandHeritage}"]`);
-    if (heritageRadio) heritageRadio.checked = true;
-
+    // Checkboxes
     document.querySelectorAll('input[name="capabilities"]').forEach(cb => {
       cb.checked = state.capabilities.includes(cb.value);
     });
 
-    const tlRadio = document.querySelector(`input[name="targetTimeline"][value="${state.targetTimeline}"]`);
-    if (tlRadio) tlRadio.checked = true;
+    // Chips
+    document.querySelectorAll('.toggle-chip').forEach(chip => {
+      const val = chip.getAttribute('data-val');
+      if (state.objectives.includes(val)) {
+        chip.classList.add('active');
+      } else {
+        chip.classList.remove('active');
+      }
+    });
+  }
 
-    const budgetRadio = document.querySelector(`input[name="budgetTier"][value="${state.budgetTier}"]`);
-    if (budgetRadio) {
-      budgetRadio.checked = true;
-      document.querySelectorAll('.tier-card').forEach(c => {
-        if (c.contains(budgetRadio)) c.classList.add('selected');
-        else c.classList.remove('selected');
-      });
+  function setRadioValue(name, value) {
+    const radio = document.querySelector(`input[name="${name}"][value="${CSS.escape(value)}"]`);
+    if (radio) radio.checked = true;
+  }
+
+  function updateSnapshot() {
+    if (snapClient) {
+      if (state.companyName && state.clientName) {
+        snapClient.textContent = `${state.companyName} (${state.clientName})`;
+      } else if (state.companyName) {
+        snapClient.textContent = state.companyName;
+      } else if (state.clientName) {
+        snapClient.textContent = state.clientName;
+      } else {
+        snapClient.textContent = 'Not specified';
+      }
     }
 
-    const decRadio = document.querySelector(`input[name="decisionMakers"][value="${state.decisionMakers}"]`);
-    if (decRadio) decRadio.checked = true;
-
-    if (document.getElementById('additional-notes')) {
-      document.getElementById('additional-notes').value = state.additionalNotes;
+    if (snapScope) snapScope.textContent = state.projectScope;
+    if (snapAesthetic) snapAesthetic.textContent = state.aestheticWorld;
+    if (snapTimeline) snapTimeline.textContent = state.targetTimeline;
+    if (snapBudget) {
+      // Shorten display
+      if (state.budgetTier.includes('Minimal')) snapBudget.textContent = 'Focused ($2.5k - $5k)';
+      else if (state.budgetTier.includes('Flagship')) snapBudget.textContent = 'Flagship ($5k - $10k)';
+      else if (state.budgetTier.includes('Enterprise')) snapBudget.textContent = 'Enterprise ($10k+)';
+      else snapBudget.textContent = state.budgetTier;
     }
   }
 
   /* ==========================================================================
-     VALIDATION
+     STEP TRANSITIONS & VALIDATION
      ========================================================================== */
+  function renderStep(step) {
+    currentStep = Math.max(1, Math.min(step, TOTAL_STEPS));
+
+    // Panels
+    panels.forEach(panel => {
+      const panelStep = parseInt(panel.getAttribute('data-step'), 10);
+      if (panelStep === currentStep) {
+        panel.classList.add('active');
+      } else {
+        panel.classList.remove('active');
+      }
+    });
+
+    // Stepper segments
+    stepSegments.forEach(seg => {
+      const segStep = parseInt(seg.getAttribute('data-step'), 10);
+      seg.classList.remove('active', 'completed');
+      if (segStep === currentStep) {
+        seg.classList.add('active');
+      } else if (segStep < currentStep) {
+        seg.classList.add('completed');
+      }
+    });
+
+    // Progress bar
+    const percent = ((currentStep) / TOTAL_STEPS) * 100;
+    if (progressBar) progressBar.style.width = `${percent}%`;
+
+    // Rail Context
+    const meta = STEP_METAS[currentStep];
+    if (meta) {
+      if (railStepTag) railStepTag.textContent = meta.tag;
+      if (railStepName) railStepName.textContent = meta.name;
+      if (railHeading) railHeading.textContent = meta.heading;
+      if (railDescription) railDescription.textContent = meta.desc;
+    }
+
+    // Dock Controls
+    if (slideCount) slideCount.textContent = `0${currentStep} / 0${TOTAL_STEPS}`;
+    if (btnPrev) btnPrev.disabled = (currentStep === 1);
+
+    if (nextBtnText) {
+      if (currentStep === 5) {
+        nextBtnText.textContent = 'Review Brief';
+      } else if (currentStep === 6) {
+        nextBtnText.textContent = 'Finish';
+      } else {
+        nextBtnText.textContent = 'Continue';
+      }
+    }
+
+    if (btnNext) {
+      btnNext.style.display = (currentStep === 6) ? 'none' : 'inline-flex';
+    }
+
+    // Render dossier when entering step 6
+    if (currentStep === 6) {
+      renderDossier();
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    saveToStorage();
+  }
+
+  function advanceStep() {
+    if (!validateCurrentStep()) return;
+    if (currentStep < TOTAL_STEPS) {
+      renderStep(currentStep + 1);
+    }
+  }
+
+  function retreatStep() {
+    if (currentStep > 1) {
+      renderStep(currentStep - 1);
+    }
+  }
+
   function validateCurrentStep() {
     syncDOMToState();
 
@@ -249,184 +402,107 @@
       const companyInput = document.getElementById('company-name');
       const emailInput = document.getElementById('client-email');
 
+      let isValid = true;
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
       if (!state.clientName) {
-        showToast('Please enter your name.');
-        nameInput?.focus();
-        return false;
+        shakeElement(nameInput);
+        isValid = false;
       }
       if (!state.companyName) {
-        showToast('Please enter your brand or venture name.');
-        companyInput?.focus();
+        shakeElement(companyInput);
+        isValid = false;
+      }
+      if (!state.clientEmail || !emailRegex.test(state.clientEmail)) {
+        shakeElement(emailInput);
+        isValid = false;
+      }
+
+      if (!isValid) {
+        showToast('Please enter your name, company, and a valid email.');
         return false;
       }
-      if (!state.clientEmail || !state.clientEmail.includes('@')) {
-        showToast('Please provide a valid contact email.');
-        emailInput?.focus();
-        return false;
-      }
-    }
-
-    if (currentStep === 2 && !state.projectScope) {
-      showToast('Please select your project scope.');
-      return false;
-    }
-
-    if (currentStep === 3 && !state.aestheticWorld) {
-      showToast('Please select an aesthetic direction.');
-      return false;
-    }
-
-    if (currentStep === 4 && !state.targetTimeline) {
-      showToast('Please select your target timeline.');
-      return false;
-    }
-
-    if (currentStep === 5 && !state.budgetTier) {
-      showToast('Please select an investment tier.');
-      return false;
     }
 
     return true;
   }
 
-  /* ==========================================================================
-     STEP RENDERING & DIRECTIONAL SLIDE ANIMATION
-     ========================================================================== */
-  function renderStep(step, direction) {
-    previousStep = currentStep;
-    currentStep = step;
-
-    // Panels with animation classes
-    panels.forEach(p => {
-      const pStep = parseInt(p.getAttribute('data-step'), 10);
-      p.classList.remove('active', 'slide-enter-next', 'slide-enter-prev');
-
-      if (pStep === currentStep) {
-        p.classList.add('active');
-        if (direction === 'next') {
-          p.classList.add('slide-enter-next');
-        } else if (direction === 'prev') {
-          p.classList.add('slide-enter-prev');
-        }
-      }
-    });
-
-    // Stepper navigation
-    stepDots.forEach(dot => {
-      const dStep = parseInt(dot.getAttribute('data-step'), 10);
-      dot.classList.remove('active', 'completed');
-      if (dStep === currentStep) {
-        dot.classList.add('active');
-      } else if (dStep < currentStep) {
-        dot.classList.add('completed');
-      }
-    });
-
-    // Progress Bar (16.66% to 100%)
-    if (progressBar) {
-      const progressRatio = currentStep / TOTAL_STEPS;
-      progressBar.style.transform = `scaleX(${progressRatio})`;
-    }
-
-    // Slide Counter HUD
-    if (slideCount) {
-      const padStep = String(currentStep).padStart(2, '0');
-      slideCount.textContent = `${padStep} / 06`;
-    }
-
-    // Footer buttons
-    if (btnPrev) {
-      btnPrev.disabled = (currentStep === 1);
-    }
-
-    if (nextBtnText) {
-      if (currentStep === 5) {
-        nextBtnText.textContent = 'View Project Brief';
-      } else if (currentStep === 6) {
-        nextBtnText.textContent = 'Transmit to Govind';
-      } else {
-        nextBtnText.textContent = 'Next Slide';
-      }
-    }
-
-    // Generate dossier on slide 6
-    if (currentStep === 6) {
-      generateDossier();
-    }
-
-    saveToStorage();
-  }
-
-  function advanceStep() {
-    if (currentStep === 6) {
-      transmitCommission();
-      return;
-    }
-
-    if (!validateCurrentStep()) return;
-
-    if (currentStep < TOTAL_STEPS) {
-      renderStep(currentStep + 1, 'next');
-    }
-  }
-
-  function retreatStep() {
-    if (currentStep > 1) {
-      renderStep(currentStep - 1, 'prev');
-    }
+  function shakeElement(el) {
+    if (!el) return;
+    el.focus();
+    el.style.borderColor = '#ef4444';
+    el.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.2)';
+    setTimeout(() => {
+      el.style.borderColor = '';
+      el.style.boxShadow = '';
+    }, 2000);
   }
 
   /* ==========================================================================
-     DOSSIER GENERATION & ACTIONS
+     DOSSIER & BRIEF COMPILER
      ========================================================================== */
-  function generateDossier() {
+  function renderDossier() {
     syncDOMToState();
 
-    if (dossierTimestamp) {
-      const now = new Date();
-      dossierTimestamp.textContent = now.toISOString().slice(0, 10);
-    }
-
     const domainDisplay = state.isStartingFresh
-      ? 'Clean Slate (New Build)'
-      : (state.clientWebsite || 'TBD');
-
-    const objectivesList = state.objectives.length > 0
-      ? state.objectives.join(', ')
-      : 'Bespoke Quality';
+      ? 'Clean Slate (Ground-up Build)'
+      : (state.clientWebsite || 'None specified');
 
     const capabilitiesList = state.capabilities.length > 0
       ? state.capabilities.join(', ')
-      : 'High-Performance Static';
+      : 'Standard High-Performance Architecture';
 
-    const rows = [
-      { key: 'CLIENT_IDENTITY', val: `${state.clientName} (${state.clientRole})` },
-      { key: 'VENTURE_BRAND', val: state.companyName },
-      { key: 'CONTACT_EMAIL', val: state.clientEmail },
-      { key: 'CURRENT_DOMAIN', val: domainDisplay },
-      { key: 'PROJECT_SCOPE', val: state.projectScope },
-      { key: 'FOCAL_OUTCOMES', val: objectivesList },
-      { key: 'VISUAL_STANDARD', val: state.aestheticWorld },
-      { key: 'BRAND_ASSETS', val: state.brandHeritage },
-      { key: 'CAPABILITIES', val: capabilitiesList },
-      { key: 'LAUNCH_HORIZON', val: state.targetTimeline },
-      { key: 'INVESTMENT_TIER', val: state.budgetTier },
-      { key: 'DECISION_MAKER', val: state.decisionMakers }
+    const objectivesList = state.objectives.length > 0
+      ? state.objectives.join(', ')
+      : 'Bespoke Experience & High Authority';
+
+    const sections = [
+      {
+        heading: '1. CLIENT PROFILE',
+        items: [
+          `Contact: ${state.clientName} (${state.clientRole})`,
+          `Brand: ${state.companyName}`,
+          `Email: ${state.clientEmail}`,
+          `Domain: ${domainDisplay}`
+        ]
+      },
+      {
+        heading: '2. COMMISSION AMBITION',
+        items: [
+          `Scope: ${state.projectScope}`,
+          `Focal Outcomes: ${objectivesList}`
+        ]
+      },
+      {
+        heading: '3. AESTHETIC DIRECTION',
+        items: [
+          `Visual Standard: ${state.aestheticWorld}`,
+          `Brand Assets: ${state.brandHeritage}`,
+          `Inspirations: ${state.inspirationLinks || 'None provided'}`
+        ]
+      },
+      {
+        heading: '4. TECHNICAL ARCHITECTURE',
+        items: [
+          `Capabilities: ${capabilitiesList}`,
+          `Target Timeline: ${state.targetTimeline}`
+        ]
+      },
+      {
+        heading: '5. INVESTMENT & GOVERNANCE',
+        items: [
+          `Investment Tier: ${state.budgetTier}`,
+          `Decision Maker: ${state.decisionMakers}`,
+          `Additional Notes: ${state.additionalNotes || 'None'}`
+        ]
+      }
     ];
 
-    if (state.inspirationLinks) {
-      rows.push({ key: 'INSPIRATION_URLS', val: state.inspirationLinks });
-    }
-
-    if (state.additionalNotes) {
-      rows.push({ key: 'ADDITIONAL_NOTES', val: state.additionalNotes });
-    }
-
     if (dossierBody) {
-      dossierBody.innerHTML = rows.map(r => `
-        <div class="spec-line">
-          <span class="spec-key">// ${escapeHtml(r.key)}</span>
-          <span class="spec-val">${escapeHtml(r.val)}</span>
+      dossierBody.innerHTML = sections.map(s => `
+        <div style="margin-bottom: 16px;">
+          <div style="color: var(--accent-primary); font-weight: 600; margin-bottom: 6px; letter-spacing: 0.05em;">${escapeHtml(s.heading)}</div>
+          ${s.items.map(item => `<div style="padding-left: 8px; border-left: 1px solid var(--border-default); margin-bottom: 4px; color: var(--text-primary);">${escapeHtml(item)}</div>`).join('')}
         </div>
       `).join('');
     }
@@ -436,7 +512,7 @@
     syncDOMToState();
     const dateStr = new Date().toISOString().slice(0, 10);
 
-    return `# THE HIGH PASS: CLIENT DISCOVERY BRIEF
+    return `# THE HIGH PASS: CLIENT DISCOVERY SPECIFICATION
 Date: ${dateStr}
 Project: ${state.companyName}
 
@@ -444,23 +520,23 @@ Project: ${state.companyName}
 
 ## 1. Client Context
 - Name: ${state.clientName}
-- Brand / Venture: ${state.companyName}
+- Company / Brand: ${state.companyName}
 - Role: ${state.clientRole}
 - Email: ${state.clientEmail}
 - Current Domain: ${state.isStartingFresh ? 'Clean Slate (New Build)' : (state.clientWebsite || 'None specified')}
 
 ## 2. Project Scope & Ambition
 - Scope: ${state.projectScope}
-- Focal Outcomes: ${state.objectives.join(', ') || 'High Craft & Speed'}
+- Focal Outcomes: ${state.objectives.join(', ') || 'High Authority & Performance'}
 
 ## 3. Visual Standard & Aesthetics
-- Aesthetic World: ${state.aestheticWorld}
+- Visual Standard: ${state.aestheticWorld}
 - Brand Assets: ${state.brandHeritage}
-- Reference Sites: ${state.inspirationLinks || 'None provided'}
+- References: ${state.inspirationLinks || 'None provided'}
 
 ## 4. Technical Architecture
-- Required Capabilities: ${state.capabilities.join(', ') || 'Custom Static Architecture'}
-- Launch Horizon: ${state.targetTimeline}
+- Capabilities: ${state.capabilities.join(', ') || 'Custom Static Architecture'}
+- Target Timeline: ${state.targetTimeline}
 
 ## 5. Investment & Governance
 - Investment Tier: ${state.budgetTier}
@@ -468,10 +544,13 @@ Project: ${state.companyName}
 - Additional Notes: ${state.additionalNotes || 'None'}
 
 ---
-Generated via The High Pass Discovery Deck
+Compiled via The High Pass Studio Discovery Console
 `;
   }
 
+  /* ==========================================================================
+     TRANSMISSION & ACTIONS
+     ========================================================================== */
   async function transmitCommission() {
     syncDOMToState();
     const brief = buildMarkdownBrief();
@@ -508,26 +587,23 @@ Generated via The High Pass Discovery Deck
 
     let sent = false;
 
-    // 1. If Google Sheets Webhook is configured, POST directly to Google Sheets
-    if (CONFIG.googleSheetsWebhookUrl) {
-      try {
-        await fetch(CONFIG.googleSheetsWebhookUrl, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify(payload)
-        });
-        sent = true;
-      } catch (err) {
-        console.warn('Google Sheets Webhook dispatch failed, trying fallback...', err);
-      }
+    // 1. Try internal /api/submit Cloudflare endpoint
+    try {
+      const apiRes = await fetch(CONFIG.apiSubmitEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (apiRes.ok) sent = true;
+    } catch (e) {
+      // Offline or local dev fallback
     }
 
-    // 2. FormSubmit AJAX direct delivery to govindcs33@gmail.com
+    // 2. Try FormSubmit AJAX delivery
     if (!sent && CONFIG.formSubmitUrl) {
       try {
         const formData = new FormData();
-        formData.append('_subject', `[New Commission] ${state.companyName} — ${state.projectScope}`);
+        formData.append('_subject', `[Commission Spec] ${state.companyName}: ${state.projectScope}`);
         formData.append('_replyto', state.clientEmail);
         formData.append('Client Name', `${state.clientName} (${state.clientRole})`);
         formData.append('Company', state.companyName);
@@ -536,12 +612,11 @@ Generated via The High Pass Discovery Deck
         formData.append('Scope', state.projectScope);
         formData.append('Objectives', payload.objectives);
         formData.append('Aesthetic', state.aestheticWorld);
-        formData.append('Brand Assets', state.brandHeritage);
         formData.append('Capabilities', payload.capabilities);
         formData.append('Timeline', state.targetTimeline);
         formData.append('Budget Tier', state.budgetTier);
-        formData.append('Decision Makers', state.decisionMakers);
-        formData.append('Additional Notes', state.additionalNotes || 'None');
+        formData.append('Decision Maker', state.decisionMakers);
+        formData.append('Notes', state.additionalNotes || 'None');
         formData.append('Full Brief', brief);
 
         const res = await fetch(CONFIG.formSubmitUrl, {
@@ -551,28 +626,25 @@ Generated via The High Pass Discovery Deck
         });
         if (res.ok) sent = true;
       } catch (err) {
-        console.warn('Direct email dispatch failed', err);
+        console.warn('FormSubmit dispatch failed', err);
       }
     }
 
     if (sent) {
-      showToast('Transmission confirmed! Delivered to Govind.');
+      showToast('Specification dispatched to Govind');
       if (primaryCard) {
         primaryCard.innerHTML = `
-          <div class="transmission-success">
-            <div class="success-badge">// TRANSMISSION CONFIRMED</div>
-            <div class="success-title">Commission Spec Dispatched</div>
-            <p class="success-desc">Your project brief was transmitted to <strong>govindcs33@gmail.com</strong> and logged to the ledger.</p>
-            <div class="success-meta">
-              <span>Recipient: govindcs33@gmail.com</span>
-              <span>Status: In Architecture Queue (&lt;24h reply)</span>
-            </div>
+          <div style="padding: 16px 0;">
+            <div style="font-family: var(--font-mono); font-size: 11px; color: var(--accent-primary); margin-bottom: 8px; font-weight: 600;">TRANSMISSION CONFIRMED</div>
+            <div style="font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">Specification Dispatched</div>
+            <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 12px;">Your project brief was transmitted to <strong>govindcs33@gmail.com</strong> for architectural review.</p>
+            <div style="font-size: 12px; color: var(--text-muted); font-family: var(--font-mono);">Direct review window: 24 to 48 hours</div>
           </div>
         `;
       }
     } else {
-      // Fallback: trigger email client with pre-filled Markdown brief
-      const subject = encodeURIComponent(`[Project Discovery] ${state.companyName} — ${state.projectScope}`);
+      // Fallback: mailto
+      const subject = encodeURIComponent(`[Commission Spec] ${state.companyName}: ${state.projectScope}`);
       const body = encodeURIComponent(brief);
       window.location.href = `mailto:${CONFIG.destinationEmail}?subject=${subject}&body=${body}`;
       showToast('Opened email draft to govindcs33@gmail.com');
@@ -588,7 +660,7 @@ Generated via The High Pass Discovery Deck
     const brief = buildMarkdownBrief();
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(brief).then(() => {
-        showToast('Brief copied to clipboard!');
+        showToast('Brief copied to clipboard');
       }).catch(() => {
         fallbackCopy(brief);
       });
@@ -606,9 +678,9 @@ Generated via The High Pass Discovery Deck
     ta.select();
     try {
       document.execCommand('copy');
-      showToast('Brief copied to clipboard!');
+      showToast('Brief copied to clipboard');
     } catch (e) {
-      showToast('Could not copy automatically.');
+      showToast('Could not copy automatically');
     }
     document.body.removeChild(ta);
   }
@@ -634,6 +706,16 @@ Generated via The High Pass Discovery Deck
     showToast(`Downloaded ${filename}`);
   }
 
+  function showToast(msg) {
+    if (!toast || !toastMessage) return;
+    toastMessage.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(() => {
+      toast.classList.remove('show');
+    }, 3200);
+  }
+
   function escapeHtml(str) {
     if (!str) return '';
     return String(str)
@@ -651,23 +733,23 @@ Generated via The High Pass Discovery Deck
     btnPrev?.addEventListener('click', retreatStep);
     btnNext?.addEventListener('click', advanceStep);
 
-    // Stepper dots direct navigation
-    stepDots.forEach(dot => {
-      dot.addEventListener('click', () => {
-        const targetStep = parseInt(dot.getAttribute('data-step'), 10);
+    // Stepper segments direct navigation
+    stepSegments.forEach(seg => {
+      seg.addEventListener('click', () => {
+        const targetStep = parseInt(seg.getAttribute('data-step'), 10);
         if (targetStep < currentStep) {
-          renderStep(targetStep, 'prev');
+          renderStep(targetStep);
         } else if (targetStep > currentStep) {
           if (validateCurrentStep()) {
-            renderStep(targetStep, 'next');
+            renderStep(targetStep);
           }
         }
       });
     });
 
-    // Reset draft button
+    // Reset draft
     btnResetDraft?.addEventListener('click', () => {
-      if (confirm('Clear all answers and reset questionnaire?')) {
+      if (confirm('Clear all answers and reset draft?')) {
         localStorage.removeItem(STORAGE_KEY);
         window.location.reload();
       }
@@ -693,16 +775,16 @@ Generated via The High Pass Discovery Deck
       saveToStorage();
     });
 
-    // Cyber cards selection
-    document.querySelectorAll('.cyber-card').forEach(card => {
+    // Option cards selection
+    document.querySelectorAll('.option-card').forEach(card => {
       const radio = card.querySelector('input[type="radio"]');
       card.addEventListener('click', () => {
         if (radio) {
           radio.checked = true;
           const groupName = radio.getAttribute('name');
           document.querySelectorAll(`input[name="${groupName}"]`).forEach(r => {
-            const parentCard = r.closest('.cyber-card');
-            if (parentCard) parentCard.classList.remove('selected');
+            const parent = r.closest('.option-card');
+            if (parent) parent.classList.remove('selected');
           });
           card.classList.add('selected');
           saveToStorage();
@@ -730,7 +812,7 @@ Generated via The High Pass Discovery Deck
         const activeCount = document.querySelectorAll('.toggle-chip.active').length;
 
         if (!isCurrentlyActive && activeCount >= 2) {
-          showToast('Select up to two focal outcomes.');
+          showToast('Select up to 2 target outcomes.');
           return;
         }
 
@@ -739,7 +821,17 @@ Generated via The High Pass Discovery Deck
       });
     });
 
-    // Auto-save on input changes
+    // Capabilities checkboxes
+    document.querySelectorAll('input[name="capabilities"]').forEach(cb => {
+      cb.addEventListener('change', saveToStorage);
+    });
+
+    // Pill radios
+    document.querySelectorAll('.pill-item input[type="radio"]').forEach(r => {
+      r.addEventListener('change', saveToStorage);
+    });
+
+    // Inputs auto-save & snapshot update
     form?.addEventListener('input', saveToStorage);
     form?.addEventListener('change', saveToStorage);
 
@@ -758,13 +850,11 @@ Generated via The High Pass Discovery Deck
       }
     });
 
-    // Summit actions
+    // Actions
     btnTransmitEmail?.addEventListener('click', transmitCommission);
     btnCopyBrief?.addEventListener('click', copyBriefToClipboard);
     btnDownloadBrief?.addEventListener('click', downloadBriefFile);
-    btnAmendAnswers?.addEventListener('click', () => {
-      renderStep(1, 'prev');
-    });
+    btnAmendAnswers?.addEventListener('click', () => renderStep(1));
   }
 
   if (document.readyState === 'loading') {

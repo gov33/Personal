@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The High Pass — Client Discovery Questionnaire</title>
-  <meta name="description" content="A minimal, sleek questionnaire for prospective web development clients. Define your digital platform, technical requirements, and project scope with Govind.">
+  <title>The High Pass : Studio Discovery Console</title>
+  <meta name="description" content="A clean, minimalist discovery console for bespoke web commissions. Define your scope, architecture, and aesthetic requirements with Govind.">
 
-  <!-- impeccable-disable design-system-font -- standalone cyberpunk questionnaire deck uses specialized type system -->
+  <!-- Typography: Plus Jakarta Sans & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Trailing slash redirect for directory routes -->
   <script>
@@ -18,624 +18,632 @@
     }
   </script>
 
-  <link rel="stylesheet" href="/projects/the-high-pass/style.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <!--
-    THESIS: A minimal, sleek, cyberpunk-influenced 3-color client intake questionnaire for bespoke web development, rejecting fantasy lore for razor-sharp tech precision and single-viewport deck transitions.
-    OWN-WORLD: Obsidian void black (#08090c), electric cyber cyan (#00f0ff), and titanium white/slate (#f0f4f8, #6e7681) with 1px architectural lines, zero gradients, and monospace data accents.
-    STORY: A prospective client enters The High Pass to configure their digital platform, select technical capabilities, set visual standards, and generate an executive technical brief for Govind.
-    FIRST VIEWPORT: Locked 100dvh single-viewport console with sleek header HUD, animated slide stage with directional transitions, and tactile navigation controls.
-    FORM: Minimalist Cyberpunk Client Intake Deck.
-    FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+    DESIGN READ: Client intake and scoping deck for bespoke web commissions.
+    Aesthetic: Clean architectural studio minimalism (matte graphite, crisp chalk typography, subtle 1px dividers, refined mono accents).
+    Dials: DESIGN_VARIANCE: 6 | MOTION_INTENSITY: 4 | VISUAL_DENSITY: 3
+    Rules: Zero em-dashes, single page theme lock, full keyboard accessibility, high contrast AA.
   -->
 
-  <!-- Single-Viewport Application Shell -->
-  <div class="pass-viewport">
+  <div class="pass-shell">
 
-    <!-- Top Minimalist HUD Header -->
-    <header class="pass-header">
-      <div class="pass-brand">
-        <div class="pass-dot" aria-hidden="true"></div>
-        <div class="pass-brand-text">
-          <span class="brand-title">THE HIGH PASS</span>
-          <span class="brand-subtitle">// CLIENT DISCOVERY DECK</span>
-        </div>
+    <!-- Top Minimalist Studio Navigation -->
+    <header class="studio-header">
+      <div class="studio-brand">
+        <a href="../../index.html" class="brand-link" title="Return to Portal">
+          <span class="brand-monogram">HP</span>
+          <div class="brand-titles">
+            <span class="brand-name">THE HIGH PASS</span>
+            <span class="brand-meta">Studio Discovery Console</span>
+          </div>
+        </a>
       </div>
 
-      <!-- Step Indicator & Progress HUD -->
-      <nav class="pass-stepper" aria-label="Deck Progression" id="pass-stepper">
-        <button type="button" class="step-dot active" data-step="1" aria-label="Slide 01: Client Context">
-          <span class="dot-num">01</span>
-          <span class="dot-label">Client</span>
+      <!-- Segmented Stepper Bar -->
+      <nav class="stepper-nav" aria-label="Discovery Steps" id="pass-stepper">
+        <button type="button" class="step-segment active" data-step="1" aria-label="Step 01: Client Context">
+          <span class="segment-num">01</span>
+          <span class="segment-name">Client</span>
         </button>
-        <span class="step-divider" aria-hidden="true"></span>
+        <span class="segment-sep" aria-hidden="true"></span>
 
-        <button type="button" class="step-dot" data-step="2" aria-label="Slide 02: Scope &amp; Objectives">
-          <span class="dot-num">02</span>
-          <span class="dot-label">Scope</span>
+        <button type="button" class="step-segment" data-step="2" aria-label="Step 02: Scope and Objectives">
+          <span class="segment-num">02</span>
+          <span class="segment-name">Scope</span>
         </button>
-        <span class="step-divider" aria-hidden="true"></span>
+        <span class="segment-sep" aria-hidden="true"></span>
 
-        <button type="button" class="step-dot" data-step="3" aria-label="Slide 03: Visual Standard">
-          <span class="dot-num">03</span>
-          <span class="dot-label">Aesthetic</span>
+        <button type="button" class="step-segment" data-step="3" aria-label="Step 03: Visual Standard">
+          <span class="segment-num">03</span>
+          <span class="segment-name">Aesthetic</span>
         </button>
-        <span class="step-divider" aria-hidden="true"></span>
+        <span class="segment-sep" aria-hidden="true"></span>
 
-        <button type="button" class="step-dot" data-step="4" aria-label="Slide 04: Technical Architecture">
-          <span class="dot-num">04</span>
-          <span class="dot-label">Tech</span>
+        <button type="button" class="step-segment" data-step="4" aria-label="Step 04: Technical Architecture">
+          <span class="segment-num">04</span>
+          <span class="segment-name">Tech</span>
         </button>
-        <span class="step-divider" aria-hidden="true"></span>
+        <span class="segment-sep" aria-hidden="true"></span>
 
-        <button type="button" class="step-dot" data-step="5" aria-label="Slide 05: Investment Tier">
-          <span class="dot-num">05</span>
-          <span class="dot-label">Budget</span>
+        <button type="button" class="step-segment" data-step="5" aria-label="Step 05: Investment Tier">
+          <span class="segment-num">05</span>
+          <span class="segment-name">Budget</span>
         </button>
-        <span class="step-divider" aria-hidden="true"></span>
+        <span class="segment-sep" aria-hidden="true"></span>
 
-        <button type="button" class="step-dot" data-step="6" aria-label="Slide 06: Project Dossier">
-          <span class="dot-num">06</span>
-          <span class="dot-label">Brief</span>
+        <button type="button" class="step-segment" data-step="6" aria-label="Step 06: Project Specification">
+          <span class="segment-num">06</span>
+          <span class="segment-name">Spec</span>
         </button>
       </nav>
 
-      <div class="pass-header-meta">
-        <span class="meta-estimate">3 MIN</span>
-        <button type="button" class="btn-ghost-reset" id="btn-reset-draft" title="Clear answers and restart">RESET</button>
+      <div class="header-utilities">
+        <span class="time-tag">Est. 3 min</span>
+        <button type="button" class="btn-text-action" id="btn-reset-draft" title="Reset all draft answers">Reset</button>
       </div>
     </header>
 
-    <!-- Sleek Horizontal Progress Bar -->
+    <!-- Progress Indicator Track -->
     <div class="progress-track" aria-hidden="true">
-      <div class="progress-bar" id="progress-bar" style="width: 16.66%;"></div>
+      <div class="progress-fill" id="progress-bar" style="width: 16.66%;"></div>
     </div>
 
-    <!-- Main Animated Stage (Strict 100dvh Single Viewport) -->
-    <main class="pass-stage" id="pass-stage">
-      <form id="high-pass-form" novalidate onsubmit="return false;">
+    <!-- Asymmetric Main Layout -->
+    <div class="studio-layout">
 
-        <!-- ================================================================
-             SLIDE 1: CLIENT IDENTITY & VENTURE
-             ================================================================ -->
-        <section class="slide-panel active" data-step="1" id="step-1" aria-labelledby="step-1-title">
-          <div class="slide-header">
-            <h1 class="slide-title" id="step-1-title">Client &amp; Venture Context</h1>
-            <p class="slide-description">Identify yourself, your organization, and the digital product you are building.</p>
+      <!-- Left Column: Context Rail & Live Brief Snapshot -->
+      <aside class="context-rail">
+        <div class="rail-inner">
+          <div class="step-badge">
+            <span class="step-counter-tag" id="rail-step-tag">Step 01 / 06</span>
+            <span class="step-status-tag" id="rail-step-name">Context</span>
           </div>
 
-          <div class="slide-content">
-            <div class="input-row-two">
-              <div class="field-box">
-                <label for="client-name" class="field-label">Your Name <span class="accent-tag">*</span></label>
-                <input type="text" id="client-name" name="clientName" class="cyber-input" placeholder="e.g. Marcus Vance" required autocomplete="name">
-              </div>
-
-              <div class="field-box">
-                <label for="company-name" class="field-label">Brand / Venture Name <span class="accent-tag">*</span></label>
-                <input type="text" id="company-name" name="companyName" class="cyber-input" placeholder="e.g. Helix Studio or Personal Project" required autocomplete="organization">
-              </div>
-            </div>
-
-            <div class="input-row-two">
-              <div class="field-box">
-                <label for="client-email" class="field-label">Email Address <span class="accent-tag">*</span></label>
-                <input type="email" id="client-email" name="clientEmail" class="cyber-input" placeholder="e.g. marcus@helixstudio.io" required autocomplete="email">
-              </div>
-
-              <div class="field-box">
-                <label for="client-website" class="field-label">Current Website <span class="dim-tag">(Optional)</span></label>
-                <div class="input-addon-wrap">
-                  <input type="url" id="client-website" name="clientWebsite" class="cyber-input" placeholder="https://yoursite.com">
-                  <button type="button" class="btn-toggle-addon" id="btn-fresh-canvas" data-active="false">Starting Fresh</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="field-box">
-              <label class="field-label">Your Role <span class="accent-tag">*</span></label>
-              <div class="pill-group" role="radiogroup" aria-label="Your Role">
-                <label class="pill-option">
-                  <input type="radio" name="clientRole" value="Founder / CEO" checked>
-                  <span class="pill-text">Founder / CEO</span>
-                </label>
-                <label class="pill-option">
-                  <input type="radio" name="clientRole" value="Creative Director / Design Lead">
-                  <span class="pill-text">Creative Director / Design Lead</span>
-                </label>
-                <label class="pill-option">
-                  <input type="radio" name="clientRole" value="Product / Engineering Lead">
-                  <span class="pill-text">Product / Engineering Lead</span>
-                </label>
-                <label class="pill-option">
-                  <input type="radio" name="clientRole" value="Solo Creator / Independent">
-                  <span class="pill-text">Solo Creator / Independent</span>
-                </label>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- ================================================================
-             SLIDE 2: PROJECT SCOPE & OBJECTIVES
-             ================================================================ -->
-        <section class="slide-panel" data-step="2" id="step-2" aria-labelledby="step-2-title">
-          <div class="slide-header">
-            <h2 class="slide-title" id="step-2-title">Project Scope &amp; Core Ambition</h2>
-            <p class="slide-description">Define the scale of this engagement and the primary metrics that determine success.</p>
+          <div class="rail-narrative">
+            <h1 class="rail-heading" id="rail-heading">Client &amp; Stakeholder</h1>
+            <p class="rail-description" id="rail-description">
+              Provide your key contact details and current domain so we can calibrate the architectural review.
+            </p>
           </div>
 
-          <div class="slide-content">
-            <div class="card-grid" role="radiogroup" aria-label="Project Scope">
-              
-              <!-- Scope 1: Flagship Web Experience -->
-              <label class="cyber-card selected">
-                <input type="radio" name="projectScope" value="Flagship Web Experience" checked>
-                <div class="card-body">
-                  <div class="card-top">
-                    <span class="card-index">01</span>
-                    <span class="card-badge">Ground Up</span>
-                  </div>
-                  <div class="card-title">Flagship Web Experience</div>
-                  <div class="card-desc">Complete brand and flagship web build setting a high industry benchmark for craft and authority.</div>
-                </div>
-              </label>
-
-              <!-- Scope 2: Full Redesign -->
-              <label class="cyber-card">
-                <input type="radio" name="projectScope" value="Full Platform Redesign">
-                <div class="card-body">
-                  <div class="card-top">
-                    <span class="card-index">02</span>
-                    <span class="card-badge">Overhaul</span>
-                  </div>
-                  <div class="card-title">Full Platform Redesign</div>
-                  <div class="card-desc">Transforming an underperforming website into a high-speed, modern, high-converting digital platform.</div>
-                </div>
-              </label>
-
-              <!-- Scope 3: Interactive Tool or Web App -->
-              <label class="cyber-card">
-                <input type="radio" name="projectScope" value="Interactive Web App / Tool">
-                <div class="card-body">
-                  <div class="card-top">
-                    <span class="card-index">03</span>
-                    <span class="card-badge">Application</span>
-                  </div>
-                  <div class="card-title">Interactive App or Tool</div>
-                  <div class="card-desc">Bespoke web application, interactive calculator, customer portal, or dynamic visual simulator.</div>
-                </div>
-              </label>
-
-              <!-- Scope 4: Showcase & Commerce -->
-              <label class="cyber-card">
-                <input type="radio" name="projectScope" value="Curated Showcase & Commerce">
-                <div class="card-body">
-                  <div class="card-top">
-                    <span class="card-index">04</span>
-                    <span class="card-badge">Commerce</span>
-                  </div>
-                  <div class="card-title">Curated Showcase &amp; Commerce</div>
-                  <div class="card-desc">Bespoke product catalog, digital boutique, or high-craft portfolio archive designed to impress.</div>
-                </div>
-              </label>
+          <!-- Live Scoping Snapshot Card -->
+          <div class="snapshot-card" aria-label="Live Configuration Summary">
+            <div class="snapshot-header">
+              <span class="snapshot-title">Scoping Snapshot</span>
+              <span class="snapshot-live-indicator" aria-hidden="true"></span>
             </div>
-
-            <!-- Core Objectives -->
-            <div class="field-box">
-              <label class="field-label">Focal Outcomes <span class="dim-tag">(Select up to two priorities)</span></label>
-              <div class="chips-row" id="objectives-container">
-                <button type="button" class="toggle-chip active" data-value="High Inquiries & Conversion">
-                  High Inquiries &amp; Conversion
-                </button>
-                <button type="button" class="toggle-chip active" data-value="Category Authority & Prestige">
-                  Category Authority &amp; Prestige
-                </button>
-                <button type="button" class="toggle-chip" data-value="Sub-Second Load Times & Edge Speed">
-                  Sub-Second Load Times &amp; Speed
-                </button>
-                <button type="button" class="toggle-chip" data-value="60FPS Micro-interactions & Motion">
-                  60FPS Micro-interactions &amp; Motion
-                </button>
-                <button type="button" class="toggle-chip" data-value="Clear Product Narrative & Clarity">
-                  Clear Product Narrative &amp; Clarity
-                </button>
+            <dl class="snapshot-list">
+              <div class="snapshot-item">
+                <dt>Client</dt>
+                <dd id="snap-client">Not specified</dd>
               </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- ================================================================
-             SLIDE 3: VISUAL DIRECTION & AESTHETIC
-             ================================================================ -->
-        <section class="slide-panel" data-step="3" id="step-3" aria-labelledby="step-3-title">
-          <div class="slide-header">
-            <h2 class="slide-title" id="step-3-title">Visual Standard &amp; Art Direction</h2>
-            <p class="slide-description">Choose the aesthetic territory that aligns with your market position, and link references.</p>
+              <div class="snapshot-item">
+                <dt>Scope</dt>
+                <dd id="snap-scope">Flagship Web Experience</dd>
+              </div>
+              <div class="snapshot-item">
+                <dt>Aesthetic</dt>
+                <dd id="snap-aesthetic">Minimalist Studio Clean</dd>
+              </div>
+              <div class="snapshot-item">
+                <dt>Timeline</dt>
+                <dd id="snap-timeline">Standard Build (4-6 Weeks)</dd>
+              </div>
+              <div class="snapshot-item">
+                <dt>Tier</dt>
+                <dd id="snap-budget">Flagship ($5k - $10k)</dd>
+              </div>
+            </dl>
           </div>
 
-          <div class="slide-content">
-            <div class="card-grid" role="radiogroup" aria-label="Visual Direction">
-              
-              <!-- Style 1: Cyberpunk Neo-Dark -->
-              <label class="cyber-card selected">
-                <input type="radio" name="aestheticWorld" value="Cyberpunk Neo-Dark" checked>
-                <div class="card-body">
-                  <div class="card-top">
-                    <span class="card-index">01</span>
-                    <span class="card-indicator ind-cyan"></span>
-                  </div>
-                  <div class="card-title">Cyberpunk Neo-Dark</div>
-                  <div class="card-desc">Deep obsidian grounds, electric cyber cyan accents, razor 1px borders, and high-tech typography.</div>
-                </div>
-              </label>
+          <!-- Keyboard Hints -->
+          <div class="keyboard-hints" aria-hidden="true">
+            <div class="hint-pill"><kbd>Enter</kbd> <span>Next step</span></div>
+            <div class="hint-pill"><kbd>Esc</kbd> <span>Previous step</span></div>
+          </div>
+        </div>
+      </aside>
 
-              <!-- Style 2: Ultra Minimal Monochrome -->
-              <label class="cyber-card">
-                <input type="radio" name="aestheticWorld" value="Ultra Minimal Monochrome">
-                <div class="card-body">
-                  <div class="card-top">
-                    <span class="card-index">02</span>
-                    <span class="card-indicator ind-white"></span>
-                  </div>
-                  <div class="card-title">Ultra Minimal Monochrome</div>
-                  <div class="card-desc">Austere black and titanium white contrast, generous negative space, and disciplined spatial rhythm.</div>
-                </div>
-              </label>
+      <!-- Right Column: Interactive Stage -->
+      <main class="interaction-stage" id="pass-stage">
+        <form id="high-pass-form" novalidate onsubmit="return false;">
 
-              <!-- Style 3: High-Motion Kinetic -->
-              <label class="cyber-card">
-                <input type="radio" name="aestheticWorld" value="High-Motion Kinetic">
-                <div class="card-body">
-                  <div class="card-top">
-                    <span class="card-index">03</span>
-                    <span class="card-indicator ind-lime"></span>
-                  </div>
-                  <div class="card-title">High-Motion Kinetic</div>
-                  <div class="card-desc">Fluid physics-based scroll choreography, micro-animations, cursor states, and interactive moments.</div>
-                </div>
-              </label>
-
-              <!-- Style 4: Modern Editorial -->
-              <label class="cyber-card">
-                <input type="radio" name="aestheticWorld" value="Modern Editorial Typography">
-                <div class="card-body">
-                  <div class="card-top">
-                    <span class="card-index">04</span>
-                    <span class="card-indicator ind-slate"></span>
-                  </div>
-                  <div class="card-title">Modern Editorial Typography</div>
-                  <div class="card-desc">Clean Swiss-style layout grid, expressive oversized display typography, and structured copy columns.</div>
-                </div>
-              </label>
+          <!-- ============================================================
+               STEP 1: CLIENT CONTEXT
+               ============================================================ -->
+          <section class="slide-panel active" data-step="1" id="step-1" aria-labelledby="step-1-title">
+            <div class="panel-header">
+              <h2 class="panel-title" id="step-1-title">Client Identification</h2>
+              <p class="panel-subtitle">Introduce yourself and your company.</p>
             </div>
 
-            <div class="input-row-two">
-              <div class="field-box">
-                <label for="inspiration-links" class="field-label">Reference Sites <span class="dim-tag">(1–3 URLs you admire)</span></label>
-                <input type="text" id="inspiration-links" name="inspirationLinks" class="cyber-input" placeholder="e.g. linear.app, stripe.com, rauchg.com">
+            <div class="panel-body">
+              <div class="grid-two-col">
+                <div class="form-field">
+                  <label for="client-name" class="field-label">Your Full Name <span class="req-star" aria-hidden="true">*</span></label>
+                  <input type="text" id="client-name" name="clientName" class="studio-input" placeholder="e.g. Alex Vance" autocomplete="name" required>
+                  <span class="field-hint">Primary project point of contact</span>
+                </div>
+
+                <div class="form-field">
+                  <label for="company-name" class="field-label">Company or Brand <span class="req-star" aria-hidden="true">*</span></label>
+                  <input type="text" id="company-name" name="companyName" class="studio-input" placeholder="e.g. Vance &amp; Co. Labs" autocomplete="organization" required>
+                  <span class="field-hint">Entity commissioning the platform</span>
+                </div>
               </div>
 
-              <div class="field-box">
-                <label class="field-label">Brand Assets Status <span class="accent-tag">*</span></label>
-                <div class="pill-group" role="radiogroup" aria-label="Brand Assets">
-                  <label class="pill-option">
-                    <input type="radio" name="brandHeritage" value="Complete Design System Ready" checked>
-                    <span class="pill-text">Complete System Ready</span>
+              <div class="grid-two-col">
+                <div class="form-field">
+                  <label for="client-email" class="field-label">Work Email <span class="req-star" aria-hidden="true">*</span></label>
+                  <input type="email" id="client-email" name="clientEmail" class="studio-input" placeholder="alex@company.com" autocomplete="email" required>
+                  <span class="field-hint">For proposal delivery and architecture spec</span>
+                </div>
+
+                <div class="form-field">
+                  <div class="label-row">
+                    <label for="client-website" class="field-label">Current Domain</label>
+                    <button type="button" class="btn-toggle-subtle" id="btn-fresh-canvas" data-active="false">
+                      <span class="toggle-box" aria-hidden="true"></span>
+                      <span>Starting Fresh Build</span>
+                    </button>
+                  </div>
+                  <input type="url" id="client-website" name="clientWebsite" class="studio-input" placeholder="https://yoursite.com" autocomplete="url">
+                  <span class="field-hint">Leave blank if this is a ground-up new build</span>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label class="field-label">Your Role in the Organization <span class="req-star" aria-hidden="true">*</span></label>
+                <div class="pill-selector" role="radiogroup" aria-label="Stakeholder Role">
+                  <label class="pill-item">
+                    <input type="radio" name="clientRole" value="Founder / CEO" checked>
+                    <span class="pill-label">Founder / CEO</span>
                   </label>
-                  <label class="pill-option">
-                    <input type="radio" name="brandHeritage" value="Logo & Core Colors Only">
-                    <span class="pill-text">Logo &amp; Colors Only</span>
+                  <label class="pill-item">
+                    <input type="radio" name="clientRole" value="Product Leader">
+                    <span class="pill-label">Product Leader</span>
                   </label>
-                  <label class="pill-option">
-                    <input type="radio" name="brandHeritage" value="Starting from Scratch">
-                    <span class="pill-text">Starting from Scratch</span>
+                  <label class="pill-item">
+                    <input type="radio" name="clientRole" value="Creative / Design Director">
+                    <span class="pill-label">Creative / Design Director</span>
+                  </label>
+                  <label class="pill-item">
+                    <input type="radio" name="clientRole" value="Technical Lead">
+                    <span class="pill-label">Technical Lead</span>
+                  </label>
+                  <label class="pill-item">
+                    <input type="radio" name="clientRole" value="Other Stakeholder">
+                    <span class="pill-label">Other</span>
                   </label>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        <!-- ================================================================
-             SLIDE 4: TECHNICAL ARCHITECTURE & TIMELINE
-             ================================================================ -->
-        <section class="slide-panel" data-step="4" id="step-4" aria-labelledby="step-4-title">
-          <div class="slide-header">
-            <h2 class="slide-title" id="step-4-title">Technical Capabilities &amp; Timeline</h2>
-            <p class="slide-description">Specify required engine features, integrations, and your target launch horizon.</p>
-          </div>
-
-          <div class="slide-content">
-            <div class="field-box">
-              <label class="field-label">Required Capabilities <span class="dim-tag">(Select all that apply)</span></label>
-              <div class="feature-grid">
-                
-                <label class="feature-card">
-                  <input type="checkbox" name="capabilities" value="Headless CMS (Sanity / Strapi)" checked>
-                  <div class="feature-box">
-                    <span class="feature-check">✓</span>
-                    <span class="feature-name">Headless CMS</span>
-                    <span class="feature-sub">Manage content and blog without touching code</span>
-                  </div>
-                </label>
-
-                <label class="feature-card">
-                  <input type="checkbox" name="capabilities" value="Custom 60FPS Micro-interactions" checked>
-                  <div class="feature-box">
-                    <span class="feature-check">✓</span>
-                    <span class="feature-name">Custom Micro-motion</span>
-                    <span class="feature-sub">Bespoke entrance, hover, and interaction physics</span>
-                  </div>
-                </label>
-
-                <label class="feature-card">
-                  <input type="checkbox" name="capabilities" value="Commerce & Payments (Stripe / Shopify)">
-                  <div class="feature-box">
-                    <span class="feature-check">✓</span>
-                    <span class="feature-name">Checkout &amp; Payments</span>
-                    <span class="feature-sub">Secure transactions and subscription flows</span>
-                  </div>
-                </label>
-
-                <label class="feature-card">
-                  <input type="checkbox" name="capabilities" value="Edge Hosting & Core Web Vitals 95+" checked>
-                  <div class="feature-box">
-                    <span class="feature-check">✓</span>
-                    <span class="feature-name">Edge Speed &amp; SEO</span>
-                    <span class="feature-sub">Sub-second global TTFB and 95+ performance</span>
-                  </div>
-                </label>
-
-                <label class="feature-card">
-                  <input type="checkbox" name="capabilities" value="Member Authentication & Private Portal">
-                  <div class="feature-box">
-                    <span class="feature-check">✓</span>
-                    <span class="feature-name">Auth &amp; User Accounts</span>
-                    <span class="feature-sub">Protected client dashboards and gated areas</span>
-                  </div>
-                </label>
-
-                <label class="feature-card">
-                  <input type="checkbox" name="capabilities" value="Custom API & Database Integrations">
-                  <div class="feature-box">
-                    <span class="feature-check">✓</span>
-                    <span class="feature-name">Custom Integrations</span>
-                    <span class="feature-sub">External endpoints, webhooks, and live calculations</span>
-                  </div>
-                </label>
-
-              </div>
+          <!-- ============================================================
+               STEP 2: SCOPE & OBJECTIVES
+               ============================================================ -->
+          <section class="slide-panel" data-step="2" id="step-2" aria-labelledby="step-2-title">
+            <div class="panel-header">
+              <h2 class="panel-title" id="step-2-title">Commission Scope</h2>
+              <p class="panel-subtitle">Select the format that represents your project intent.</p>
             </div>
 
-            <div class="field-box">
-              <label class="field-label">Target Launch Horizon <span class="accent-tag">*</span></label>
-              <div class="timeline-grid" role="radiogroup" aria-label="Launch Horizon">
-                <label class="timeline-opt">
-                  <input type="radio" name="targetTimeline" value="Sprint (< 4 Weeks)">
-                  <span class="tl-label">
-                    <span class="tl-title">Sprint Pace</span>
-                    <span class="tl-time">&lt; 4 Weeks</span>
-                  </span>
+            <div class="panel-body">
+              <div class="cards-grid">
+                <label class="option-card selected">
+                  <input type="radio" name="projectScope" value="Flagship Web Experience" checked>
+                  <div class="card-content">
+                    <div class="card-badge">Primary</div>
+                    <div class="card-heading">Flagship Web Experience</div>
+                    <p class="card-copy">High-craft brand digital presence with fluid motion, editorial layout, and unmatched authority.</p>
+                  </div>
                 </label>
 
-                <label class="timeline-opt">
-                  <input type="radio" name="targetTimeline" value="Standard (1–2 Months)" checked>
-                  <span class="tl-label">
-                    <span class="tl-title">Standard Build</span>
-                    <span class="tl-time">1 – 2 Months</span>
-                  </span>
+                <label class="option-card">
+                  <input type="radio" name="projectScope" value="Interactive Web App">
+                  <div class="card-content">
+                    <div class="card-badge">Product</div>
+                    <div class="card-heading">Interactive Web Application</div>
+                    <p class="card-copy">Feature-rich browser software, internal tool, client portal, or custom calculation engine.</p>
+                  </div>
                 </label>
 
-                <label class="timeline-opt">
-                  <input type="radio" name="targetTimeline" value="Comprehensive (2–3 Months)">
-                  <span class="tl-label">
-                    <span class="tl-title">Comprehensive</span>
-                    <span class="tl-time">2 – 3 Months</span>
-                  </span>
+                <label class="option-card">
+                  <input type="radio" name="projectScope" value="Design System & Refactor">
+                  <div class="card-content">
+                    <div class="card-badge">System</div>
+                    <div class="card-heading">Design System &amp; Overhaul</div>
+                    <p class="card-copy">Modernizing legacy code, engineering atomic component libraries, and visual standard upgrades.</p>
+                  </div>
                 </label>
 
-                <label class="timeline-opt">
-                  <input type="radio" name="targetTimeline" value="Flexible / Craft First">
-                  <span class="tl-label">
-                    <span class="tl-title">Flexible Pace</span>
-                    <span class="tl-time">Craft Over Speed</span>
-                  </span>
+                <label class="option-card">
+                  <input type="radio" name="projectScope" value="Bespoke Landing Page">
+                  <div class="card-content">
+                    <div class="card-badge">Launch</div>
+                    <div class="card-heading">Bespoke Launch Experience</div>
+                    <p class="card-copy">Conversion-tuned launch page or event showcase with high-impact visuals and fast loading speed.</p>
+                  </div>
                 </label>
               </div>
+
+              <div class="form-field mt-6">
+                <label class="field-label">Core Target Outcomes <span class="field-note">(Pick up to 2 priorities)</span></label>
+                <div class="chips-group" role="group" aria-label="Core Target Outcomes">
+                  <button type="button" class="toggle-chip active" data-val="High Inquiries & Conversion">High Inquiries &amp; Conversion</button>
+                  <button type="button" class="toggle-chip active" data-val="Category Authority & Prestige">Category Authority &amp; Prestige</button>
+                  <button type="button" class="toggle-chip" data-val="Product Demonstration Clarity">Product Demonstration Clarity</button>
+                  <button type="button" class="toggle-chip" data-val="Blazing Performance & SEO">Blazing Performance &amp; SEO</button>
+                  <button type="button" class="toggle-chip" data-val="Self-Serve Client Onboarding">Self-Serve Client Onboarding</button>
+                  <button type="button" class="toggle-chip" data-val="Investor & Talent Magnet">Investor &amp; Talent Magnet</button>
+                </div>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        <!-- ================================================================
-             SLIDE 5: INVESTMENT & DECISION
-             ================================================================ -->
-        <section class="slide-panel" data-step="5" id="step-5" aria-labelledby="step-5-title">
-          <div class="slide-header">
-            <h2 class="slide-title" id="step-5-title">Investment Tier &amp; Fit</h2>
-            <p class="slide-description">Select your planned investment bracket to ensure scope aligns with high-craft execution.</p>
-          </div>
-
-          <div class="slide-content">
-            <div class="tier-grid" role="radiogroup" aria-label="Investment Tier">
-              
-              <!-- Tier 1: Sprint -->
-              <label class="tier-card">
-                <input type="radio" name="budgetTier" value="The Focused Sprint ($3,000 – $5,000)">
-                <div class="tier-box">
-                  <span class="tier-cat">Tier 01</span>
-                  <div class="tier-name">Focused Sprint</div>
-                  <div class="tier-price">$3,000 – $5,000</div>
-                  <p class="tier-info">Laser-focused single-page flagship or interactive experiment with fast turnaround.</p>
-                  <ul class="tier-bullets">
-                    <li>Custom bespoke visual identity</li>
-                    <li>Sub-second static performance</li>
-                    <li>Mobile precision &amp; micro-motion</li>
-                    <li>2 to 3 week turnaround</li>
-                  </ul>
-                </div>
-              </label>
-
-              <!-- Tier 2: Custom Flagship (Featured) -->
-              <label class="tier-card selected featured">
-                <input type="radio" name="budgetTier" value="Custom Flagship Platform ($5,000 – $10,000)" checked>
-                <div class="tier-box">
-                  <div class="tier-featured-tag">MOST COMMISSIONED</div>
-                  <span class="tier-cat">Tier 02</span>
-                  <div class="tier-name">Flagship Platform</div>
-                  <div class="tier-price">$5,000 – $10,000</div>
-                  <p class="tier-info">Comprehensive multi-page custom design and development with CMS and animations.</p>
-                  <ul class="tier-bullets">
-                    <li>Multi-page responsive architecture</li>
-                    <li>Headless CMS or dynamic backend</li>
-                    <li>Tailored micro-interactions</li>
-                    <li>Technical discovery &amp; SEO setup</li>
-                  </ul>
-                </div>
-              </label>
-
-              <!-- Tier 3: Enterprise Platform -->
-              <label class="tier-card">
-                <input type="radio" name="budgetTier" value="Full Enterprise Platform ($10,000+)">
-                <div class="tier-box">
-                  <span class="tier-cat">Tier 03</span>
-                  <div class="tier-name">Enterprise Platform</div>
-                  <div class="tier-price">$10,000+</div>
-                  <p class="tier-info">Full-scale web application, complex custom engine, or complete design system.</p>
-                  <ul class="tier-bullets">
-                    <li>Complex custom application logic</li>
-                    <li>Advanced interactive tools &amp; auth</li>
-                    <li>Reusable component library</li>
-                    <li>Dedicated priority build cycle</li>
-                  </ul>
-                </div>
-              </label>
+          <!-- ============================================================
+               STEP 3: VISUAL STANDARD
+               ============================================================ -->
+          <section class="slide-panel" data-step="3" id="step-3" aria-labelledby="step-3-title">
+            <div class="panel-header">
+              <h2 class="panel-title" id="step-3-title">Visual Standard</h2>
+              <p class="panel-subtitle">Define the aesthetic direction and existing design equity.</p>
             </div>
 
-            <div class="input-row-two">
-              <div class="field-box">
-                <label class="field-label">Decision Circle <span class="accent-tag">*</span></label>
-                <div class="pill-group" role="radiogroup" aria-label="Decision Maker">
-                  <label class="pill-option">
-                    <input type="radio" name="decisionMakers" value="Solo Decision Maker" checked>
-                    <span class="pill-text">Solo Decision Maker</span>
+            <div class="panel-body">
+              <div class="cards-grid">
+                <label class="option-card selected">
+                  <input type="radio" name="aestheticWorld" value="Minimalist Studio Clean" checked>
+                  <div class="card-content">
+                    <div class="card-badge">Restrained</div>
+                    <div class="card-heading">Minimalist Studio Clean</div>
+                    <p class="card-copy">High typographic hierarchy, disciplined whitespace, neutral base with single high-contrast pop.</p>
+                  </div>
+                </label>
+
+                <label class="option-card">
+                  <input type="radio" name="aestheticWorld" value="Editorial Swiss Typography">
+                  <div class="card-content">
+                    <div class="card-badge">Grid</div>
+                    <div class="card-heading">Editorial Swiss Precision</div>
+                    <p class="card-copy">Rigid typographic grid, asymmetrical layouts, editorial headline scales, and timeless structure.</p>
+                  </div>
+                </label>
+
+                <label class="option-card">
+                  <input type="radio" name="aestheticWorld" value="Warm Tactile Craft">
+                  <div class="card-content">
+                    <div class="card-badge">Warm</div>
+                    <div class="card-heading">Warm Tactile Craft</div>
+                    <p class="card-copy">Rich organic neutrals, subtle physical textures, tactile micro-shadows, and human warmth.</p>
+                  </div>
+                </label>
+
+                <label class="option-card">
+                  <input type="radio" name="aestheticWorld" value="Industrial Tech Terminal">
+                  <div class="card-content">
+                    <div class="card-badge">Technical</div>
+                    <div class="card-heading">Industrial Tech Terminal</div>
+                    <p class="card-copy">Monospace accents, technical data density, architectural 1px line grids, and purposeful dark mode.</p>
+                  </div>
+                </label>
+              </div>
+
+              <div class="grid-two-col mt-6">
+                <div class="form-field">
+                  <label class="field-label">Current Brand Assets Status <span class="req-star" aria-hidden="true">*</span></label>
+                  <div class="pill-selector pill-vertical" role="radiogroup" aria-label="Brand Heritage">
+                    <label class="pill-item">
+                      <input type="radio" name="brandHeritage" value="Complete Design System Ready" checked>
+                      <span class="pill-label">Complete brand assets, vector logos &amp; guidelines ready</span>
+                    </label>
+                    <label class="pill-item">
+                      <input type="radio" name="brandHeritage" value="Basic Logo & Guidelines">
+                      <span class="pill-label">Basic logo and color palette only (Needs expansion)</span>
+                    </label>
+                    <label class="pill-item">
+                      <input type="radio" name="brandHeritage" value="Greenfield / Starting From Scratch">
+                      <span class="pill-label">Clean slate: Need visual identity established from scratch</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form-field">
+                  <label for="inspiration-links" class="field-label">Design Inspirations or References</label>
+                  <textarea id="inspiration-links" name="inspirationLinks" class="studio-textarea" rows="4" placeholder="List 1 to 3 URLs of platforms whose feel, motion, or clarity you admire..."></textarea>
+                  <span class="field-hint">Examples: linear.app, stripe.com, retool.com</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ============================================================
+               STEP 4: TECHNICAL ARCHITECTURE
+               ============================================================ -->
+          <section class="slide-panel" data-step="4" id="step-4" aria-labelledby="step-4-title">
+            <div class="panel-header">
+              <h2 class="panel-title" id="step-4-title">Technical Architecture</h2>
+              <p class="panel-subtitle">Select the technical capabilities and launch timeline.</p>
+            </div>
+
+            <div class="panel-body">
+              <div class="form-field">
+                <label class="field-label">Required Capabilities <span class="field-note">(Check all that apply)</span></label>
+                <div class="checkbox-grid">
+                  <label class="checkbox-item">
+                    <input type="checkbox" name="capabilities" value="Custom CMS / Headless" checked>
+                    <span class="check-box" aria-hidden="true"></span>
+                    <span class="check-text">
+                      <strong class="check-title">Custom CMS / Headless</strong>
+                      <span class="check-sub">Effortless content publishing without developer intervention.</span>
+                    </span>
                   </label>
-                  <label class="pill-option">
-                    <input type="radio" name="decisionMakers" value="Co-Founders / Partners">
-                    <span class="pill-text">Co-Founders / Partners</span>
+
+                  <label class="checkbox-item">
+                    <input type="checkbox" name="capabilities" value="Custom Backend & APIs">
+                    <span class="check-box" aria-hidden="true"></span>
+                    <span class="check-text">
+                      <strong class="check-title">Custom Backend &amp; APIs</strong>
+                      <span class="check-sub">Serverless Cloudflare workers, microservices, or database sync.</span>
+                    </span>
                   </label>
-                  <label class="pill-option">
-                    <input type="radio" name="decisionMakers" value="Executive Board">
-                    <span class="pill-text">Executive Board</span>
+
+                  <label class="checkbox-item">
+                    <input type="checkbox" name="capabilities" value="Authentication & Portal">
+                    <span class="check-box" aria-hidden="true"></span>
+                    <span class="check-text">
+                      <strong class="check-title">Authentication &amp; Portal</strong>
+                      <span class="check-sub">Protected client workspaces, session state, and user dashboard.</span>
+                    </span>
+                  </label>
+
+                  <label class="checkbox-item">
+                    <input type="checkbox" name="capabilities" value="3D / Canvas / WebGL">
+                    <span class="check-box" aria-hidden="true"></span>
+                    <span class="check-text">
+                      <strong class="check-title">3D / Canvas / WebGL</strong>
+                      <span class="check-sub">Interactive product models, particle fields, or canvas effects.</span>
+                    </span>
+                  </label>
+
+                  <label class="checkbox-item">
+                    <input type="checkbox" name="capabilities" value="High-Performance SEO" checked>
+                    <span class="check-box" aria-hidden="true"></span>
+                    <span class="check-text">
+                      <strong class="check-title">High-Performance SEO</strong>
+                      <span class="check-sub">Perfect Core Web Vitals, JSON-LD schemas, and OpenGraph cards.</span>
+                    </span>
+                  </label>
+
+                  <label class="checkbox-item">
+                    <input type="checkbox" name="capabilities" value="Advanced Micro-Interactions" checked>
+                    <span class="check-box" aria-hidden="true"></span>
+                    <span class="check-text">
+                      <strong class="check-title">Advanced Micro-Interactions</strong>
+                      <span class="check-sub">Spring-physics motion, subtle hover mechanics, and audio cues.</span>
+                    </span>
                   </label>
                 </div>
               </div>
 
-              <div class="field-box">
-                <label for="additional-notes" class="field-label">Additional Notes <span class="dim-tag">(Optional)</span></label>
-                <input type="text" id="additional-notes" name="additionalNotes" class="cyber-input" placeholder="Deadlines, specific competitors, or must-have requirements...">
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- ================================================================
-             SLIDE 6: THE PROJECT DOSSIER & SUBMISSION
-             ================================================================ -->
-        <section class="slide-panel" data-step="6" id="step-6" aria-labelledby="step-6-title">
-          <div class="slide-header">
-            <h2 class="slide-title" id="step-6-title">Executive Project Brief</h2>
-            <p class="slide-description">Your commission configuration is generated below. Review and transmit to Govind.</p>
-          </div>
-
-          <div class="slide-content dossier-layout">
-            
-            <!-- Left: Terminal Spec Sheet -->
-            <div class="terminal-dossier" id="terminal-dossier">
-              <div class="terminal-header">
-                <div class="terminal-dots">
-                  <span class="t-dot"></span>
-                  <span class="t-dot"></span>
-                  <span class="t-dot"></span>
+              <div class="form-field mt-6">
+                <label class="field-label">Target Delivery Timeline <span class="req-star" aria-hidden="true">*</span></label>
+                <div class="pill-selector" role="radiogroup" aria-label="Target Timeline">
+                  <label class="pill-item">
+                    <input type="radio" name="targetTimeline" value="Rush Sprint (2-3 Weeks)">
+                    <span class="pill-label">Rush Sprint (2-3 Weeks)</span>
+                  </label>
+                  <label class="pill-item">
+                    <input type="radio" name="targetTimeline" value="Standard Build (4-6 Weeks)" checked>
+                    <span class="pill-label">Standard Build (4-6 Weeks)</span>
+                  </label>
+                  <label class="pill-item">
+                    <input type="radio" name="targetTimeline" value="Strategic Partnership (8+ Weeks)">
+                    <span class="pill-label">Strategic Partnership (8+ Weeks)</span>
+                  </label>
                 </div>
-                <span class="terminal-label">// HIGH_PASS_SPEC.MD</span>
-                <span class="terminal-timestamp" id="dossier-timestamp">2026-08-31</span>
-              </div>
-
-              <div class="terminal-body" id="dossier-body">
-                <!-- Dynamically populated spec lines -->
               </div>
             </div>
+          </section>
 
-            <!-- Right: Action Commands -->
-            <div class="dossier-actions" id="dossier-actions">
-              <div class="action-card-primary" id="action-card-primary">
-                <div class="action-card-title">Transmit to Govind</div>
-                <p class="action-card-desc">Submits your completed project spec directly to <strong>govindcs33@gmail.com</strong> and logs to the commission sheet.</p>
-                <button type="button" class="btn-primary-transmit" id="btn-transmit-email">
-                  <span id="transmit-btn-label">Transmit Spec to Govind</span>
-                  <span class="arrow-ico" id="transmit-btn-arrow">&rarr;</span>
+          <!-- ============================================================
+               STEP 5: INVESTMENT TIER & GOVERNANCE
+               ============================================================ -->
+          <section class="slide-panel" data-step="5" id="step-5" aria-labelledby="step-5-title">
+            <div class="panel-header">
+              <h2 class="panel-title" id="step-5-title">Investment Tier</h2>
+              <p class="panel-subtitle">Select the investment scale matching your requirements.</p>
+            </div>
+
+            <div class="panel-body">
+              <div class="tier-grid">
+                <label class="tier-card">
+                  <input type="radio" name="budgetTier" value="Minimal Viable Spec ($2,500 - $5,000)">
+                  <div class="tier-inner">
+                    <div class="tier-meta">
+                      <span class="tier-rank">Tier 01</span>
+                      <span class="tier-cost">$2.5k - $5k</span>
+                    </div>
+                    <div class="tier-name">Focused Launch</div>
+                    <p class="tier-desc">Single high-impact landing page or targeted tool. Clean static build with focused scope.</p>
+                    <ul class="tier-list">
+                      <li>Up to 3 high-impact sections</li>
+                      <li>Responsive mobile optimization</li>
+                      <li>Form and analytics integration</li>
+                      <li>Standard turnaround</li>
+                    </ul>
+                  </div>
+                </label>
+
+                <label class="tier-card selected">
+                  <input type="radio" name="budgetTier" value="Flagship Experience ($5,000 - $10,000)" checked>
+                  <div class="tier-inner">
+                    <div class="tier-meta">
+                      <span class="tier-rank">Tier 02 · Recommended</span>
+                      <span class="tier-cost">$5k - $10k</span>
+                    </div>
+                    <div class="tier-name">Flagship Platform</div>
+                    <p class="tier-desc">Comprehensive brand presence, custom component architecture, CMS, and bespoke motion design.</p>
+                    <ul class="tier-list">
+                      <li>Full multi-section experience</li>
+                      <li>Headless CMS configuration</li>
+                      <li>Custom spring micro-interactions</li>
+                      <li>Full SEO and OpenGraph setup</li>
+                    </ul>
+                  </div>
+                </label>
+
+                <label class="tier-card">
+                  <input type="radio" name="budgetTier" value="Full Enterprise Platform ($10,000+)">
+                  <div class="tier-inner">
+                    <div class="tier-meta">
+                      <span class="tier-rank">Tier 03</span>
+                      <span class="tier-cost">$10k+</span>
+                    </div>
+                    <div class="tier-name">Enterprise Suite</div>
+                    <p class="tier-desc">Full-scale web application, advanced calculation engine, design system, and multi-user platform.</p>
+                    <ul class="tier-list">
+                      <li>Complex application architecture</li>
+                      <li>Custom database and auth layers</li>
+                      <li>Reusable design system library</li>
+                      <li>Dedicated sprint cycles</li>
+                    </ul>
+                  </div>
+                </label>
+              </div>
+
+              <div class="grid-two-col mt-6">
+                <div class="form-field">
+                  <label class="field-label">Decision Circle <span class="req-star" aria-hidden="true">*</span></label>
+                  <div class="pill-selector pill-vertical" role="radiogroup" aria-label="Decision Circle">
+                    <label class="pill-item">
+                      <input type="radio" name="decisionMakers" value="Solo Decision Maker" checked>
+                      <span class="pill-label">Solo Decision Maker (Fast approval)</span>
+                    </label>
+                    <label class="pill-item">
+                      <input type="radio" name="decisionMakers" value="Co-Founders / Partners">
+                      <span class="pill-label">Co-Founders / Partners (Aligned team)</span>
+                    </label>
+                    <label class="pill-item">
+                      <input type="radio" name="decisionMakers" value="Executive Board">
+                      <span class="pill-label">Executive Board / Procurement (Committee review)</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form-field">
+                  <label for="additional-notes" class="field-label">Additional Context <span class="field-note">(Optional)</span></label>
+                  <textarea id="additional-notes" name="additionalNotes" class="studio-textarea" rows="4" placeholder="Mention hard launch deadlines, specific competitors, or must-have third-party tools..."></textarea>
+                  <span class="field-hint">Any non-negotiable details to consider</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ============================================================
+               STEP 6: EXECUTIVE PROJECT SPECIFICATION
+               ============================================================ -->
+          <section class="slide-panel" data-step="6" id="step-6" aria-labelledby="step-6-title">
+            <div class="panel-header">
+              <h2 class="panel-title" id="step-6-title">Executive Project Brief</h2>
+              <p class="panel-subtitle">Review your compiled project specification and transmit to Govind.</p>
+            </div>
+
+            <div class="panel-body spec-layout">
+              <!-- Left: Document Preview -->
+              <div class="spec-sheet" id="terminal-dossier">
+                <div class="sheet-toolbar">
+                  <div class="sheet-id">
+                    <span class="sheet-badge">BRIEF</span>
+                    <span class="sheet-slug">HIGH_PASS_SPECIFICATION.md</span>
+                  </div>
+                  <span class="sheet-date" id="dossier-timestamp">2026-09-02</span>
+                </div>
+
+                <div class="sheet-content" id="dossier-body">
+                  <!-- Dynamically populated spec items -->
+                </div>
+              </div>
+
+              <!-- Right: Transmit Actions -->
+              <div class="spec-actions">
+                <div class="action-card primary" id="action-card-primary">
+                  <div class="action-card-header">
+                    <span class="action-card-label">Direct Transmission</span>
+                    <h3 class="action-card-heading">Transmit to Govind</h3>
+                  </div>
+                  <p class="action-card-copy">
+                    Submits your completed project brief directly to <strong>govindcs33@gmail.com</strong> for architectural scoping.
+                  </p>
+                  <button type="button" class="btn-studio-primary" id="btn-transmit-email">
+                    <span id="transmit-btn-label">Transmit Spec to Govind</span>
+                    <span class="btn-arrow" id="transmit-btn-arrow" aria-hidden="true">&rarr;</span>
+                  </button>
+                </div>
+
+                <div class="action-row">
+                  <button type="button" class="btn-studio-secondary" id="btn-copy-brief">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    <span>Copy Markdown</span>
+                  </button>
+
+                  <button type="button" class="btn-studio-secondary" id="btn-download-brief">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                      <polyline points="7 10 12 15 17 10"></polyline>
+                      <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    <span>Download .md</span>
+                  </button>
+                </div>
+
+                <div class="turnaround-card">
+                  <span class="turnaround-dot" aria-hidden="true"></span>
+                  <div class="turnaround-text">
+                    <strong>Direct Review:</strong> Govind personally reviews all submitted specs within 24 to 48 hours with architecture and feasibility notes.
+                  </div>
+                </div>
+
+                <button type="button" class="btn-amend-link" id="btn-amend-answers">
+                  &larr; Return to Step 01 to edit answers
                 </button>
               </div>
-
-              <div class="action-btn-row">
-                <button type="button" class="btn-secondary-action" id="btn-copy-brief">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                  </svg>
-                  <span>Copy Markdown</span>
-                </button>
-
-                <button type="button" class="btn-secondary-action" id="btn-download-brief">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                    <polyline points="7 10 12 15 17 10"></polyline>
-                    <line x1="12" y1="15" x2="12" y2="3"></line>
-                  </svg>
-                  <span>Download .md</span>
-                </button>
-              </div>
-
-              <div class="response-guarantee">
-                <span class="guarantee-dot"></span>
-                <span><strong>Fast Turnaround:</strong> Govind personally reviews all submissions within 24–48h with architectural feedback.</span>
-              </div>
-
-              <button type="button" class="btn-ghost-edit" id="btn-amend-answers">
-                &larr; Amend Answers on Previous Slides
-              </button>
             </div>
+          </section>
 
-          </div>
-        </section>
+        </form>
+      </main>
 
-      </form>
-    </main>
+    </div>
 
-    <!-- Bottom Navigation & HUD Controls -->
-    <footer class="pass-footer">
-      <div class="footer-left">
-        <button type="button" class="btn-nav btn-prev" id="btn-prev" disabled aria-label="Previous Slide">
+    <!-- Bottom Studio Dock Controls -->
+    <footer class="studio-dock">
+      <div class="dock-left">
+        <button type="button" class="btn-dock btn-dock-prev" id="btn-prev" disabled aria-label="Previous Step">
           <span aria-hidden="true">&larr;</span>
           <span>Previous</span>
         </button>
 
-        <div class="save-indicator" id="save-status" role="status" aria-live="polite">
-          <span class="save-dot"></span>
-          <span class="save-text">Draft saved</span>
+        <div class="dock-save-indicator" id="save-status" role="status" aria-live="polite">
+          <span class="save-status-dot" aria-hidden="true"></span>
+          <span class="save-status-text">Draft saved locally</span>
         </div>
       </div>
 
-      <div class="footer-center">
-        <span class="slide-count" id="slide-count">01 / 06</span>
+      <div class="dock-center">
+        <span class="dock-step-index" id="slide-count">01 / 06</span>
       </div>
 
-      <div class="footer-right">
-        <button type="button" class="btn-nav btn-next" id="btn-next" aria-label="Next Slide">
-          <span id="next-btn-text">Next Slide</span>
+      <div class="dock-right">
+        <button type="button" class="btn-dock btn-dock-next" id="btn-next" aria-label="Next Step">
+          <span id="next-btn-text">Continue</span>
           <span aria-hidden="true">&rarr;</span>
         </button>
       </div>
@@ -643,13 +651,13 @@
 
   </div>
 
-  <!-- Minimalist Toast Notification -->
-  <div class="cyber-toast" id="pass-toast" role="alert" aria-live="assertive" aria-hidden="true">
-    <span class="toast-dot"></span>
-    <span id="toast-message">Brief copied to clipboard!</span>
+  <!-- Minimal Toast Notification -->
+  <div class="studio-toast" id="pass-toast" role="alert" aria-live="assertive" aria-hidden="true">
+    <span class="toast-dot" aria-hidden="true"></span>
+    <span id="toast-message">Brief copied to clipboard</span>
   </div>
 
-  <!-- Application Logic -->
-  <script src="/projects/the-high-pass/app.js"></script>
+  <!-- Application Script -->
+  <script src="app.js"></script>
 </body>
 </html>
