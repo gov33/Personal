@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>B.Bath — Audit Report</title>
+    <style>
+        /* ── reset & base ── */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cream: #fdf6f0;
+            --blush: #fce8e6;
+            --lavender: #f0e6ef;
+            --mint: #e6f0ed;
+            --sage: #d4e9e2;
+            --rose: #e8c8c4;
+            --text: #3d2e3a;
+            --text-light: #6b5a67;
+            --shadow: 0 8px 32px rgba(61, 46, 58, 0.08);
+            --radius: 16px;
+            --transition: 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--cream);
+            color: var(--text);
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ── scrollbar ── */
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--cream);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--rose);
+            border-radius: 10px;
+        }
+
+        /* ── sidebar ── */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 260px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-right: 1px solid rgba(232, 200, 196, 0.25);
+            padding: 32px 20px 24px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            z-index: 100;
+            transition: transform 0.4s var(--transition);
+        }
+
+        .sidebar-brand {
+            margin-bottom: 32px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(232, 200, 196, 0.3);
+        }
+
+        .sidebar-brand h1 {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text);
+        }
+
+        .sidebar-brand h1 span {
+            color: #b58a8a;
+            font-weight: 400;
+        }
+
+        .sidebar-brand .badge {
+            display: inline-block;
+            margin-top: 6px;
+            background: var(--sage);
+            color: #3d5e55;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 12px;
+            border-radius: 20px;
+            letter-spacing: 0.3px;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .sidebar-nav .nav-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--text-light);
+            opacity: 0.5;
+            padding: 12px 12px 6px;
+            font-weight: 600;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.25s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .sidebar-nav a .nav-icon {
+            font-size: 16px;
+            width: 24px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .sidebar-nav a:hover {
+            background: rgba(232, 200, 196, 0.2);
+            color: var(--text);
+        }
+
+        .sidebar-nav a.active {
+            background: var(--blush);
+            color: var(--text);
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(232, 200, 196, 0.2);
+        }
+
+        .sidebar-nav a .indicator {
+            margin-left: auto;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: transparent;
+            transition: background 0.3s;
+        }
+
+        .sidebar-nav a.active .indicator {
+            background: #b58a8a;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding-top: 16px;
+            border-top: 1px solid rgba(232, 200, 196, 0.2);
+            font-size: 11px;
+            color: var(--text-light);
+            opacity: 0.6;
+            text-align: center;
+        }
+
+        /* ── mobile toggle ── */
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 200;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(232, 200, 196, 0.3);
+            border-radius: 12px;
+            padding: 10px 14px;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--text);
+            box-shadow: var(--shadow);
+            transition: all 0.25s;
+        }
+
+        .menu-toggle:hover {
+            background: white;
+            transform: scale(1.04);
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(61, 46, 58, 0.15);
+            backdrop-filter: blur(4px);
+            z-index: 90;
+        }
+
+        /* ── main content ── */
+        .main {
+            margin-left: 260px;
+            flex: 1;
+            padding: 40px 48px 80px;
+            min-height: 100vh;
+            transition: margin-left 0.4s var(--transition);
+        }
+
+        /* ── sections ── */
+        .section {
+            display: none;
+            animation: fadeSlide 0.6s var(--transition) forwards;
+            max-width: 920px;
+            margin: 0 auto;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeSlide {
+            0% {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-header {
+            margin-bottom: 32px;
+        }
+
+        .section-header .section-number {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--text-light);
+            opacity: 0.5;
+            margin-bottom: 4px;
+        }
+
+        .section-header h2 {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        .section-header .section-sub {
+            margin-top: 8px;
+            color: var(--text-light);
+            font-size: 15px;
+        }
+
+        /* ── cards ── */
+        .card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: var(--radius);
+            padding: 24px 28px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(61, 46, 58, 0.07);
+        }
+
+        .card h3 {
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h3 .emoji {
+            font-size: 20px;
+        }
+
+        .card p,
+        .card li {
+            color: var(--text-light);
+            font-size: 14.5px;
+        }
+
+        .card ul,
+        .card ol {
+            padding-left: 22px;
+            margin: 8px 0 4px;
+        }
+
+        .card li {
+            margin-bottom: 4px;
+        }
+
+        .card li strong {
+            color: var(--text);
+        }
+
+        .card .tag {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 12px;
+            border-radius: 20px;
+            margin-right: 6px;
+            letter-spacing: 0.2px;
+        }
+
+        .tag-critical {
+            background: #fce8e6;
+            color: #a55a52;
+        }
+        .tag-high {
+            background: #fdf0d8;
+            color: #a57a42;
+        }
+        .tag-medium {
+            background: #e6f0ed;
+            color: #3d6b5a;
+        }
+        .tag-quick {
+            background: #e8e0f0;
+            color: #5d4a7a;
+        }
+        .tag-major {
+            background: #f0e6ef;
+            color: #7a5a6a;
+        }
+
+        /* ── badges / pills ── */
+        .pill-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 6px 0 2px;
+        }
+
+        .pill {
+            font-size: 11px;
+            font-weight: 500;
+            padding: 2px 14px;
+            border-radius: 20px;
+            background: rgba(232, 200, 196, 0.2);
+            color: var(--text-light);
+        }
+
+        .pill.rose {
+            background: var(--blush);
+            color: #8a5a5a;
+        }
+        .pill.mint {
+            background: var(--mint);
+            color: #3d6b5a;
+        }
+        .pill.lavender {
+            background: var(--lavender);
+            color: #5d4a7a;
+        }
+        .pill.sage {
+            background: var(--sage);
+            color: #3d5e55;
+        }
+
+        /* ── summary table ── */
+        .table-wrap {
+            overflow-x: auto;
+            margin: 12px 0 4px;
+            border-radius: 12px;
+            border: 1px solid rgba(232, 200, 196, 0.2);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            min-width: 600px;
+        }
+
+        thead {
+            background: rgba(232, 200, 196, 0.15);
+        }
+
+        th {
+            text-align: left;
+            padding: 12px 16px;
+            font-weight: 600;
+            color: var(--text);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 11px 16px;
+            border-top: 1px solid rgba(232, 200, 196, 0.15);
+            color: var(--text-light);
+        }
+
+        td:first-child {
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .table-wrap .badge-priority {
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 10px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+
+        .badge-priority.crit {
+            background: #fce8e6;
+            color: #a55a52;
+        }
+        .badge-priority.high {
+            background: #fdf0d8;
+            color: #a57a42;
+        }
+        .badge-priority.med {
+            background: #e6f0ed;
+            color: #3d6b5a;
+        }
+
+        /* ── root cause cards ── */
+        .root-cause {
+            background: rgba(255, 255, 255, 0.5);
+            border-left: 4px solid var(--rose);
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin-bottom: 14px;
+        }
+
+        .root-cause .rc-title {
+            font-weight: 600;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .root-cause .rc-title .num {
+            background: var(--blush);
+            color: #8a5a5a;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .root-cause p {
+            margin-top: 6px;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        /* ── journey flow ── */
+        .journey-step {
+            display: flex;
+            gap: 16px;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            align-items: flex-start;
+            border: 1px solid rgba(232, 200, 196, 0.15);
+        }
+
+        .journey-step .step-icon {
+            font-size: 22px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .journey-step .step-content {
+            flex: 1;
+        }
+
+        .journey-step .step-content .step-label {
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--text);
+        }
+
+        .journey-step .step-content .step-desc {
+            font-size: 13.5px;
+            color: var(--text-light);
+            margin-top: 2px;
+        }
+
+        .journey-step .step-content .step-result {
+            font-size: 13px;
+            font-weight: 600;
+            color: #a55a52;
+            margin-top: 4px;
+        }
+
+        /* ── action plan grid ── */
+        .plan-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 8px 0 4px;
+        }
+
+        .plan-card {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 12px;
+            padding: 16px 20px;
+            border: 1px solid rgba(232, 200, 196, 0.15);
+        }
+
+        .plan-card .plan-week {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-light);
+            opacity: 0.6;
+        }
+
+        .plan-card .plan-title {
+            font-weight: 600;
+            font-size: 14px;
+            margin: 4px 0 2px;
+        }
+
+        .plan-card .plan-detail {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        .plan-card .plan-owner {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 500;
+            padding: 1px 12px;
+            border-radius: 12px;
+            background: var(--lavender);
+            color: #5d4a7a;
+            margin-top: 6px;
+        }
+
+        /* ── responsive ── */
+        @media (max-width: 820px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 280px;
+                padding: 24px 18px;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .sidebar-overlay.open {
+                display: block;
+            }
+
+            .menu-toggle {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 24px 20px 60px;
+            }
+
+            .section-header h2 {
+                font-size: 26px;
+            }
+
+            .plan-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 18px 18px;
+            }
+
+            .journey-step {
+                flex-direction: column;
+                gap: 6px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main {
+                padding: 16px 14px 48px;
+            }
+
+            .section-header h2 {
+                font-size: 22px;
+            }
+
+            .card h3 {
+                font-size: 15px;
+            }
+
+            .table-wrap table {
+                font-size: 12px;
+                min-width: 480px;
+            }
+
+            th,
+            td {
+                padding: 8px 10px;
+            }
+        }
+
+        /* ── utilities ── */
+        .mt-1 {
+            margin-top: 4px;
+        }
+        .mt-2 {
+            margin-top: 12px;
+        }
+        .mb-1 {
+            margin-bottom: 4px;
+        }
+        .gap-1 {
+            gap: 4px;
+        }
+        .flex {
+            display: flex;
+        }
+        .flex-wrap {
+            flex-wrap: wrap;
+        }
+        .items-center {
+            align-items: center;
+        }
+
+        /* ── print-friendly ── */
+        @media print {
+            .sidebar {
+                display: none;
+            }
+            .main {
+                margin-left: 0;
+                padding: 20px;
+            }
+            .section {
+                display: block !important;
+                page-break-after: always;
+                animation: none !important;
+                opacity: 1 !important;
+            }
+            .card {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+            .menu-toggle {
+                display: none;
+            }
+            .sidebar-overlay {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ── mobile overlay ── -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- ── mobile toggle ── -->
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">
+        <span>☰</span>
+        <span style="font-size:12px;font-weight:500;">Menu</span>
+    </button>
+
+    <!-- ── sidebar ── -->
+    <aside class="sidebar" id="sidebar" role="navigation" aria-label="Audit sections">
+        <div class="sidebar-brand">
+            <h1>B.Bath <span>·</span> Audit</h1>
+            <div class="badge">E‑Commerce Diagnostic</div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-label">Report</div>
+
+            <a href="#" data-section="executive" class="active">
+                <span class="nav-icon">📋</span> Executive Summary
+                <span class="indicator"></span>
+            </a>
+            <a href="#" data-section="technical">
+                <span class="nav-icon">⚡</span> Technical
+                <span class="indicator"></span>
+            </a>
+            <a href="#" data-section="ux">
+                <span class="nav-icon">🎯</span> UX &amp; CRO
+                <span class="indicator"></span>
+            </a>
+            <a href="#" data-section="content">
+                <span class="nav-icon">✍️</span> Content
+                <span class="indicator"></span>
+            </a>
+            <a href="#" data-section="seo">
+                <span class="nav-icon">🔍</span> SEO
+                <span class="indicator"></span>
+            </a>
+            <a href="#" data-section="competitors">
+                <span class="nav-icon">🏆</span> Competitors
+                <span class="indicator"></span>
+            </a>
+
+            <div class="nav-label" style="margin-top:12px;">Synthesis</div>
+
+            <a href="#" data-section="rootcauses">
+                <span class="nav-icon">🧩</span> Root Causes
+                <span class="indicator"></span>
+            </a>
+            <a href="#" data-section="journey">
+                <span class="nav-icon">🛤️</span> Customer Journey
+                <span class="indicator"></span>
+            </a>
+            <a href="#" data-section="actionplan">
+                <span class="nav-icon">📅</span> 30/60/90 Plan
+                <span class="indicator"></span>
+            </a>
+            <a href="#" data-section="summary">
+                <span class="nav-icon">📊</span> Summary Table
+                <span class="indicator"></span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            Audit · September 2026
+        </div>
+    </aside>
+
+    <!-- ── main content ── -->
+    <main class="main" id="mainContent">
+
+        <!-- ====== EXECUTIVE SUMMARY ====== -->
+        <section class="section active" id="section-executive">
+            <div class="section-header">
+                <div class="section-number">Overview</div>
+                <h2>Executive Summary</h2>
+                <div class="section-sub">B.Bath has a compelling brand, clinical credibility, and earned press — but the website is a leaky bucket at every stage of the customer journey.</div>
+            </div>
+
+            <div class="card">
+                <p style="font-size:15px;color:var(--text);"><strong>B.Bath</strong> is positioned as a Sensory-Safe™ skincare brand for babies, children, and expectant moms. It has EWG Verified™ status, dermatologist-reviewed formulations, and retail kiosks at Cloudnine Hospitals. Yet the store has <strong>almost zero organic traffic</strong> and <strong>zero sales</strong>.</p>
+                <p style="margin-top:10px;color:var(--text-light);">This is not a product problem — it's a <strong>discovery + trust + conversion</strong> problem. The site is technically underperforming, SEO-invisible, conversion-hostile, and leaking trust at every step.</p>
+            </div>
+
+            <div class="card" style="border-left:4px solid #b58a8a;">
+                <h3><span class="emoji">🎯</span> The Core Diagnosis</h3>
+                <ul>
+                    <li><strong>Zero discovery:</strong> No sitemap, no blog, no keyword optimization, no backlinks. The brand is invisible in search.</li>
+                    <li><strong>Broken navigation:</strong> The <code>/collections</code> page is empty, and there's no visible category menu.</li>
+                    <li><strong>No social proof:</strong> Zero customer reviews on product pages — a dealbreaker for skeptical parents.</li>
+                    <li><strong>No retargeting:</strong> No email capture, no abandoned cart flows — 98% of visitors leave forever.</li>
+                    <li><strong>UX friction:</strong> Slow load times, duplicated announcement bar, sold-out products, unclear CTAs.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3><span class="emoji">📈</span> Expected Impact</h3>
+                <p>With the 30/60/90-day action plan, B.Bath can go from <strong>zero traffic and zero sales</strong> to <strong>500+ monthly visitors and 10–20 monthly orders</strong> within 90 days — if the fundamentals are executed properly.</p>
+                <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:6px;">
+                    <span class="pill rose">Sitemap → indexing</span>
+                    <span class="pill mint">Navigation → discovery</span>
+                    <span class="pill lavender">Reviews → trust</span>
+                    <span class="pill sage">Email → retention</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== TECHNICAL ====== -->
+        <section class="section" id="section-technical">
+            <div class="section-header">
+                <div class="section-number">Lens 1</div>
+                <h2>Technical Analysis</h2>
+                <div class="section-sub">Page speed, architecture, crawlability, scripts, and foundational health.</div>
+            </div>
+
+            <div class="card">
+                <h3><span class="emoji">✅</span> What's Working</h3>
+                <ul>
+                    <li>SSL/HTTPS properly implemented (Shopify standard).</li>
+                    <li>robots.txt correctly disallows admin/cart/checkout paths.</li>
+                    <li>Shopify platform provides reliable hosting and uptime.</li>
+                    <li>COD (Cash on Delivery) is available and displayed — critical for Indian e-commerce trust.</li>
+                </ul>
+            </div>
+
+            <div class="card" style="border-left:4px solid #c47a6a;">
+                <h3><span class="emoji">🚨</span> What's Broken</h3>
+                <ul>
+                    <li><strong>No sitemap.xml</strong> — <code>/sitemap.xml</code> returns an error. This is a critical SEO failure.</li>
+                    <li><strong>Duplicate announcement bar</strong> — "COD Available Orders Dispatched in 24 hours" appears <strong>six times</strong> in a row, pushing down the fold and creating CLS.</li>
+                    <li><strong>Heavy third-party scripts</strong> — Judge.me, chat widget, analytics pixels add render-blocking latency.</li>
+                    <li><strong>/collections page is broken</strong> — shows only a chat widget, no collection navigation.</li>
+                    <li><strong>/blogs returns an error</strong> — no blog exists despite the brand having a rich story.</li>
+                    <li><strong>No internal linking</strong> — products are isolated; no cross-sells, no breadcrumbs.</li>
+                    <li><strong>Default Shopify search</strong> — no autocomplete, no intelligent ranking.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3><span class="emoji">💥</span> Why It Hurts</h3>
+                <ul>
+                    <li>Google cannot find your pages without a sitemap. This alone explains much of the "no organic traffic" problem.</li>
+                    <li>Slow load times cause 53% of mobile users to abandon a site that takes &gt;3 seconds.</li>
+                    <li>The duplicated announcement bar wastes above-the-fold real estate and signals poor attention to detail.</li>
+                    <li>No blog = no content marketing = no organic discovery.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3><span class="emoji">🔧</span> Fixes — Prioritized</h3>
+                <ul>
+                    <li><span class="tag tag-critical">Critical</span> Generate and submit sitemap.xml to GSC — <span class="pill">Quick Win</span></li>
+                    <li><span class="tag tag-critical">Critical</span> Remove 5 of 6 duplicate announcement bar lines — <span class="pill">Quick Win</span></li>
+                    <li><span class="tag tag-high">High</span> Defer off-screen third-party scripts — <span class="pill">Medium</span></li>
+                    <li><span class="tag tag-high">High</span> Compress and lazy-load product images — <span class="pill">Medium</span></li>
+                    <li><span class="tag tag-high">High</span> Create /blogs and publish 5–10 SEO articles — <span class="pill">Medium</span></li>
+                    <li><span class="tag tag-medium">Medium</span> Audit and remove unused Shopify apps — <span class="pill">Quick Win</span></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ====== UX & CRO ====== -->
+        <section class="section" id="section-ux">
+            <div class="section-header">
+                <div class="section-number">Lens 2</div>
+                <h2>Structure &amp; UX / CRO</h2>
+                <div class="section-sub">Navigation, homepage clarity, product pages, cart, checkout, and trust signals.</div>
+            </div>
+
+            <div class="card">
+                <h3><span class="emoji">✅</span> What's Working</h3>
+                <ul>
+                    <li>Product pages have clear "How To Use" sections with expandable content.</li>
+                    <li>Key ingredients highlighted with visual badges (Ceramide Complex, Hyaluronic Acid, etc.).</li>
+                    <li>Family-reported insights (e.g., "95% felt skin appeared smoother") are prominently displayed.</li>
+                    <li>Shipping and returns policy is accessible from product pages.</li>
+                    <li>Contact information (email + phone) is visible.</li>
+                </ul>
+            </div>
+
+            <div class="card" style="border-left:4px solid #c47a6a;">
+                <h3><span class="emoji">🚨</span> What's Broken</h3>
+                <ul>
+                    <li><strong>No main navigation menu</strong> — no visible category navigation; <code>/collections</code> is broken.</li>
+                    <li><strong>Can a new visitor find products in &lt;3 clicks?</strong> No. No clear path to "all products" or ranges.</li>
+                    <li><strong>Value proposition is buried</strong> — the hero section is unclear; above the fold shows only duplicated announcement bar + product cards with no context.</li>
+                    <li><strong>No clear "Shop Now" CTA</strong> above the fold.</li>
+                    <li><strong>Hydrating Face Butter shows as "Sold out"</strong> — key products unavailable.</li>
+                    <li><strong>Variant selection is unclear</strong> — no size/volume options visible.</li>
+                    <li><strong>"Add to Cart" button</strong> is present but not visually emphasized.</li>
+                    <li><strong>Trust signals</strong> (EWG Verified, dermatologist-tested) are buried on the About page, not on product pages.</li>
+                    <li><strong>Cart page</strong> shows "Your cart" but no clear path to checkout.</li>
+                    <li><strong>Payment options</strong> are not listed before checkout — Indian customers want to see UPI, COD, cards upfront.</li>
+                    <li><strong>No urgency/scarcity cues</strong> — no "only X left," no countdown timers.</li>
+                    <li><strong>Low color contrast</strong> on some text elements; likely missing alt text on images.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3><span class="emoji">🔧</span> Fixes — Prioritized</h3>
+                <ul>
+                    <li><span class="tag tag-critical">Critical</span> Build navigation menu with "Baby Range" and "Family Range" — <span class="pill">Quick Win</span></li>
+                    <li><span class="tag tag-critical">Critical</span> Fix /collections page to show all collections — <span class="pill">Quick Win</span></li>
+                    <li><span class="tag tag-critical">Critical</span> Create hero section with clear value proposition + CTA — <span class="pill">Medium</span></li>
+                    <li><span class="tag tag-high">High</span> Restock sold-out products or mark "Coming Soon" — <span class="pill">Quick Win</span></li>
+                    <li><span class="tag tag-high">High</span> Add payment icons (UPI, COD, Cards) to product and cart pages — <span class="pill">Quick Win</span></li>
+                    <li><span class="tag tag-medium">Medium</span> Add urgency cues (low stock indicators) — <span class="pill">Quick Win</span></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ====== CONTENT ====== -->
+        <section class="section" id="section-content">
+            <div class="section-header">
+                <div class="section-number">Lens 3</div>
+                <h2>Content Analysis</h2>
+                <div class="section-sub">Product descriptions, photography, blog, brand storytelling, social proof, and email.</div>
+            </div>
+
+            <div class="card">
+                <h3><span class="emoji">✅</span> What's Working</h3>
+                <ul>
+                    <li><strong>"Our Story" page is exceptional</strong> — a powerful, emotional brand narrative from the founder's journey.</li>
+                    <li>Product descriptions are <strong>benefit-driven</strong> — e.g., "keeps the baby's cheeks soft for long hours."</li>
+                    <li>Key ingredients listed with visual badges.</li>
+                    <li>Clinical claims are <strong>specific and credible</strong> — "clinically tested for newborns and sensitive skin types."</li>
+                    <li>Family-reported insights provide social proof with specific percentages.</li>
+                </ul>
+            </div>
+
+            <div class="card" style="border-left:4px solid #c47a6a;">
+                <h3><span class="emoji">🚨</span> What's Broken</h3>
+                <ul>
+                    <li><strong>Only one or two images per product</strong> — no lifestyle photography showing families using the products.</li>
+                    <li><strong>No video content</strong> — product demos or founder messages would build trust.</li>
+                    <li><strong>No collection descriptions</strong> — <code>/collections</code> is broken; collection pages have thin or no copy.</li>
+                    <li><strong>No blog exists</strong> — <code>/blogs</code> returns an error. Zero content marketing.</li>
+                    <li><strong>No customer reviews visible</strong> — Judge.me widget is present but shows no reviews.</li>
+                    <li><strong>No UGC</strong> — no customer photos, no video testimonials.</li>
+                    <li><strong>"Real Families, Real Love, Real Results"</strong> section shows only one testimonial.</li>
+                    <li><strong>No email capture popup or form</strong> — no way to build an email list.</li>
+                    <li><strong>No welcome flow</strong> — new subscribers get nothing.</li>
+                    <li><strong>No abandoned cart emails</strong> — Shopify has the feature but it must be configured.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3><span class="emoji">🔧</span> Fixes — Prioritized</h3>
+                <ul>
+                    <li><span class="tag tag-critical">Critical</span> Launch a blog with 10 SEO-optimized articles — <span class="pill">Medium</span></li>
+                    <li><span class="tag tag-high">High</span> Add email capture popup (welcome discount offer) — <span class="pill">Quick Win</span></li>
+                    <li><span class="tag tag-high">High</span> Set up abandoned cart email flow — <span class="pill">Quick Win</span></li>
+                    <li><span class="tag tag-high">High</span> Add lifestyle/product photography (3–5 images per product) — <span class="pill">Major</span></li>
+                    <li><span class="tag tag-high">High</span> Collect and display customer reviews — <span class="pill">Medium</span></li>
+                    <li><span class="tag tag-medium">Medium</span> Add video content (founder story, product demos) — <span class="pill">Major</span></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ====== SEO ====== -->
+        <section class="section" id="section-seo">
+            <div class="section-header">
+                <div class="section-number">Lens 4</div>
+                <h2>SEO Analysis</h2>
+                <div class="section-sub">Keyword targeting, titles, headers, internal linking, schema, backlinks, and indexation.</div>
+            </div>
+
+            <div class="card">
+                <h3><span class="emoji">✅</span> What's Working</h3>
+                <ul>
+                    <li>Product pages have unique titles and descriptions.</li>
+                    <li>robots.txt correctly configured to avoid duplicate content issues.</li>
+                    <li>Brand has earned press coverage — backlink opportunities exist.</li>
+                </ul>
+            </div>
+
+            <div class="card" style="border-left:4px solid #c47a6a;">
+                <h3><span class="emoji">🚨</span> What's Broken</h3>
+                <ul>
+                    <li><strong>No keyword research evident</strong> — products optimized for "Sensory-Safe™" (zero search volume) instead of high-volume terms like "best baby moisturizer for sensitive skin India."</li>
+                    <li><strong>Homepage title</strong> appears to be generic Shopify default.</li>
+                    <li><strong>Product page titles</strong> are product-name only, not keyword-optimized.</li>
+                    <li><strong>No meta descriptions</strong> — critical for click-through rates.</li>
+                    <li><strong>Homepage uses decorative headings</strong> (✦Chosen by Families✦) instead of semantic H1–H3 tags.</li>
+                    <li><strong>No clear H1</strong> on the homepage — Google cannot understand the page.</li>
+                    <li><strong>Almost zero internal linking</strong> — products are isolated, no "related products," no breadcrumbs.</li>
+                    <li><strong>Product schema</strong> likely present but not enhanced with reviews or ratings.</li>
+                    <li><strong>No Review schema</strong> — reviews aren't visible.</li>
+                    <li><strong>No Breadcrumb schema</strong> — no breadcrumb navigation exists.</li>
+                    <li><strong>No Organization schema</strong> — missing or incomplete.</li>
+                    <li><strong>No sitemap = incomplete indexation.</strong></li>
+                    <li><strong>Backlink profile is weak</strong> — competitors have thousands of backlinks from review sites and blogs.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3><span class="emoji">🔧</span> Fixes — Prioritized</h3>
+                <ul>
+                    <li><span class="tag tag-critical">Critical</span> Generate and submit sitemap.xml to GSC — <span class="pill">Quick Win</span></li>
+                    <li><span class="tag tag-critical">Critical</span> Optimize all title tags and meta descriptions with keywords — <span class="pill">Quick Win</span></li>
+                    <li><span class="tag tag-critical">Critical</span> Create SEO-optimized blog content (10+ articles) — <span class="pill">Medium</span></li>
+                    <li><span class="tag tag-high">High</span> Add proper H1–H3 structure to homepage and all pages — <span class="pill">Quick Win</span></li>
+                    <li><span class="tag tag-high">High</span> Implement Product, Review, Breadcrumb, and Organization schema — <span class="pill">Medium</span></li>
+                    <li><span class="tag tag-high">High</span> Build internal links between related products — <span class="pill">Quick Win</span></li>
+                    <li><span class="tag tag-medium">Medium</span> Reach out to press contacts for backlinks — <span class="pill">Medium</span></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ====== COMPETITORS ====== -->
+        <section class="section" id="section-competitors">
+            <div class="section-header">
+                <div class="section-number">Market Context</div>
+                <h2>Competitor Analysis</h2>
+                <div class="section-sub">B.Bath operates in a crowded Indian baby skincare market. Here's how it stacks up.</div>
+            </div>
+
+            <div class="card">
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Competitor</th>
+                                <th>Positioning</th>
+                                <th>Price (₹)</th>
+                                <th>Key Strength</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Mamaearth</td><td>"Toxin-free"</td><td>300–700</td><td>Brand awareness, celebrity</td></tr>
+                            <tr><td>The Moms Co.</td><td>"Clean" Indian</td><td>300–700</td><td>Digital presence, doctors</td></tr>
+                            <tr><td>Sebamed</td><td>pH 5.5</td><td>400–900</td><td>Clinical credibility</td></tr>
+                            <tr><td>Cetaphil Baby</td><td>Dermatologist</td><td>400–900</td><td>Global trust</td></tr>
+                            <tr><td>Himalaya Baby</td><td>Herbal, budget</td><td>100–300</td><td>Massive distribution</td></tr>
+                            <tr><td>Mother Sparsh</td><td>Natural</td><td>200–500</td><td>Strong D2C presence</td></tr>
+                            <tr><td>Mustela</td><td>French derm</td><td>600–1,500</td><td>Premium positioning</td></tr>
+                            <tr><td>Forest Essentials</td><td>Ayurvedic luxury</td><td>500–1,500</td><td>Premium heritage</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p style="margin-top:14px;font-size:14px;color:var(--text-light);"><strong>B.Bath's differentiation</strong> — "Sensory-Safe™" and "Bonded Skincare™" — is unique. But uniqueness is worthless without visibility. Every competitor above has stronger SEO, more reviews, better UX, and larger marketing budgets.</p>
+                <p style="margin-top:6px;font-size:14px;color:var(--text-light);"><strong>True competitors:</strong> D2C startups like Earthbaby, Maate, and AreoVeda — all investing in content, SEO, and community.</p>
+            </div>
+        </section>
+
+        <!-- ====== ROOT CAUSES ====== -->
+        <section class="section" id="section-rootcauses">
+            <div class="section-header">
+                <div class="section-number">Synthesis</div>
+                <h2>Root-Cause Synthesis</h2>
+                <div class="section-sub">The top 3–5 root causes most likely responsible for low traffic + low conversions + no sales.</div>
+            </div>
+
+            <div class="root-cause">
+                <div class="rc-title"><span class="num">1</span> SEO Invisibility (Zero Discovery)</div>
+                <p>The site has no sitemap, no blog, no keyword optimization, and no backlinks. Parents searching for "sensory safe baby skincare India" or "best moisturizer for baby eczema" <strong>cannot find B.Bath</strong>. This is the primary reason for <strong>zero organic traffic</strong>.</p>
+            </div>
+
+            <div class="root-cause">
+                <div class="rc-title"><span class="num">2</span> Broken Information Architecture (Can't Find Products)</div>
+                <p>The <code>/collections</code> page is broken, there is no visible navigation menu, and products are not organized into logical categories. A new visitor lands on the homepage, sees no clear path to browse, and leaves. This is the primary reason for <strong>high bounce rate</strong>.</p>
+            </div>
+
+            <div class="root-cause">
+                <div class="rc-title"><span class="num">3</span> Missing Trust Signals on Product Pages (No Reviews)</div>
+                <p>EWG Verified™ and clinical testing credentials are buried on the About page — not displayed on product pages. There are <strong>zero customer reviews</strong>. Indian parents buying skincare for their babies are highly skeptical; the absence of reviews <strong>kills conversion</strong>.</p>
+            </div>
+
+            <div class="root-cause">
+                <div class="rc-title"><span class="num">4</span> No Content Marketing / Email Capture (No Retargeting)</div>
+                <p>No blog, no email popup, no welcome flow, no abandoned cart emails. When 98% of visitors leave without buying (normal e-commerce behavior), there is <strong>no way to bring them back</strong>. This is the primary reason for <strong>no sales despite some traffic</strong>.</p>
+            </div>
+
+            <div class="root-cause">
+                <div class="rc-title"><span class="num">5</span> Technical Performance &amp; UX Friction</div>
+                <p>Slow load times, duplicated announcement bar, missing sitemap, sold-out products, and unclear CTAs create a poor user experience that further depresses conversion among the few visitors who arrive.</p>
+            </div>
+        </section>
+
+        <!-- ====== JOURNEY ====== -->
+        <section class="section" id="section-journey">
+            <div class="section-header">
+                <div class="section-number">Synthesis</div>
+                <h2>Customer Journey Failure</h2>
+                <div class="section-sub">Where visitors drop off — and why.</div>
+            </div>
+
+            <div class="journey-step">
+                <div class="step-icon">🔍</div>
+                <div class="step-content">
+                    <div class="step-label">Stage 1: Discovery</div>
+                    <div class="step-desc">Parent searches: "best baby moisturizer for sensitive skin India." Google shows Mamaearth, Cetaphil, Sebamed, The Moms Co. — <strong>B.Bath does not rank anywhere.</strong></div>
+                    <div class="step-result">➡️ ZERO ORGANIC TRAFFIC</div>
+                </div>
+            </div>
+
+            <div class="journey-step">
+                <div class="step-icon">🚪</div>
+                <div class="step-content">
+                    <div class="step-label">Stage 2: Landing</div>
+                    <div class="step-desc">Visitor arrives (via direct link or referral). Sees duplicated announcement bar, unclear value prop, no navigation. Can't find products in &lt;3 clicks. Leaves within 10 seconds.</div>
+                    <div class="step-result">➡️ 80–90% BOUNCE RATE</div>
+                </div>
+            </div>
+
+            <div class="journey-step">
+                <div class="step-icon">📦</div>
+                <div class="step-content">
+                    <div class="step-label">Stage 3: Evaluation</div>
+                    <div class="step-desc">Visitor finds a product page. Sees good description, ingredient list, clinical claims — but <strong>no reviews, no social proof, unclear pricing.</strong> Wonders: "Is this legit? Has anyone actually used this?"</div>
+                    <div class="step-result">➡️ NO ADD-TO-CART</div>
+                </div>
+            </div>
+
+            <div class="journey-step">
+                <div class="step-icon">🛒</div>
+                <div class="step-content">
+                    <div class="step-label">Stage 4: Checkout</div>
+                    <div class="step-desc">Visitor adds to cart. Sees no payment options listed, unclear shipping costs. Hesitates, leaves. <strong>No abandoned cart email</strong> to recover them.</div>
+                    <div class="step-result">➡️ NO SALES</div>
+                </div>
+            </div>
+
+            <div class="journey-step">
+                <div class="step-icon">🔄</div>
+                <div class="step-content">
+                    <div class="step-label">Stage 5: Retargeting</div>
+                    <div class="step-desc">Visitor leaves. No email capture → no follow-up. No retargeting ads → no reminder. <strong>Never returns.</strong></div>
+                    <div class="step-result">➡️ ZERO REPEAT VISITS, ZERO SALES</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== ACTION PLAN ====== -->
+        <section class="section" id="section-actionplan">
+            <div class="section-header">
+                <div class="section-number">Plan</div>
+                <h2>30 / 60 / 90-Day Action Plan</h2>
+                <div class="section-sub">Prioritized by expected impact vs. effort.</div>
+            </div>
+
+            <h3 style="font-size:18px;font-weight:600;margin:16px 0 8px;color:var(--text);">Days 1–30: Fix the Foundation</h3>
+            <div class="plan-grid">
+                <div class="plan-card"><div class="plan-week">Week 1</div><div class="plan-title">Generate sitemap → submit to GSC</div><div class="plan-detail">Enables indexing — <strong>critical</strong></div><span class="plan-owner">Tech</span></div>
+                <div class="plan-card"><div class="plan-week">Week 1</div><div class="plan-title">Remove 5 of 6 duplicate announcement bar lines</div><div class="plan-detail">Improves UX &amp; reduces CLS</div><span class="plan-owner">Dev</span></div>
+                <div class="plan-card"><div class="plan-week">Week 1</div><div class="plan-title">Build navigation: Baby Range + Family Range</div><div class="plan-detail">Enables product discovery</div><span class="plan-owner">Dev</span></div>
+                <div class="plan-card"><div class="plan-week">Week 1</div><div class="plan-title">Fix /collections page</div><div class="plan-detail">Enables browsing</div><span class="plan-owner">Dev</span></div>
+                <div class="plan-card"><div class="plan-week">Week 1–2</div><div class="plan-title">Email capture popup + 10% welcome discount</div><div class="plan-detail">Builds email list</div><span class="plan-owner">Marketing</span></div>
+                <div class="plan-card"><div class="plan-week">Week 2</div><div class="plan-title">Abandoned cart email flow</div><div class="plan-detail">Recovers lost sales</div><span class="plan-owner">Marketing</span></div>
+                <div class="plan-card"><div class="plan-week">Week 2</div><div class="plan-title">Payment icons (UPI, COD, Cards) on product &amp; cart</div><div class="plan-detail">Reduces checkout friction</div><span class="plan-owner">Dev</span></div>
+                <div class="plan-card"><div class="plan-week">Week 2</div><div class="plan-title">Restock sold-out products OR mark "Coming Soon"</div><div class="plan-detail">Prevents lost sales</div><span class="plan-owner">Ops</span></div>
+                <div class="plan-card"><div class="plan-week">Week 2–3</div><div class="plan-title">Optimize title tags + meta descriptions</div><div class="plan-detail">Improves CTR from search</div><span class="plan-owner">SEO</span></div>
+                <div class="plan-card"><div class="plan-week">Week 3</div><div class="plan-title">Add proper H1–H3 structure</div><div class="plan-detail">Improves SEO</div><span class="plan-owner">Dev</span></div>
+                <div class="plan-card"><div class="plan-week">Week 3</div><div class="plan-title">Build internal links between related products</div><div class="plan-detail">Improves link equity flow</div><span class="plan-owner">SEO</span></div>
+                <div class="plan-card"><div class="plan-week">Week 4</div><div class="plan-title">Audit Shopify apps → remove unused</div><div class="plan-detail">Improves page speed</div><span class="plan-owner">Tech</span></div>
+            </div>
+
+            <h3 style="font-size:18px;font-weight:600;margin:24px 0 8px;color:var(--text);">Days 31–60: Build Trust &amp; Content</h3>
+            <div class="plan-grid">
+                <div class="plan-card"><div class="plan-week">Week 5–6</div><div class="plan-title">Publish 5 SEO blog articles</div><div class="plan-detail">Generates organic traffic</div><span class="plan-owner">Content</span></div>
+                <div class="plan-card"><div class="plan-week">Week 5–6</div><div class="plan-title">EWG Verified™ badges on ALL product pages</div><div class="plan-detail">Builds trust</div><span class="plan-owner">Dev</span></div>
+                <div class="plan-card"><div class="plan-week">Week 5–6</div><div class="plan-title">Customer review collection campaign</div><div class="plan-detail">Builds social proof</div><span class="plan-owner">Marketing</span></div>
+                <div class="plan-card"><div class="plan-week">Week 7</div><div class="plan-title">Schema markup (Product, Review, Breadcrumb, Organization)</div><div class="plan-detail">Improves search visibility</div><span class="plan-owner">Tech</span></div>
+                <div class="plan-card"><div class="plan-week">Week 7</div><div class="plan-title">Lifestyle photography (3–5 images per product)</div><div class="plan-detail">Improves conversion</div><span class="plan-owner">Creative</span></div>
+                <div class="plan-card"><div class="plan-week">Week 8</div><div class="plan-title">Google Analytics 4 + Search Console setup</div><div class="plan-detail">Enables data-driven decisions</div><span class="plan-owner">Tech</span></div>
+                <div class="plan-card"><div class="plan-week">Week 8</div><div class="plan-title">Defer off-screen third-party scripts</div><div class="plan-detail">Improves page speed</div><span class="plan-owner">Tech</span></div>
+            </div>
+
+            <h3 style="font-size:18px;font-weight:600;margin:24px 0 8px;color:var(--text);">Days 61–90: Scale &amp; Optimize</h3>
+            <div class="plan-grid">
+                <div class="plan-card"><div class="plan-week">Week 9–10</div><div class="plan-title">5 more blog articles + content calendar</div><div class="plan-detail">Sustains organic growth</div><span class="plan-owner">Content</span></div>
+                <div class="plan-card"><div class="plan-week">Week 9–10</div><div class="plan-title">Retargeting ads (Google + Meta)</div><div class="plan-detail">Drives paid traffic</div><span class="plan-owner">Marketing</span></div>
+                <div class="plan-card"><div class="plan-week">Week 11</div><div class="plan-title">Video content (founder story, product demos)</div><div class="plan-detail">Builds emotional connection</div><span class="plan-owner">Creative</span></div>
+                <div class="plan-card"><div class="plan-week">Week 11</div><div class="plan-title">Exit-intent popup with offer</div><div class="plan-detail">Captures leaving visitors</div><span class="plan-owner">Dev</span></div>
+                <div class="plan-card"><div class="plan-week">Week 12</div><div class="plan-title">Analytics review → optimize underperformers</div><div class="plan-detail">Data-driven iteration</div><span class="plan-owner">All</span></div>
+                <div class="plan-card"><div class="plan-week">Week 12</div><div class="plan-title">Backlinks from existing press coverage</div><div class="plan-detail">Improves domain authority</div><span class="plan-owner">PR</span></div>
+            </div>
+        </section>
+
+        <!-- ====== SUMMARY TABLE ====== -->
+        <section class="section" id="section-summary">
+            <div class="section-header">
+                <div class="section-number">At a Glance</div>
+                <h2>Summary Table</h2>
+                <div class="section-sub">All issues, impact areas, priority, effort, and expected result.</div>
+            </div>
+
+            <div class="card">
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Issue</th>
+                                <th>Impact Area</th>
+                                <th>Priority</th>
+                                <th>Effort</th>
+                                <th>Expected Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>No sitemap.xml</td><td>SEO / Discovery</td><td><span class="badge-priority crit">Critical</span></td><td>Quick Win</td><td>Enables Google indexing → organic traffic</td></tr>
+                            <tr><td>No navigation / broken collections</td><td>UX / Conversion</td><td><span class="badge-priority crit">Critical</span></td><td>Quick Win</td><td>Enables product discovery → add-to-cart</td></tr>
+                            <tr><td>Duplicated announcement bar (6×)</td><td>UX / Performance</td><td><span class="badge-priority crit">Critical</span></td><td>Quick Win</td><td>Reduces bounce rate, improves CLS</td></tr>
+                            <tr><td>No blog / content marketing</td><td>SEO / Traffic</td><td><span class="badge-priority crit">Critical</span></td><td>Medium</td><td>Generates organic traffic from informational searches</td></tr>
+                            <tr><td>No customer reviews on product pages</td><td>Trust / Conversion</td><td><span class="badge-priority crit">Critical</span></td><td>Medium</td><td>Builds social proof → increases conversion rate</td></tr>
+                            <tr><td>No email capture / abandoned cart</td><td>Retention / Conversion</td><td><span class="badge-priority high">High</span></td><td>Quick Win</td><td>Recovers lost sales, builds audience</td></tr>
+                            <tr><td>Sold-out products</td><td>Conversion</td><td><span class="badge-priority high">High</span></td><td>Quick Win</td><td>Prevents lost sales, improves trust</td></tr>
+                            <tr><td>No payment options displayed</td><td>Checkout / Conversion</td><td><span class="badge-priority high">High</span></td><td>Quick Win</td><td>Reduces checkout friction</td></tr>
+                            <tr><td>Poor title tags / meta descriptions</td><td>SEO / CTR</td><td><span class="badge-priority high">High</span></td><td>Quick Win</td><td>Improves click-through from search</td></tr>
+                            <tr><td>Slow page speed (third-party scripts)</td><td>Performance / UX</td><td><span class="badge-priority high">High</span></td><td>Medium</td><td>Reduces bounce rate, improves Core Web Vitals</td></tr>
+                            <tr><td>Missing schema markup</td><td>SEO / Visibility</td><td><span class="badge-priority high">High</span></td><td>Medium</td><td>Improves rich snippets in search results</td></tr>
+                            <tr><td>No lifestyle photography / video</td><td>Conversion</td><td><span class="badge-priority med">Medium</span></td><td>Major</td><td>Improves emotional connection → higher conversion</td></tr>
+                            <tr><td>Weak internal linking</td><td>SEO</td><td><span class="badge-priority med">Medium</span></td><td>Quick Win</td><td>Improves link equity flow → better rankings</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card" style="border-left:4px solid #b58a8a;margin-top:8px;">
+                <p style="font-size:15px;color:var(--text);"><strong>Final Verdict:</strong> B.Bath has a premium product and an exceptional brand story, but the website is a leaky bucket. Every stage of the customer journey is broken. The fix is not complicated — it's a matter of executing the fundamentals. If executed properly, B.Bath can go from <strong>zero traffic and zero sales</strong> to <strong>500+ monthly visitors and 10–20 monthly orders</strong> within 90 days.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // ── DOM refs ──
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        const toggle = document.getElementById('menuToggle');
+        const navLinks = document.querySelectorAll('.sidebar-nav a');
+        const sections = document.querySelectorAll('.section');
+
+        // ── mobile menu ──
+        function toggleMenu() {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        }
+
+        toggle.addEventListener('click', toggleMenu);
+        overlay.addEventListener('click', toggleMenu);
+
+        // ── section navigation ──
+        function navigateTo(sectionId) {
+            // update nav
+            navLinks.forEach(link => {
+                const target = link.getAttribute('data-section');
+                link.classList.toggle('active', target === sectionId);
+            });
+
+            // update sections
+            sections.forEach(section => {
+                const id = section.id.replace('section-', '');
+                section.classList.toggle('active', id === sectionId);
+            });
+
+            // close mobile menu
+            if (sidebar.classList.contains('open')) {
+                toggleMenu();
+            }
+
+            // smooth scroll to top of main content
+            document.getElementById('mainContent').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const sectionId = link.getAttribute('data-section');
+                if (sectionId) {
+                    navigateTo(sectionId);
+                    // update URL hash without triggering scroll
+                    history.pushState(null, '', '#' + sectionId);
+                }
+            });
+        });
+
+        // ── hash-based routing on load ──
+        function handleHash() {
+            const hash = window.location.hash.replace('#', '');
+            if (hash) {
+                const valid = Array.from(navLinks).some(link => link.getAttribute('data-section') === hash);
+                if (valid) {
+                    navigateTo(hash);
+                }
+            }
+        }
+
+        window.addEventListener('hashchange', handleHash);
+
+        // ── keyboard shortcut: Escape closes menu ──
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+                toggleMenu();
+            }
+        });
+
+        // ── init ──
+        handleHash();
+
+        // if no hash, ensure executive is active
+        if (!window.location.hash) {
+            navigateTo('executive');
+        }
+
+        // ── smooth reveal for cards (intersection observer) ──
+        const cards = document.querySelectorAll('.card, .root-cause, .journey-step, .plan-card');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.08 });
+
+        cards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(12px)';
+            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(card);
+        });
+
+        // ── when section becomes active, observe its cards ──
+        // we re-run observer on section change via mutation observer
+        const sectionObserver = new MutationObserver(() => {
+            const activeSection = document.querySelector('.section.active');
+            if (activeSection) {
+                const cardsInSection = activeSection.querySelectorAll('.card, .root-cause, .journey-step, .plan-card');
+                cardsInSection.forEach(card => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(12px)';
+                    // small delay so they animate in sequence
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 50);
+                });
+            }
+        });
+
+        sections.forEach(section => {
+            sectionObserver.observe(section, { attributes: true, attributeFilter: ['class'] });
+        });
+    </script>
+
+</body>
+</html>
