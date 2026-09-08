@@ -44,6 +44,7 @@ Hosted statically on Cloudflare Pages from the repository root (`/`). Accessed a
 ## Product Principles
 
 - **Modular Isolation**: Every experiment or tool is self-contained within its own directory.
+- **Distinct Design & Language**: Each new personal project created must have its own new visual design and design language. Do not adapt or borrow the visual design of the main hub page.
 - **Fast Discovery**: Instant client-side search and filtering from the central launcher.
 - **High Craft & Polish**: Premium visual hierarchy, responsive layout, smooth interactions, and attention to detail.
 - **Frictionless Scaffolding**: Fast duplication and experimentation with minimal boilerplate.
